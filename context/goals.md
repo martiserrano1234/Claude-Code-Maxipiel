@@ -5,7 +5,7 @@
 
 ## Metas del trimestre
 
-- [ ] Conectar Meta Ads MCP a Claude Code de forma completamente funcional
+- [x] Conectar Meta Ads MCP a Claude Code de forma completamente funcional
 - [ ] Tener Claude Code configurado y funcionando como asistente ejecutivo / segundo cerebro
 - [ ] Contribuir con mejoras concretas a Sofía (IA de ventas)
 - [ ] Consolidar posición en Maxipiel y ganar la confianza total de Martín

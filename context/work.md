@@ -26,8 +26,11 @@ Maxipiel es una empresa dedicada a la venta de piel (cuero) a tapiceros. Realiza
 
 ## MCPs conectados a Claude Code
 
-- **Google Ads** — conectado y funcional
-- **Meta Ads** — en proceso de conexión (pendiente verificar)
+- **Google Ads** — conectado y funcional (cuenta Maxipiel, ID: 6619664178)
+- **Meta Ads** — conectado y funcional (cuenta Maxi Piel, ID: act_10152548466947929)
+- **n8n** — conectado y funcional
+
+> Los tres MCPs se configuraron el 2026-03-06 en `C:\Users\danie\.claude.json`.
 
 ## Sofía
 
