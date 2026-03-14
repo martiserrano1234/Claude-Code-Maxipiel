@@ -7,13 +7,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-  <!-- Google Analytics 4 -->
+  <!-- Google Analytics 4 + Google Ads -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-MLP6JX44GJ"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-MLP6JX44GJ');
+    gtag('config', 'AW-17085508378');
   </script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -861,6 +862,8 @@
             event_category: 'CTA',
             event_label: el.innerText.trim() || 'WhatsApp',
           });
+          // Conversión Google Ads
+          gtag('event', 'conversion', {'send_to': 'AW-17085508378/IrTfCIWH64YcEJrWgNM_'});
         });
       });
       // Trackear todos los clicks a Mercado Libre
