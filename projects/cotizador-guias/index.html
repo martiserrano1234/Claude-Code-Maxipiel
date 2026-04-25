@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cotizador de Guías — Maxipiel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .carrier-card { transition: all 0.2s ease; }
+    .carrier-card:hover { transform: translateY(-2px); }
+    .carrier-card.selected { border-color: #92400e; background-color: #fef3c7; }
+    .spinner { border: 3px solid #f3f3f3; border-top: 3px solid #92400e; border-radius: 50%; width: 32px; height: 32px; animation: spin 0.8s linear infinite; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    input:focus, select:focus { outline: none; border-color: #92400e; box-shadow: 0 0 0 2px rgba(146,64,14,0.15); }
+  </style>
+</head>
+<body class="bg-amber-50 min-h-screen font-sans">
+
+  <!-- Header -->
+  <header class="bg-amber-900 text-white py-4 px-6 shadow-md">
+    <div class="max-w-4xl mx-auto flex items-center gap-3">
+      <span class="text-2xl">🐄</span>
+      <div>
+        <h1 class="text-xl font-bold tracking-wide">Maxipiel</h1>
+        <p class="text-amber-200 text-sm">Cotizador de Guías de Envío</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 py-8">
+
+    <!-- Formulario -->
+    <div class="bg-white rounded-2xl shadow-sm border border-amber-100 p-6 mb-6">
+      <h2 class="text-lg font-semibold text-amber-900 mb-5">Datos del paquete y destino</h2>
+
+      <form id="cotizadorForm">
+
+        <!-- Paquete -->
+        <div class="mb-6">
+          <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">📦 Paquete</h3>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="col-span-2 md:col-span-1">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Tipo</label>
+              <select name="tipo_paquete" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white">
+                <option value="4G">📦 Caja de cartón</option>
+                <option value="pallet">🪵 Tarima</option>
+                <option value="5H4">🛍️ Bolsa de plástico</option>
+                <option value="5M1">📄 Bolsa de papel</option>
+                <option value="7H1">📦 Bulto de plástico</option>
+                <option value="7L1">🧺 Bulto de tela</option>
+                <option value="4H2">🗃️ Caja de plástico rígido</option>
+                <option value="4H1">🧊 Caja de plástico expandido</option>
+                <option value="Z01">📫 Otro</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Peso (kg)</label>
+              <input type="number" name="peso" step="0.1" min="0.1" placeholder="1.5" required
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Largo (cm)</label>
+              <input type="number" name="largo" step="0.1" min="1" placeholder="30" required
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Ancho</label>
+                <input type="number" name="ancho" step="0.1" min="1" placeholder="20" required
+                  class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Alto</label>
+                <input type="number" name="alto" step="0.1" min="1" placeholder="10" required
+                  class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="border-amber-100 mb-6">
+
+        <!-- Destinatario -->
+        <div class="mb-6">
+          <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">📍 Destinatario</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Nombre completo</label>
+              <input type="text" name="nombre" placeholder="Juan Pérez García" required
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
+              <input type="tel" name="telefono" placeholder="4771234567" required
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+            </div>
+            <div class="md:col-span-2">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Calle y número</label>
+              <input type="text" name="direccion" placeholder="Av. Insurgentes 123" required
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Colonia</label>
+              <input type="text" name="colonia" placeholder="Centro" required
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">CP destino</label>
+              <input type="text" name="cp_destino" placeholder="06600" maxlength="5" required
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Ciudad</label>
+              <input type="text" name="ciudad" placeholder="Ciudad de México" required
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Estado</label>
+              <select name="estado" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white">
+                <option value="">Selecciona...</option>
+                <option value="Aguascalientes">Aguascalientes</option>
+                <option value="Baja California">Baja California</option>
+                <option value="Baja California Sur">Baja California Sur</option>
+                <option value="Campeche">Campeche</option>
+                <option value="Chiapas">Chiapas</option>
+                <option value="Chihuahua">Chihuahua</option>
+                <option value="Ciudad de México">Ciudad de México</option>
+                <option value="Coahuila">Coahuila</option>
+                <option value="Colima">Colima</option>
+                <option value="Durango">Durango</option>
+                <option value="Estado de México">Estado de México</option>
+                <option value="Guanajuato">Guanajuato</option>
+                <option value="Guerrero">Guerrero</option>
+                <option value="Hidalgo">Hidalgo</option>
+                <option value="Jalisco">Jalisco</option>
+                <option value="Michoacán">Michoacán</option>
+                <option value="Morelos">Morelos</option>
+                <option value="Nayarit">Nayarit</option>
+                <option value="Nuevo León">Nuevo León</option>
+                <option value="Oaxaca">Oaxaca</option>
+                <option value="Puebla">Puebla</option>
+                <option value="Querétaro">Querétaro</option>
+                <option value="Quintana Roo">Quintana Roo</option>
+                <option value="San Luis Potosí">San Luis Potosí</option>
+                <option value="Sinaloa">Sinaloa</option>
+                <option value="Sonora">Sonora</option>
+                <option value="Tabasco">Tabasco</option>
+                <option value="Tamaulipas">Tamaulipas</option>
+                <option value="Tlaxcala">Tlaxcala</option>
+                <option value="Veracruz">Veracruz</option>
+                <option value="Yucatán">Yucatán</option>
+                <option value="Zacatecas">Zacatecas</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botón cotizar -->
+        <button type="submit" id="btnCotizar"
+          class="w-full bg-amber-800 hover:bg-amber-900 text-white font-semibold py-3 px-6 rounded-xl transition-colors text-sm">
+          Cotizar envío →
+        </button>
+
+      </form>
+    </div>
+
+    <!-- Loading -->
+    <div id="loadingCotizar" class="hidden text-center py-10">
+      <div class="spinner mx-auto mb-3"></div>
+      <p class="text-gray-500 text-sm">Cotizando con todas las paqueterías...</p>
+    </div>
+
+    <!-- Resultados de cotización -->
+    <div id="resultados" class="hidden">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-lg font-semibold text-amber-900">Elige la paquetería</h2>
+        <span class="text-xs text-gray-400">Da clic en la que quieras</span>
+      </div>
+      <div id="listaPrecios" class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6"></div>
+
+      <!-- Botón generar guía -->
+      <button id="btnGenerarGuia" disabled
+        class="w-full bg-green-700 hover:bg-green-800 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold py-3 px-6 rounded-xl transition-colors text-sm">
+        Generar guía con la seleccionada →
+      </button>
+    </div>
+
+    <!-- Loading generar guía -->
+    <div id="loadingGuia" class="hidden text-center py-10">
+      <div class="spinner mx-auto mb-3"></div>
+      <p class="text-gray-500 text-sm">Generando guía, un momento...</p>
+    </div>
+
+    <!-- Resultado guía generada -->
+    <div id="guiaGenerada" class="hidden bg-white rounded-2xl shadow-sm border border-green-200 p-6">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="text-3xl">✅</span>
+        <div>
+          <h2 class="text-lg font-semibold text-green-800">¡Guía generada!</h2>
+          <p class="text-sm text-gray-500">Lista para imprimir y pegar al paquete</p>
+        </div>
+      </div>
+      <div id="infoGuia" class="bg-gray-50 rounded-xl p-4 mb-4 text-sm text-gray-700 space-y-1"></div>
+      <a id="btnDescargar" href="#" target="_blank"
+        class="block text-center bg-amber-800 hover:bg-amber-900 text-white font-semibold py-3 px-6 rounded-xl transition-colors">
+        Descargar guía PDF 📄
+      </a>
+    </div>
+
+    <!-- Error -->
+    <div id="errorBox" class="hidden bg-red-50 border border-red-200 rounded-2xl p-5 text-sm text-red-700"></div>
+
+  </main>
+
+  <script>
+    const N8N = 'https://primary-production-dc7a.up.railway.app/webhook';
+    let cotizacionData = null;
+    let selectedRate = null;
+    let formData = null;
+
+    const $ = id => document.getElementById(id);
+    const show = id => $(id).classList.remove('hidden');
+    const hide = id => $(id).classList.add('hidden');
+
+    function showError(msg) {
+      $('errorBox').innerHTML = `<strong>Error:</strong> ${msg}`;
+      show('errorBox');
+    }
+
+    function hideAll() {
+      ['loadingCotizar','resultados','loadingGuia','guiaGenerada','errorBox'].forEach(hide);
+    }
+
+    // Carriers con emojis bonitos
+    const carrierEmoji = {
+      fedex: '🟣 FedEx',
+      dhl: '🟡 DHL',
+      estafeta: '🔵 Estafeta',
+      redpack: '🔴 Redpack',
+      paquetexpress: '🟠 Paquetexpress',
+      ups: '🟤 UPS',
+      '99minutos': '⚡ 99 Minutos',
+      ampm: '🔶 AmPm',
+      ivoy: '🟢 iVoy',
+      sendex: '⬛ Sendex',
+    };
+
+    function getCarrierName(carrier) {
+      const key = (carrier || '').toLowerCase().replace(/\s/g, '');
+      return carrierEmoji[key] || ('📦 ' + carrier);
+    }
+
+    // Cotizar
+    $('cotizadorForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideAll();
+      show('loadingCotizar');
+
+      const fd = new FormData(e.target);
+      formData = Object.fromEntries(fd.entries());
+
+      try {
+        const res = await fetch(`${N8N}/cotizar-envio`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        });
+
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        hide('loadingCotizar');
+
+        // La respuesta puede venir directamente o dentro de data
+        const quotation = data.data || data;
+
+        if (!quotation || (!quotation.rates && !quotation.id)) {
+          throw new Error('No se recibieron cotizaciones. Verifica los datos e intenta de nuevo.');
+        }
+
+        cotizacionData = quotation;
+        renderPrecios(quotation);
+
+      } catch (err) {
+        hide('loadingCotizar');
+        showError(err.message || 'No se pudo conectar con Skydropx.');
+      }
+    });
+
+    function renderPrecios(quotation) {
+      const rates = quotation.rates || [];
+      selectedRate = null;
+      $('btnGenerarGuia').disabled = true;
+
+      if (rates.length === 0) {
+        showError('No hay tarifas disponibles para ese destino y dimensiones.');
+        return;
+      }
+
+      // Ordenar por precio
+      rates.sort((a, b) => parseFloat(a.total_pricing) - parseFloat(b.total_pricing));
+
+      $('listaPrecios').innerHTML = rates.map((rate, i) => `
+        <div class="carrier-card border-2 border-gray-200 rounded-xl p-4 cursor-pointer bg-white"
+             data-rate-id="${rate.id}" data-index="${i}" onclick="selectRate(this, '${rate.id}')">
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-semibold text-gray-800">${getCarrierName(rate.carrier)}</span>
+            <span class="text-xl font-bold text-amber-800">$${parseFloat(rate.total_pricing).toFixed(2)}</span>
+          </div>
+          <div class="flex items-center justify-between text-sm text-gray-500">
+            <span>${rate.service_level_name || rate.service || ''}</span>
+            <span>${rate.estimated_days ? `${rate.estimated_days} día${rate.estimated_days > 1 ? 's' : ''}` : ''}</span>
+          </div>
+        </div>
+      `).join('');
+
+      show('resultados');
+    }
+
+    function selectRate(el, rateId) {
+      document.querySelectorAll('.carrier-card').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+      selectedRate = rateId;
+      $('btnGenerarGuia').disabled = false;
+    }
+
+    // Generar guía
+    $('btnGenerarGuia').addEventListener('click', async () => {
+      if (!selectedRate || !cotizacionData || !formData) return;
+      hideAll();
+      show('loadingGuia');
+
+      const payload = {
+        ...formData,
+        quotation_id: cotizacionData.id,
+        rate_id: selectedRate
+      };
+
+      try {
+        const res = await fetch(`${N8N}/generar-guia`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        hide('loadingGuia');
+
+        const shipment = data.data || data;
+        mostrarGuia(shipment);
+
+      } catch (err) {
+        hide('loadingGuia');
+        showError(err.message || 'No se pudo generar la guía.');
+      }
+    });
+
+    function mostrarGuia(shipment) {
+      const labelUrl = shipment.label_url || shipment.label || shipment.label_pdf || '#';
+      const tracking = shipment.tracking_number || shipment.tracking || '—';
+
+      $('infoGuia').innerHTML = `
+        <div class="flex justify-between"><span class="text-gray-400">Tracking:</span><span class="font-mono font-bold">${tracking}</span></div>
+        <div class="flex justify-between"><span class="text-gray-400">Paquetería:</span><span>${shipment.carrier || '—'}</span></div>
+        <div class="flex justify-between"><span class="text-gray-400">Destinatario:</span><span>${formData.nombre}</span></div>
+        <div class="flex justify-between"><span class="text-gray-400">Destino:</span><span>${formData.ciudad}, ${formData.estado} CP ${formData.cp_destino}</span></div>
+      `;
+
+      $('btnDescargar').href = labelUrl;
+      show('guiaGenerada');
+    }
+  </script>
+
+</body>
+</html>
