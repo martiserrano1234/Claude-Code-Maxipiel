@@ -239,15 +239,18 @@
       redpack: '🔴 Redpack',
       paquetexpress: '🟠 Paquetexpress',
       ups: '🟤 UPS',
-      '99minutos': '⚡ 99 Minutos',
-      ampm: '🔶 AmPm',
+      ninetynineminutes: '⚡ 99 Minutos',
+      ampm: '🔶 ampm',
+      coordinadora: '🟩 Coordi',
       ivoy: '🟢 iVoy',
       sendex: '⬛ Sendex',
+      tresguerras: '🚚 Tresguerras',
+      imile: '📮 iMile',
     };
 
-    function getCarrierName(carrier) {
-      const key = (carrier || '').toLowerCase().replace(/\s/g, '');
-      return carrierEmoji[key] || ('📦 ' + carrier);
+    function getCarrierName(providerName, displayName) {
+      const key = (providerName || '').toLowerCase();
+      return carrierEmoji[key] || ('📦 ' + (displayName || providerName));
     }
 
     // Cotizar
@@ -287,7 +290,8 @@
     });
 
     function renderPrecios(quotation) {
-      const rates = quotation.rates || [];
+      const allRates = quotation.rates || [];
+      const rates = allRates.filter(r => r.success === true && r.total);
       selectedRate = null;
       $('btnGenerarGuia').disabled = true;
 
@@ -296,19 +300,19 @@
         return;
       }
 
-      // Ordenar por precio
-      rates.sort((a, b) => parseFloat(a.total_pricing) - parseFloat(b.total_pricing));
+      // Ordenar por precio total
+      rates.sort((a, b) => parseFloat(a.total) - parseFloat(b.total));
 
       $('listaPrecios').innerHTML = rates.map((rate, i) => `
         <div class="carrier-card border-2 border-gray-200 rounded-xl p-4 cursor-pointer bg-white"
              data-rate-id="${rate.id}" data-index="${i}" onclick="selectRate(this, '${rate.id}')">
           <div class="flex items-center justify-between mb-2">
-            <span class="font-semibold text-gray-800">${getCarrierName(rate.carrier)}</span>
-            <span class="text-xl font-bold text-amber-800">$${parseFloat(rate.total_pricing).toFixed(2)}</span>
+            <span class="font-semibold text-gray-800">${getCarrierName(rate.provider_name, rate.provider_display_name)}</span>
+            <span class="text-xl font-bold text-amber-800">$${parseFloat(rate.total).toFixed(2)}</span>
           </div>
           <div class="flex items-center justify-between text-sm text-gray-500">
-            <span>${rate.service_level_name || rate.service || ''}</span>
-            <span>${rate.estimated_days ? `${rate.estimated_days} día${rate.estimated_days > 1 ? 's' : ''}` : ''}</span>
+            <span>${rate.provider_service_name || ''}</span>
+            <span>${rate.days ? `${rate.days} día${rate.days > 1 ? 's' : ''}` : ''}</span>
           </div>
         </div>
       `).join('');
