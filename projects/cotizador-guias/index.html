@@ -73,23 +73,23 @@
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-1">Peso (kg)</label>
-              <input type="number" name="peso" step="0.1" min="0.1" placeholder="1.5" required
+              <input type="number" name="peso" step="0.1" min="0.1" required
                 class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-1">Largo (cm)</label>
-              <input type="number" name="largo" step="0.1" min="1" placeholder="30" required
+              <input type="number" name="largo" step="0.1" min="1" required
                 class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
             </div>
             <div class="grid grid-cols-2 gap-2">
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Ancho</label>
-                <input type="number" name="ancho" step="0.1" min="1" placeholder="20" required
+                <input type="number" name="ancho" step="0.1" min="1" required
                   class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Alto</label>
-                <input type="number" name="alto" step="0.1" min="1" placeholder="10" required
+                <input type="number" name="alto" step="0.1" min="1" required
                   class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
               </div>
             </div>
@@ -104,32 +104,42 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-1">Nombre completo</label>
-              <input type="text" name="nombre" placeholder="Juan Pérez García" required
+              <input type="text" name="nombre" required
                 class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
-              <input type="tel" name="telefono" placeholder="4771234567" required
+              <input type="tel" name="telefono" required
                 class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
             </div>
             <div class="md:col-span-2">
               <label class="block text-sm font-medium text-gray-700 mb-1">Calle y número</label>
-              <input type="text" name="direccion" placeholder="Av. Insurgentes 123" required
+              <input type="text" name="direccion" required
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">N° interior <span class="text-gray-400 font-normal">(opcional)</span></label>
+              <input type="text" name="numero_interior"
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Entre calles <span class="text-gray-400 font-normal">(opcional)</span></label>
+              <input type="text" name="entre_calles"
                 class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-1">Colonia</label>
-              <input type="text" name="colonia" placeholder="Centro" required
+              <input type="text" name="colonia" required
                 class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-1">CP destino</label>
-              <input type="text" name="cp_destino" placeholder="06600" maxlength="5" required
+              <input type="text" name="cp_destino" maxlength="5" required
                 class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-1">Ciudad</label>
-              <input type="text" name="ciudad" placeholder="Ciudad de México" required
+              <input type="text" name="ciudad" required
                 class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
             </div>
             <div>
@@ -282,7 +292,7 @@
 
     function llenarFormulario(datos) {
       const form = document.getElementById('cotizadorForm');
-      const campos = ['nombre','telefono','direccion','colonia','cp_destino','ciudad','peso','largo','ancho','alto'];
+      const campos = ['nombre','telefono','direccion','numero_interior','entre_calles','colonia','cp_destino','ciudad','peso','largo','ancho','alto'];
 
       campos.forEach(campo => {
         const el = form.elements[campo];
