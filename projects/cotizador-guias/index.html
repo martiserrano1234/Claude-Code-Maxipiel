@@ -11,7 +11,8 @@
     .carrier-card.selected { border-color: #92400e; background-color: #fef3c7; }
     .spinner { border: 3px solid #f3f3f3; border-top: 3px solid #92400e; border-radius: 50%; width: 32px; height: 32px; animation: spin 0.8s linear infinite; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    input:focus, select:focus { outline: none; border-color: #92400e; box-shadow: 0 0 0 2px rgba(146,64,14,0.15); }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: #92400e; box-shadow: 0 0 0 2px rgba(146,64,14,0.15); }
+    .campo-llenado { border-color: #15803d !important; background-color: #f0fdf4; }
   </style>
 </head>
 <body class="bg-amber-50 min-h-screen font-sans">
@@ -29,8 +30,25 @@
 
   <main class="max-w-4xl mx-auto px-4 py-8">
 
+    <!-- Recuadro IA -->
+    <div class="bg-white rounded-2xl shadow-sm border border-amber-200 p-6 mb-6">
+      <h2 class="text-lg font-semibold text-amber-900 mb-1">✨ Pega el mensaje del cliente</h2>
+      <p class="text-sm text-gray-500 mb-4">La IA extrae los datos automáticamente y llena el formulario</p>
+      <textarea id="textoCliente" rows="4"
+        placeholder="Ej: Hola soy Juan Pérez, mi dirección es Calle 5 de Mayo 123, colonia Centro, CP 06600, Cuauhtémoc, CDMX. Tel 5551234567. El paquete es una caja de 30x40x20 cm y pesa 5 kg."
+        class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm resize-none mb-3"></textarea>
+      <button id="btnInterpretar"
+        class="w-full bg-amber-700 hover:bg-amber-800 text-white font-semibold py-3 px-6 rounded-xl transition-colors text-sm">
+        ✨ Interpretar datos
+      </button>
+      <div id="loadingIA" class="hidden text-center py-4">
+        <div class="spinner mx-auto mb-2"></div>
+        <p class="text-gray-500 text-sm">Interpretando con IA...</p>
+      </div>
+    </div>
+
     <!-- Formulario -->
-    <div class="bg-white rounded-2xl shadow-sm border border-amber-100 p-6 mb-6">
+    <div id="seccionFormulario" class="bg-white rounded-2xl shadow-sm border border-amber-100 p-6 mb-6">
       <h2 class="text-lg font-semibold text-amber-900 mb-5">Datos del paquete y destino</h2>
 
       <form id="cotizadorForm">
@@ -164,7 +182,7 @@
       </form>
     </div>
 
-    <!-- Loading -->
+    <!-- Loading cotizar -->
     <div id="loadingCotizar" class="hidden text-center py-10">
       <div class="spinner mx-auto mb-3"></div>
       <p class="text-gray-500 text-sm">Cotizando con todas las paqueterías...</p>
@@ -231,6 +249,69 @@
       ['loadingCotizar','resultados','loadingGuia','guiaGenerada','errorBox'].forEach(hide);
     }
 
+    // Interpretar datos con IA
+    $('btnInterpretar').addEventListener('click', async () => {
+      const texto = $('textoCliente').value.trim();
+      if (!texto) return;
+
+      $('btnInterpretar').disabled = true;
+      show('loadingIA');
+      hide('errorBox');
+
+      try {
+        const res = await fetch(`${N8N}/interpretar-datos`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ texto })
+        });
+
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const datos = await res.json();
+
+        // Llenar el formulario con los datos extraídos
+        llenarFormulario(datos);
+        $('seccionFormulario').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      } catch (err) {
+        showError('No se pudo interpretar el texto. Intenta de nuevo.');
+      } finally {
+        $('btnInterpretar').disabled = false;
+        hide('loadingIA');
+      }
+    });
+
+    function llenarFormulario(datos) {
+      const form = document.getElementById('cotizadorForm');
+      const campos = ['nombre','telefono','direccion','colonia','cp_destino','ciudad','peso','largo','ancho','alto'];
+
+      campos.forEach(campo => {
+        const el = form.elements[campo];
+        if (el && datos[campo] !== undefined && datos[campo] !== '' && datos[campo] !== 0) {
+          el.value = datos[campo];
+          el.classList.add('campo-llenado');
+          setTimeout(() => el.classList.remove('campo-llenado'), 3000);
+        }
+      });
+
+      // Tipo de paquete
+      if (datos.tipo_paquete) {
+        const sel = form.elements['tipo_paquete'];
+        const opt = Array.from(sel.options).find(o => o.value === datos.tipo_paquete);
+        if (opt) { sel.value = datos.tipo_paquete; sel.classList.add('campo-llenado'); setTimeout(() => sel.classList.remove('campo-llenado'), 3000); }
+      }
+
+      // Estado — busca coincidencia parcial
+      if (datos.estado) {
+        const selEstado = form.elements['estado'];
+        const estadoNorm = datos.estado.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+        const opt = Array.from(selEstado.options).find(o => {
+          const oNorm = o.value.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+          return oNorm === estadoNorm || oNorm.includes(estadoNorm) || estadoNorm.includes(oNorm);
+        });
+        if (opt) { selEstado.value = opt.value; selEstado.classList.add('campo-llenado'); setTimeout(() => selEstado.classList.remove('campo-llenado'), 3000); }
+      }
+    }
+
     // Carriers con emojis bonitos
     const carrierEmoji = {
       fedex: '🟣 FedEx',
@@ -273,7 +354,6 @@
         const data = await res.json();
         hide('loadingCotizar');
 
-        // La respuesta puede venir directamente o dentro de data
         const quotation = data.data || data;
 
         if (!quotation || (!quotation.rates && !quotation.id)) {
@@ -300,7 +380,6 @@
         return;
       }
 
-      // Ordenar por precio total
       rates.sort((a, b) => parseFloat(a.total) - parseFloat(b.total));
 
       $('listaPrecios').innerHTML = rates.map((rate, i) => `
