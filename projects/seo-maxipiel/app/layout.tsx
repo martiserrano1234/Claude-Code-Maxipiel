@@ -66,13 +66,19 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <footer className="border-t border-gray-100 py-8 px-6 mt-16">
           <div className="max-w-4xl mx-auto text-center text-sm text-gray-500">
-            <p>© {new Date().getFullYear()} Maxipiel — León, Guanajuato. Todos los derechos reservados.</p>
-            <p className="mt-1">
-              Visita nuestra{" "}
-              <a href="https://www.maxipiel.com.mx" className="text-red-800 hover:underline" target="_blank" rel="noopener">
-                tienda en línea
+            <p className="font-medium text-gray-700">Maxipiel — León, Guanajuato</p>
+            <div className="mt-2 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6">
+              <a href="tel:4778429419" className="hover:text-red-800">
+                📞 477 842 9419
               </a>
-            </p>
+              <a href="mailto:maxipielmercadotecnia@gmail.com" className="hover:text-red-800">
+                ✉️ maxipielmercadotecnia@gmail.com
+              </a>
+              <a href="https://www.maxipiel.com.mx" target="_blank" rel="noopener" className="hover:text-red-800">
+                🛒 maxipiel.com.mx
+              </a>
+            </div>
+            <p className="mt-4 text-xs text-gray-400">© {new Date().getFullYear()} Maxipiel. Todos los derechos reservados.</p>
           </div>
         </footer>
       </body>
