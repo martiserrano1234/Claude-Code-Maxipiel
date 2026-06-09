@@ -1,7 +1,7 @@
 import sys, json, urllib.request
 sys.stdout.reconfigure(encoding='utf-8')
 
-TOKEN = "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"
+TOKEN = "TU_SHOPIFY_TOKEN"
 THEME_ID = "144344481892"
 STORE = "maxipiel.myshopify.com"
 HEADERS = {"X-Shopify-Access-Token": TOKEN}

@@ -1,6 +1,6 @@
 import urllib.request, json, time
 
-TOKEN = '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'
+TOKEN = 'TU_SHOPIFY_TOKEN'
 SHOP = 'maxipiel.myshopify.com'
 
 # (id, nombre_color, descripcion_color, usos)

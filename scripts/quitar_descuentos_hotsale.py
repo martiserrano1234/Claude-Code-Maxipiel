@@ -5,7 +5,7 @@ import sys
 sys.stdout.reconfigure(encoding='utf-8')
 
 SHOP = 'maxipiel.myshopify.com'
-TOKEN = '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'
+TOKEN = 'TU_SHOPIFY_TOKEN'
 API_VERSION = '2024-01'
 BASE_URL = f'https://{SHOP}/admin/api/{API_VERSION}'
 HEADERS = {

@@ -2,7 +2,7 @@ import sys, json, time
 import requests
 sys.stdout.reconfigure(encoding='utf-8')
 
-TOKEN = "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"
+TOKEN = "TU_SHOPIFY_TOKEN"
 STORE = "maxipiel.myshopify.com"
 API = f"https://{STORE}/admin/api/2024-01"
 HEADERS = {"X-Shopify-Access-Token": TOKEN, "Content-Type": "application/json"}

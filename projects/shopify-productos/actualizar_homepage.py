@@ -1,6 +1,6 @@
 import urllib.request, json
 
-TOKEN = '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'
+TOKEN = 'TU_SHOPIFY_TOKEN'
 SHOP = 'maxipiel.myshopify.com'
 THEME_ID = '144344481892'
 IMG_TALLER = 'https://cdn.shopify.com/s/files/1/0700/9045/7188/t/3/assets/banner-taller-maxipiel.png'

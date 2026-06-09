@@ -5,7 +5,7 @@ from pathlib import Path
 if sys.platform == "win32":
     sys.stdout.reconfigure(encoding="utf-8")
 
-TOKEN  = "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"
+TOKEN  = "TU_SHOPIFY_TOKEN"
 DOMAIN = "maxipiel.myshopify.com"
 PRODUCT_ID = 8504429805668
 STEM = "negro72semiliso"
