@@ -1,0 +1,867 @@
+[
+  {
+    "telefono": "4492117212",
+    "nombre": "Roberto Carlos Hernandez Ornelas",
+    "empresa": "Classicar",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "8331485484",
+    "nombre": "Jose Luis",
+    "empresa": "",
+    "encontrado": true,
+    "contact_id": 706,
+    "conversaciones": [
+      {
+        "conv_id": 712,
+        "mensajes_cliente": [
+          "Ya pedí media hoja y si ,la piel es de buena calidad ,pero los pequeños pedazos que me mandaron no me sirven...\nY así como quieren que la ofrezca a mis clientes si no se aprecia nada",
+          "Lo que me mandaron",
+          "Tengo otro proveedor en león y me regalo este muestrario",
+          "Como quiera gracias",
+          "Ya pedí media piel con ustedes y me mandaron eso de muestras,me dijeron eso que me comentas que en el próximo pedido me lo mandan,de antemano les había pedido muestras para muebles y automotriz, pero vuelvo a lo mismo no tengo que mostrar, y así como hago otro pedido",
+          "Me espero al siguiente pedido, muchas gracias",
+          "Si está bien para estar en contacto",
+          "Gracias",
+          "Buen día ...ocupo media piel negra perforada",
+          "Automotriz"
+        ]
+      }
+    ]
+  },
+  {
+    "telefono": "4425244693",
+    "nombre": "Eduardo Figueroa Guerrero",
+    "empresa": "",
+    "encontrado": true,
+    "contact_id": 855,
+    "conversaciones": [
+      {
+        "conv_id": 861,
+        "mensajes_cliente": [
+          "Necesito principalmente piel negra lisa y tambien piel negra perforada\nTendria que ser de la premium",
+          "Que quiere decir /dm²?\n\nHago unos 50 volantes al mes, vivo en Querétaro",
+          "Por el momento solo piel negra lisa y perforada\nSi por favor hagame un paquete con esos calculos",
+          "Tendra fotos de su material? Algún catalogo?",
+          "Y me gustaria ver su pagina de mercado libre tambien",
+          "Si, mandeme fotos de su piel lisa negra y perforada por favor",
+          "Esa piel se ve un poco brillosa, tendra una con cabado un poco mas mate?",
+          "Y cuanto tarda en llegar el pedido aproximadamente?",
+          "Si, mandeme foto de la piel mate",
+          "Me mando la misma foto",
+          "El link esta roto podra mandarme el video de otra forma?"
+        ]
+      }
+    ]
+  },
+  {
+    "telefono": "6251153455",
+    "nombre": "Rocio Macias torre",
+    "empresa": "",
+    "encontrado": true,
+    "contact_id": 802,
+    "conversaciones": [
+      {
+        "conv_id": 808,
+        "mensajes_cliente": [
+          "Buen día en qué ciudad se encuentra",
+          "Nos dedicamos a restaurar veiculo  del interior  tiene catálogo de pieles"
+        ]
+      }
+    ]
+  },
+  {
+    "telefono": "9711191951",
+    "nombre": "Jorge Robles",
+    "empresa": "",
+    "encontrado": true,
+    "contact_id": 774,
+    "conversaciones": [
+      {
+        "conv_id": 780,
+        "mensajes_cliente": [
+          "¡Hola! Quiero más información.",
+          "Si sobrepiel",
+          "Pregunto",
+          "Para aser huarache",
+          "Si mepudes ayudar",
+          "Piel grabado y piel con pelo",
+          "Si"
+        ]
+      }
+    ]
+  },
+  {
+    "telefono": "5660902699",
+    "nombre": "Felipe Nova",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "4591053202",
+    "nombre": "Hernan",
+    "empresa": "",
+    "encontrado": true,
+    "contact_id": 861,
+    "conversaciones": [
+      {
+        "conv_id": 867,
+        "mensajes_cliente": [
+          "¡Hola! Quiero más información.",
+          "Buenos días",
+          "Para tapicería automotriz",
+          "Buenos días. Soy tapicero y constantemente ocupo piel. Por el momento ocupo para un trabajo de un Jeep",
+          "Sólo se van a tapizar los asientos. Y sería 60 % piel. Los frontales lo demás de va a poner vinil. Ésto a petición del cliente.",
+          "Si porfavor. Te contesto más tarde porque voy a una comunidad donde no hay señal. A éso de la una de la tarde regreso."
+        ]
+      }
+    ]
+  },
+  {
+    "telefono": "9983770233",
+    "nombre": "Xiomara Hernandez Carranza",
+    "empresa": "",
+    "encontrado": true,
+    "contact_id": 708,
+    "conversaciones": [
+      {
+        "conv_id": 714,
+        "mensajes_cliente": [
+          "Calle 87 lote 24, Mz 4, Sm60 esquina calle 10 (pte) 1er piso, apto2. \nMunicipio Benito Juárez \nC. p. 77514\nCancún, Quintana Roo.",
+          "Si envío de factura por favor.",
+          "No, factura, disculpe. Envío Normal",
+          "Recuerde color beige CLARO!!, espero imagen. Gracias. Por ahora otros tonos no. Gracias",
+          "Ok, agradecida.",
+          "Gracias, eres muy amable! Ojalá podamos seguir comprando sus pieles.",
+          "Ok",
+          "Por favor dígame por qué demora tanto el envío de la Guia",
+          "Ya me pasaron la foto de la hoja, ya pagué, falta la guía para saber cuándo me llega",
+          "Ok"
+        ]
+      }
+    ]
+  },
+  {
+    "telefono": "8333310011",
+    "nombre": "Gabriel Avalos Mendoza",
+    "empresa": "Tapiceria California",
+    "encontrado": true,
+    "contact_id": 1022,
+    "conversaciones": [
+      {
+        "conv_id": 1027,
+        "mensajes_cliente": [
+          "¡Hola! Quiero más información. De la empresa k. Ende pieles",
+          "Tengo tapiceria automotriz y  nesesito un contacto para piel automotriz solo tapiceria california",
+          "Nesesitomuestrarios y si tienen algún costo no importa  estamos en cd Madero Tamaulipas",
+          "Mira Sofía esta es mi dirección y donde estamos ubicados mándame el muestrario a esta dirección como t pago el muestrario",
+          "También adiereme la línea para muebles mándame tus datos bancarios y sorpréndeme con tus muestrarios"
+        ]
+      }
+    ]
+  },
+  {
+    "telefono": "6647862789",
+    "nombre": "Martin Mora",
+    "empresa": "Tapiceria Mora",
+    "encontrado": true,
+    "contact_id": 767,
+    "conversaciones": [
+      {
+        "conv_id": 773,
+        "mensajes_cliente": [
+          "Por transferencia",
+          "Martin Constantino  mora lopez",
+          "Ok una pregunta me están mandando mensaje de otro número",
+          "Hola Sofi ya te hice el depósito también me vas a mandar una media hoja de piel perforada color negro por favor gracias como para cuándo me estará llegando",
+          "Me dijo Martín Serrano que me iba a mandar un muestrario de pieles gracias gracias muchas gracias",
+          "Hola buenos días una pregunta cómo van con mi envío de piel",
+          "Hola",
+          "Srta sofia",
+          "Hola",
+          "Mande de me la guía xfao me marcan xfa geacias"
+        ]
+      }
+    ]
+  },
+  {
+    "telefono": "7711435121",
+    "nombre": "Vicente Martinez",
+    "empresa": "",
+    "encontrado": true,
+    "contact_id": 991,
+    "conversaciones": [
+      {
+        "conv_id": 998,
+        "mensajes_cliente": [
+          "Alfytel a nombre de Vicente Martínez",
+          "En el transcurso de la mañana te depósito",
+          "En qué parte están",
+          "Si nosotros somos una empresa que fabricamos muebles y si trabajamos de varias marcas la piel pero quiero ver nuevos modelos",
+          "Trabajamos de farfala mendele y otras marcas",
+          "No pues los colores estoy trabajando todos pero obvio el que más se vende en cuestión mueble pues es beige café y en los automotrices es el negro ya también en el mueble negro pero pues es impredecible",
+          "Sí sin problema",
+          "De acuerdo muchas gracias",
+          "Gracias"
+        ]
+      }
+    ]
+  },
+  {
+    "telefono": "3411673064",
+    "nombre": "Federico Castolo Ramirez",
+    "empresa": "",
+    "encontrado": true,
+    "contact_id": 807,
+    "conversaciones": [
+      {
+        "conv_id": 813,
+        "mensajes_cliente": [
+          "Hola buenas tardes disculpe me puede dar precios de la piel de recortera",
+          "La necesito para billetera de hombre y ocupo café y negra",
+          "Cuánto está el kilo ?",
+          "Ya le habíamos comprado y nos mandaron pedacera",
+          "No hoja",
+          "Si porfavor mandeme el link",
+          "Necesito café negra y chedron y miel ocupo alrededor de 50 kilos",
+          "Si porfavor"
+        ]
+      }
+    ]
+  },
+  {
+    "telefono": "5638716943",
+    "nombre": "Patricia Martinez",
+    "empresa": "",
+    "encontrado": true,
+    "contact_id": 964,
+    "conversaciones": [
+      {
+        "conv_id": 970,
+        "mensajes_cliente": [
+          "Azul",
+          "Azul vivo 💙",
+          "Pasame link",
+          "https://drive.google.com/drive/mobile/folders/1qAQe9GSutuQ6PVxSMzC2n_Vy7UVX7reF",
+          "Vi un azul y un amarillo 💛 qué me gustó mucho",
+          "Pero el azul ,,es muy bonitos",
+          "Como le hago para la compra",
+          "Quiero el azul",
+          "Ya esta la transferencia por 1780",
+          "Privada roble 4-D frac los sauces casas ara en huejotzingo"
+        ]
+      }
+    ]
+  },
+  {
+    "telefono": "4444391590",
+    "nombre": "Marco Antonio Hernandez Facundo",
+    "empresa": "",
+    "encontrado": true,
+    "contact_id": 817,
+    "conversaciones": [
+      {
+        "conv_id": 823,
+        "mensajes_cliente": [
+          "¡Hola! Quiero más información.",
+          "Me interesa la piel para tapicería....",
+          "Manejan muestrario?",
+          "Ok esta bien",
+          "Pues en cuanto tenga el comprobante se los hago llegar para que me manden el muestrario....muchas gracias y buenas noches....🙏🏼"
+        ]
+      }
+    ]
+  },
+  {
+    "telefono": "2323216841",
+    "nombre": "Filemon Miranda",
+    "empresa": "Tapiceria Miranda",
+    "encontrado": true,
+    "contact_id": 755,
+    "conversaciones": [
+      {
+        "conv_id": 761,
+        "mensajes_cliente": [
+          "¡Hola! Quiero más información.",
+          "Manda me un muestrario de pieles para tapicería de auto s",
+          "Si claro manda dato concretos para la transferencia",
+          "A mí dime file",
+          "De Martínez de la torre .ver",
+          "Gracias",
+          "Gracias feliz fin de semana  .anejas pieles solamente o telas automotrices para tapiceria"
+        ]
+      }
+    ]
+  },
+  {
+    "telefono": "4521207402",
+    "nombre": "Ricardo Martinez Ibarra",
+    "empresa": "",
+    "encontrado": true,
+    "contact_id": 621,
+    "conversaciones": [
+      {
+        "conv_id": 627,
+        "mensajes_cliente": [
+          "¡Hola! Quiero más información.",
+          "Tengo un taller de tapicería automotriz en Uruapan",
+          "Michoacán y necesito saber el precio de la piel para autos",
+          "Sie pueden vender un muestrario y si también manejan el vinil",
+          "Si mandé sus datos para transferencia  por favor",
+          "Es todo por ahorita muchas gracias"
+        ]
+      }
+    ]
+  },
+  {
+    "telefono": "5543576864",
+    "nombre": "Cliente pedacera sin nombre",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "9841710604",
+    "nombre": "Rodrigo Santiago Ramos Cornejo",
+    "empresa": "",
+    "encontrado": true,
+    "contact_id": 612,
+    "conversaciones": [
+      {
+        "conv_id": 618,
+        "mensajes_cliente": [
+          "¡Hola! Quiero más información.",
+          "Tapiceria me gustaría adquirir un muestrario",
+          "Físico",
+          "Tienen alguna pagina ó en donde el se encuentran hubicados?"
+        ]
+      }
+    ]
+  },
+  {
+    "telefono": "7293016424",
+    "nombre": "",
+    "empresa": "",
+    "encontrado": true,
+    "contact_id": 114,
+    "conversaciones": [
+      {
+        "conv_id": 117,
+        "mensajes_cliente": [
+          "¡Hola! Quiero más información.",
+          "Yo vendo piel y pedaceria y busco colores",
+          "Aquí en san Mateo Atenco",
+          "Si"
+        ]
+      }
+    ]
+  },
+  {
+    "telefono": "8124181635",
+    "nombre": "Kimberly ortiz",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "17869130353",
+    "nombre": "Jorge",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "3141495085",
+    "nombre": "Marcela",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "9621524869",
+    "nombre": "",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "3411190741",
+    "nombre": "Jesus",
+    "empresa": "",
+    "encontrado": true,
+    "contact_id": 186,
+    "conversaciones": [
+      {
+        "conv_id": 190,
+        "mensajes_cliente": [
+          "¡Hola! Quiero más información. Acomodas el kilo de pedacera",
+          "A ver mándame un video para ver la pedacera",
+          "¡Hola! Quiero más qué pasa mi cómo has estado información.",
+          "Sí sí me interesa ya te voy a comprar musillitas ya ahora sí ya acabé el cinto que le voy a entregar al vale y ya te compro lo que habíamos quedado",
+          "Mira necesito que ya que me pases un video como son las pieles para yo también ya decir sabes que ahora sí mándame tantas y cuáles me gustan y cuáles no me gustan para no tener pues este ningún inconveniente",
+          "Pues mándame unos videos y ya te digo cuáles los que voy a querer y ya te digo sobre eso",
+          "Sí ocupo colores ocupo yo creo que ocupo un color negro café un chedrón un café chocolate y café claro y otro color que tenga un color azul mezclilla",
+          "Mándame colores chidos los colores que te dije para verlos",
+          "Extendidas las hojitas para verlas bien y ya ya te digo sabes que mándame tantas y nos quitamos de porque así pues cómo la puedo ver"
+        ]
+      }
+    ]
+  },
+  {
+    "telefono": "4151138695",
+    "nombre": "Tapicero de san miguel",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "5535865493",
+    "nombre": "Griss",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "9612647712",
+    "nombre": "Peres Madrid",
+    "empresa": "",
+    "encontrado": true,
+    "contact_id": 949,
+    "conversaciones": [
+      {
+        "conv_id": 955,
+        "mensajes_cliente": [
+          "¡Hola! Quiero más información.",
+          "De Tuxtla Gutiérrez Chiapas",
+          "Ok si tenemos una peletería en Tuxtla y vendemos algunas pieles para los zapateros y tapiceros"
+        ]
+      }
+    ]
+  },
+  {
+    "telefono": "4424854600",
+    "nombre": "Cliente shopify",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "9931160498",
+    "nombre": "Chris Argaiz",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "4775775058",
+    "nombre": "Alexa",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "4423832911",
+    "nombre": "Miguel",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "2382583906",
+    "nombre": "",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "8611100111",
+    "nombre": "Victor",
+    "empresa": "",
+    "encontrado": true,
+    "contact_id": 789,
+    "conversaciones": [
+      {
+        "conv_id": 795,
+        "mensajes_cliente": [
+          "¡Hola! Quiero más información.",
+          "Quiero tapicería para un vocho 1996",
+          "La premium creo mandame catalogo para ver las dos calidades, quiero los asientos delanteros y el trasero cuanto me saldria por todo",
+          "Como le hago para hacer un pesido",
+          "Quisiera el muestrario y me interesa el gris obscuro",
+          "Gracias",
+          "Voy a hablar con mi tapicero y despues de eso levanto el pedido"
+        ]
+      }
+    ]
+  },
+  {
+    "telefono": "8138464390",
+    "nombre": "Angel",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "8180764688",
+    "nombre": "Rabago",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "4775886851",
+    "nombre": "Francisco Rios",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "4777300171",
+    "nombre": "Erick Muñoz",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "5528579896",
+    "nombre": "Ivanov",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "9541038777",
+    "nombre": "",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "8334128711",
+    "nombre": "Luis",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "5579134945",
+    "nombre": "Godo Monge",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "4777314356",
+    "nombre": "Hugo",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "4771255612",
+    "nombre": "Israel",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "3310937878",
+    "nombre": "Luis",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "3336623634",
+    "nombre": "",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "5554382364",
+    "nombre": "Javier",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "5636094462",
+    "nombre": "Apreza",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "5551066906",
+    "nombre": "Daliah Goldsmith",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "5541119662",
+    "nombre": "Libreria EQ",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "5532110025",
+    "nombre": "Javier Avila",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "6142710375",
+    "nombre": "Andres",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "7226492573",
+    "nombre": "Eduardo",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "5659793005",
+    "nombre": "Juan Carlos Gonzales Olvera",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "4952471757",
+    "nombre": "Tapicero 14",
+    "empresa": "",
+    "encontrado": true,
+    "contact_id": 398,
+    "conversaciones": [
+      {
+        "conv_id": 403,
+        "mensajes_cliente": [
+          "¡Hola! Quiero más información."
+        ]
+      }
+    ]
+  },
+  {
+    "telefono": "5585701475",
+    "nombre": "Johnny Matus",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "8661722158",
+    "nombre": "",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "7671030872",
+    "nombre": "Gilberto",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "6623641245",
+    "nombre": "Diana Araceli",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "5563559840",
+    "nombre": "Muebles DF",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "4793036420",
+    "nombre": "Valdivia Berna",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  },
+  {
+    "telefono": "7421290770",
+    "nombre": "Jose Angel",
+    "empresa": "",
+    "encontrado": true,
+    "contact_id": 939,
+    "conversaciones": [
+      {
+        "conv_id": 945,
+        "mensajes_cliente": [
+          "D la mañana",
+          "Ok asi lo are",
+          "Si x favor",
+          "Cuanto tiempo tarda en llegar",
+          "X whatsapp.",
+          "No mejor. M espero q sea normal",
+          "Es el mismo",
+          "Si m avisas x favor",
+          "Sale hasta mañana",
+          "Bay bendiciones"
+        ]
+      }
+    ]
+  },
+  {
+    "telefono": "4442972691",
+    "nombre": "Victor rodriguez",
+    "empresa": "",
+    "encontrado": true,
+    "contact_id": 886,
+    "conversaciones": [
+      {
+        "conv_id": 892,
+        "mensajes_cliente": [
+          "¡Hola! Quiero más información.",
+          "Para tapizar un sillón grande se la sala...piel en color blanco",
+          "Si",
+          "Blanco hueso",
+          "Mañana te mando medidas del sillón",
+          "De san luis potosí",
+          "Mide 2.10 mts largo 0.90 de ancho y 0.80 de alto",
+          "Me gustaría que sea el color blanco que tiene el sillon"
+        ]
+      }
+    ]
+  },
+  {
+    "telefono": "4443196375",
+    "nombre": "Felipe Ibarra",
+    "empresa": "",
+    "encontrado": true,
+    "contact_id": 980,
+    "conversaciones": [
+      {
+        "conv_id": 986,
+        "mensajes_cliente": [
+          "Es todo 👍",
+          "🙏🙏👍",
+          "Buena tarde, acabo de recibir el paquete",
+          "Pensé que la vaquetilla sería algo más rígido ,algo como ésto",
+          "El material de esta imagen es algo más rígido",
+          "Unos días más te solicitaré un envío pero que sea de este material de la imagen",
+          "Cuánto sale la hoja pero repito de este material",
+          "Luego me comunico gracias",
+          "Gracias"
+        ]
+      }
+    ]
+  },
+  {
+    "telefono": "5586919106",
+    "nombre": "Javier Candia",
+    "empresa": "",
+    "encontrado": true,
+    "contact_id": 1274,
+    "conversaciones": [
+      {
+        "conv_id": 1279,
+        "mensajes_cliente": [
+          "Busco algo así pero en un tono... Como la siguiente imagen",
+          "Si me puedes mostrar fotos en Los azules que tengas disponibles con el grabado cocodrilo por favor",
+          "Lo más azul parecido a la imagen por favor",
+          "Muéstrame una variedad de azules que tengas por favor",
+          "Sí me gustaría una piel similar a esa pero entonces me podría compartir los tonos de azules que maneja aunque no sean en esta piel ahora",
+          "No veo los tonos perdón",
+          "?",
+          "Los links que me mandaste No es azul es café y la misma imagen que ya me habías enviado",
+          "Siguen siendo fotos y links erróneos",
+          "De casualidad hay atención personalizada ?."
+        ]
+      }
+    ]
+  },
+  {
+    "telefono": "8112204153",
+    "nombre": "Jorge Joel Bueno",
+    "empresa": "",
+    "encontrado": true,
+    "contact_id": 1191,
+    "conversaciones": [
+      {
+        "conv_id": 1196,
+        "mensajes_cliente": [
+          "No quiero el muestrario",
+          "Me hacías dicho una cantidad menor",
+          "¿Es así?",
+          "Si el muestrario es gratis adelante",
+          "¡Claro! Medio lienzo de piel para marroquinería incluye:\n\n- Cantidad: 250 dm² (2.5 m² aprox)\n- Medidas: Equivale a varios recortes, ideal para asas y detalles\n- Color: Chedrón (naranja clásico)\n- Costo total: $875 con envío GRATIS a todo México\n- Vía de envío: Paquetería nacional, llega en 3-5 días directo a tu domicilio\n\nPiel genuina, lista para trabajar, ¡y sin costo de paquetería extra!  \n¿Te paso los datos para que puedas transferir y te lo aparto?",
+          "Listo gracias 🫶🏻",
+          "Estaría bien para cuando lo recoja me facilita la entrega",
+          "Es un taller *mecánico*\nLo aclaro porque enseguida hay un taller de bicis🤗",
+          "Jorge Joel Bueno Rodríguez\nEstá bien para que mi esposo o sus trabajadores lo reciban."
+        ]
+      }
+    ]
+  },
+  {
+    "telefono": "4422750829",
+    "nombre": "Ricardo Romero",
+    "empresa": "",
+    "encontrado": true,
+    "contact_id": 1129,
+    "conversaciones": [
+      {
+        "conv_id": 1134,
+        "mensajes_cliente": [
+          "Más adelante gracias",
+          "👍",
+          "Sí me ase fabor",
+          "Cómo guste",
+          "Disculpe cuándo llegará mi catálogo",
+          "Sí muchas gracias",
+          "Variada xfa",
+          "Si desde carteras gracias",
+          "En general",
+          "👍"
+        ]
+      }
+    ]
+  },
+  {
+    "telefono": "5532685216",
+    "nombre": "Juan Fernando Morales",
+    "empresa": "",
+    "encontrado": true,
+    "contact_id": 1186,
+    "conversaciones": [
+      {
+        "conv_id": 1191,
+        "mensajes_cliente": [
+          "Dejame checar el material y te voy avisando los colores, los que me interesan son rojo, blanco, oro, plata",
+          "Si por favor mandame fotos",
+          "Si en cuanto puedas...",
+          "Por aqui esta bien...",
+          "Si por favor..",
+          "Todo bien",
+          "Despues...",
+          "Ok",
+          "Si",
+          "Por aqui.."
+        ]
+      }
+    ]
+  },
+  {
+    "telefono": "7446794914",
+    "nombre": "Efrain Hernandez",
+    "empresa": "",
+    "encontrado": false,
+    "conversaciones": []
+  }
+]

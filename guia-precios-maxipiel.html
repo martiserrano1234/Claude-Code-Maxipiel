@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Guía de Precios — Maxipiel</title>
+  <style>
+    @page { size: letter; margin: 1.5cm; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f5f5f0;
+      color: #1a1a1a;
+      padding: 24px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* HEADER */
+    .header {
+      background: #1a1a1a;
+      color: #fff;
+      border-radius: 12px;
+      padding: 20px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .header h1 { font-size: 26px; letter-spacing: 3px; }
+    .header p { font-size: 11px; color: #aaa; margin-top: 2px; }
+    .header-right { text-align: right; font-size: 12px; color: #ccc; line-height: 1.7; }
+
+    /* GRID */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .grid.wide { grid-template-columns: 1fr; }
+    .grid.three { grid-template-columns: 1fr 1fr 1fr; }
+
+    /* CARD */
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 16px 18px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      border-bottom: 2px solid #f0f0ec;
+      padding-bottom: 10px;
+    }
+    .card-icon { font-size: 20px; }
+    .card-title { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+    .card-sub { font-size: 10px; color: #888; margin-top: 1px; }
+
+    /* PRICE ROWS */
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      border-bottom: 1px solid #f5f5f0;
+      font-size: 13px;
+    }
+    .price-row:last-child { border-bottom: none; }
+    .price-row .label { color: #444; }
+    .price-row .price {
+      font-weight: 700;
+      color: #1a1a1a;
+      white-space: nowrap;
+    }
+    .price-row .min-price {
+      font-size: 11px;
+      color: #e05c2a;
+      margin-left: 6px;
+      font-weight: 500;
+    }
+
+    /* BADGE */
+    .badge {
+      display: inline-block;
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 20px;
+      font-weight: 600;
+      margin-left: 6px;
+    }
+    .badge-green { background: #e6f4ea; color: #2d7a3a; }
+    .badge-orange { background: #fff0e6; color: #c45000; }
+    .badge-blue { background: #e6f0ff; color: #1a4fbf; }
+    .badge-red { background: #fee; color: #c00; }
+
+    /* COLORES */
+    .colores-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .color-chip {
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      border: 1.5px solid;
+    }
+    .chip-negro { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+    .chip-miel { background: #f5c842; color: #5a3800; border-color: #d4a800; }
+    .chip-chedron { background: #7a1a2e; color: #fff; border-color: #7a1a2e; }
+    .chip-rojo { background: #c0392b; color: #fff; border-color: #c0392b; }
+    .chip-gris { background: #888; color: #fff; border-color: #666; }
+    .chip-cafe { background: #6b3a2a; color: #fff; border-color: #6b3a2a; }
+    .chip-natural { background: #e8d5b0; color: #5a3800; border-color: #c4a96e; }
+    .chip-catalogo { background: #f0f0f0; color: #444; border-color: #ccc; }
+
+    /* NOTA DE NEGOCIACION */
+    .nota {
+      font-size: 11px;
+      color: #888;
+      margin-top: 8px;
+      font-style: italic;
+    }
+    .nota span { color: #e05c2a; font-weight: 600; }
+
+    /* PEDACERA especial */
+    .pedacera-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .pedacera-item {
+      background: #f9f9f6;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+    }
+    .pedacera-item .p-precio { font-size: 18px; font-weight: 800; color: #1a1a1a; }
+    .pedacera-item .p-label { font-size: 11px; color: #666; margin-top: 2px; }
+    .pedacera-item .p-size { font-size: 10px; color: #aaa; margin-top: 1px; }
+
+    /* MUESTRARIO */
+    .muestrario-card {
+      background: linear-gradient(135deg, #1a1a1a 0%, #3a3a3a 100%);
+      color: #fff;
+      border-radius: 10px;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .muestrario-card h3 { font-size: 15px; letter-spacing: 1px; }
+    .muestrario-card p { font-size: 11px; color: #ccc; margin-top: 4px; }
+    .muestrario-price { text-align: right; }
+    .muestrario-price .mp { font-size: 28px; font-weight: 800; }
+    .muestrario-price .ms { font-size: 11px; color: #ccc; }
+    .muestrario-gratis {
+      background: #2d7a3a;
+      border-radius: 8px;
+      padding: 4px 12px;
+      font-size: 11px;
+      font-weight: 700;
+      margin-top: 8px;
+      display: inline-block;
+    }
+
+    /* CANALES */
+    .canales {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+    .canal {
+      background: #fff;
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #444;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    /* FOOTER */
+    .footer {
+      margin-top: 16px;
+      text-align: center;
+      font-size: 10px;
+      color: #bbb;
+    }
+
+    /* SECTION TITLE */
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #aaa;
+      margin: 16px 0 8px;
+    }
+
+    @media print {
+      body { background: #fff; padding: 0; }
+      .card { box-shadow: none; border: 1px solid #eee; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div>
+      <h1>MAXIPIEL</h1>
+      <p>Piel Genuina · León, Guanajuato</p>
+    </div>
+    <div class="header-right">
+      Guía de Precios 2026<br>
+      maxipiel.com
+    </div>
+  </div>
+
+  <!-- FILA 1: Tapicería Automotriz + Muebles -->
+  <div class="grid">
+
+    <!-- TAPICERÍA AUTOMOTRIZ -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-icon">🚗</span>
+        <div>
+          <div class="card-title">Tapicería Automotriz</div>
+          <div class="card-sub">Hoja: 500 dc² · Media hoja: 250 dc² · Grosor: 1.2–1.6 mm</div>
+        </div>
+      </div>
+
+      <div class="price-row">
+        <span class="label">Premium <span class="badge badge-blue">5 $/dc²</span></span>
+        <span class="price">$2,500 <span class="min-price">mín. $1,500</span></span>
+      </div>
+      <div class="price-row">
+        <span class="label">Económica <span class="badge badge-green">3 $/dc²</span></span>
+        <span class="price">$1,500 <span class="min-price">mín. $1,000</span></span>
+      </div>
+      <div class="price-row">
+        <span class="label">Media hoja (250 dc²)</span>
+        <span class="price">desde $750</span>
+      </div>
+
+      <p class="nota">Precio mínimo negociable: <span>Premium → $3/dc² · Económica → $2/dc²</span></p>
+
+      <div class="colores-row" style="margin-top:12px;">
+        <span class="color-chip chip-negro">Negro</span>
+        <span class="color-chip chip-miel">Miel</span>
+        <span class="color-chip chip-chedron">Chedrón</span>
+        <span class="color-chip chip-rojo">Rojo</span>
+        <span class="color-chip chip-gris">Gris</span>
+        <span class="color-chip chip-cafe">Café</span>
+        <span class="color-chip chip-catalogo">+ Catálogo</span>
+      </div>
+    </div>
+
+    <!-- MUEBLES -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-icon">🛋️</span>
+        <div>
+          <div class="card-title">Tapicería para Muebles</div>
+          <div class="card-sub">Hoja: 500 dc² · Media hoja: 250 dc²</div>
+        </div>
+      </div>
+
+      <div class="price-row">
+        <span class="label">Premium <span class="badge badge-blue">6 $/dc²</span></span>
+        <span class="price">$3,000</span>
+      </div>
+      <div class="price-row">
+        <span class="label">Estándar <span class="badge badge-green">4 $/dc²</span></span>
+        <span class="price">$2,000</span>
+      </div>
+      <div class="price-row">
+        <span class="label">Económica <span class="badge badge-orange">2 $/dc²</span></span>
+        <span class="price">$1,000</span>
+      </div>
+      <div class="price-row">
+        <span class="label">Media hoja (250 dc²)</span>
+        <span class="price">desde $500</span>
+      </div>
+
+      <div class="colores-row" style="margin-top:12px;">
+        <span class="color-chip chip-negro">Negro</span>
+        <span class="color-chip chip-miel">Miel</span>
+        <span class="color-chip chip-chedron">Chedrón</span>
+        <span class="color-chip chip-rojo">Rojo</span>
+        <span class="color-chip chip-gris">Gris</span>
+        <span class="color-chip chip-cafe">Café</span>
+        <span class="color-chip chip-catalogo">+ Catálogo</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILA 2: Alcantara + Vaqueta/Sillero -->
+  <div class="grid" style="margin-top:14px;">
+
+    <!-- ALCANTARA -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-icon">✨</span>
+        <div>
+          <div class="card-title">Alcantara</div>
+          <div class="card-sub">Tela premium · Hoja: 500 dc² · Media hoja: 250 dc²</div>
+        </div>
+      </div>
+
+      <div class="price-row">
+        <span class="label">Precio regular <span class="badge badge-blue">5 $/dc²</span></span>
+        <span class="price">$2,500</span>
+      </div>
+      <div class="price-row">
+        <span class="label">Media hoja (250 dc²)</span>
+        <span class="price">$1,250</span>
+      </div>
+
+      <p class="nota">Precio mínimo negociable: <span>$3/dc²</span></p>
+
+      <div class="colores-row" style="margin-top:12px;">
+        <span class="color-chip chip-rojo">Rojo</span>
+        <span class="color-chip chip-negro">Negro</span>
+        <span class="color-chip chip-cafe">Café</span>
+        <span class="color-chip chip-miel" style="background:#e8d0a0;">Beige</span>
+        <span class="color-chip chip-natural">Camel</span>
+        <span class="color-chip chip-gris">Gris</span>
+        <span class="color-chip chip-chedron">Chedrón</span>
+      </div>
+    </div>
+
+    <!-- VAQUETA / SILLERO -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-icon">🪡</span>
+        <div>
+          <div class="card-title">Vaqueta / Sillero</div>
+          <div class="card-sub">Por grosor · Negro, Chedrón, Café, Natural, Rojo</div>
+        </div>
+      </div>
+
+      <div class="price-row">
+        <span class="label">1 mm</span>
+        <span class="price">$5 / dc²</span>
+      </div>
+      <div class="price-row">
+        <span class="label">2 mm</span>
+        <span class="price">$6 / dc²</span>
+      </div>
+      <div class="price-row">
+        <span class="label">3 mm</span>
+        <span class="price">$7 / dc²</span>
+      </div>
+      <div class="price-row">
+        <span class="label">4 mm</span>
+        <span class="price">$8 – $9 / dc²</span>
+      </div>
+
+      <div class="colores-row" style="margin-top:12px;">
+        <span class="color-chip chip-negro">Negro</span>
+        <span class="color-chip chip-chedron">Chedrón</span>
+        <span class="color-chip chip-cafe">Café</span>
+        <span class="color-chip chip-natural">Natural</span>
+        <span class="color-chip chip-rojo">Rojo</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILA 3: Grabados + Marroquinería + Pieles con Pelo -->
+  <div class="grid three" style="margin-top:14px;">
+
+    <!-- GRABADOS Y PERFORADO -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-icon">🐊</span>
+        <div>
+          <div class="card-title">Grabado & Perforado</div>
+          <div class="card-sub">Cocodrilo, Serpiente, Avestruz…</div>
+        </div>
+      </div>
+      <div class="price-row">
+        <span class="label">Grabado</span>
+        <span class="price">$6 / dc²</span>
+      </div>
+      <div class="price-row">
+        <span class="label">Perforado</span>
+        <span class="price">$6 / dc²</span>
+      </div>
+      <p class="nota">Mínimo negociable: <span>$3 – $4 / dc²</span></p>
+    </div>
+
+    <!-- MARROQUINERÍA -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-icon">👜</span>
+        <div>
+          <div class="card-title">Marroquinería</div>
+          <div class="card-sub">Bolsas, accesorios, artículos de piel</div>
+        </div>
+      </div>
+      <div class="price-row">
+        <span class="label">Premium</span>
+        <span class="price">$3.50 / dc²</span>
+      </div>
+      <div class="price-row">
+        <span class="label">Económica</span>
+        <span class="price">$2 / dc²</span>
+      </div>
+    </div>
+
+    <!-- PIELES CON PELO -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-icon">🦁</span>
+        <div>
+          <div class="card-title">Pieles con Pelo</div>
+          <div class="card-sub">Pelo natural y decorativo</div>
+        </div>
+      </div>
+      <div class="price-row">
+        <span class="label">Regular</span>
+        <span class="price">$8 / dc²</span>
+      </div>
+      <p class="nota">Mínimo negociable: <span>$6 / dc²</span></p>
+    </div>
+  </div>
+
+  <!-- PEDACERA -->
+  <div class="section-title">Pedacera — por kilo</div>
+  <div class="card">
+    <div class="pedacera-grid">
+      <div class="pedacera-item">
+        <div class="p-precio">$20 <small style="font-size:12px">/kg</small></div>
+        <div class="p-label">Piel en Greña</div>
+        <div class="p-size">Retazos variados</div>
+      </div>
+      <div class="pedacera-item">
+        <div class="p-precio">$50 <small style="font-size:12px">/kg</small></div>
+        <div class="p-label">Piel Despatada</div>
+        <div class="p-size">Piezas ~40×40 cm</div>
+      </div>
+      <div class="pedacera-item" style="background:#1a1a1a; color:#fff;">
+        <div class="p-precio" style="color:#f5c842;">$80 <small style="font-size:12px">/kg</small></div>
+        <div class="p-label" style="color:#ddd;">Super Size</div>
+        <div class="p-size" style="color:#aaa;">Piezas ~80×80 cm</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MUESTRARIO -->
+  <div class="section-title">Muestrario</div>
+  <div class="grid" style="margin-top:0;">
+    <div class="muestrario-card">
+      <div>
+        <h3>🎨 MUESTRARIO ESTÁNDAR</h3>
+        <p>25 tonos de piel · Referencia de color profesional</p>
+        <span class="muestrario-gratis">🎁 GRATIS con compra de media hoja o hoja completa</span>
+      </div>
+      <div class="muestrario-price">
+        <div class="mp">$500</div>
+        <div class="ms">precio regular</div>
+      </div>
+    </div>
+    <div class="muestrario-card" style="background: linear-gradient(135deg, #2d4a1e 0%, #4a7a2e 100%);">
+      <div>
+        <h3>⭐ MUESTRARIO PERSONALIZADO</h3>
+        <p>10 hojas a tu elección · Colores que tú decides</p>
+        <span class="muestrario-gratis" style="background:#1a6b2e;">✏️ Tú escoges los colores</span>
+      </div>
+      <div class="muestrario-price">
+        <div class="mp">$350</div>
+        <div class="ms">precio especial</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAMBIÉN VENDEMOS -->
+  <div class="section-title">También vendemos</div>
+  <div class="grid three">
+    <div class="card" style="text-align:center; padding: 14px 10px;">
+      <div style="font-size:24px;">👨‍🍳</div>
+      <div style="font-weight:700; font-size:13px; margin-top:6px;">Mandiles de Piel</div>
+    </div>
+    <div class="card" style="text-align:center; padding: 14px 10px;">
+      <div style="font-size:24px;">🚗</div>
+      <div style="font-weight:700; font-size:13px; margin-top:6px;">Fundas de Asiento</div>
+    </div>
+    <div class="card" style="text-align:center; padding: 14px 10px;">
+      <div style="font-size:24px;">🐑</div>
+      <div style="font-weight:700; font-size:13px; margin-top:6px;">Borrego</div>
+    </div>
+    <div class="card" style="text-align:center; padding: 14px 10px;">
+      <div style="font-size:24px;">🖱️</div>
+      <div style="font-weight:700; font-size:13px; margin-top:6px;">Mousepads de Piel</div>
+    </div>
+    <div class="card" style="text-align:center; padding: 14px 10px;">
+      <div style="font-size:24px;">💻</div>
+      <div style="font-weight:700; font-size:13px; margin-top:6px;">Fundas de Laptop</div>
+    </div>
+  </div>
+
+  <!-- CANALES DE VENTA -->
+  <div class="section-title">Dónde comprar</div>
+  <div class="canales">
+    <div class="canal">🌐 maxipiel.com</div>
+    <div class="canal">🛍️ Mercado Libre</div>
+    <div class="canal">📦 Amazon</div>
+    <div class="canal">💬 WhatsApp directo</div>
+    <div class="canal">📍 León, Guanajuato</div>
+  </div>
+
+  <div class="footer" style="margin-top:20px;">
+    Maxipiel · Piel Genuina · León, Guanajuato, México · Los precios pueden variar según volumen y tipo de piel
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,95 @@
+{% assign now = 'now' | date: '%s' | plus: 0 %}
+{% assign start = '2026-05-25 06:00:00' | date: '%s' | plus: 0 %}
+{% assign end   = '2026-06-03 06:00:00' | date: '%s' | plus: 0 %}
+
+{% if now < start %}
+<!-- BANNER COUNTDOWN -->
+<div class="hs-banner" id="hs-countdown-banner" style="background:linear-gradient(135deg,#0f0f0f 0%,#1a1a2e 50%,#0f0f0f 100%);color:#fff;padding:12px 20px;text-align:center;border-bottom:2px solid #e8341a;position:relative;overflow:hidden;">
+  <style>
+    .hs-banner::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(232,52,26,0.08),transparent);animation:hs-shimmer 3s infinite}
+    @keyframes hs-shimmer{0%{left:-100%}100%{left:200%}}
+    .hs-flame{animation:hs-flicker 1.5s infinite alternate}
+    @keyframes hs-flicker{0%{transform:scale(1) rotate(-3deg)}100%{transform:scale(1.1) rotate(3deg)}}
+    .hs-inner{display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;max-width:1200px;margin:0 auto;position:relative;z-index:1}
+    .hs-num{font-size:22px;font-weight:900;color:#e8341a;font-variant-numeric:tabular-nums}
+    .hs-lbl{font-size:9px;color:#888;text-transform:uppercase;letter-spacing:1px;display:block;margin-top:2px}
+    .hs-sep{font-size:20px;font-weight:900;color:#e8341a;opacity:0.6;margin-bottom:6px}
+    .hs-div{width:1px;height:34px;background:rgba(255,255,255,0.15)}
+    .hs-cta-pre{background:#e8341a;color:#fff;padding:7px 18px;border-radius:4px;font-size:12px;font-weight:700;text-decoration:none;letter-spacing:.5px;white-space:nowrap}
+    @media(max-width:600px){
+      .hs-div{display:none}
+      .hs-banner{padding:6px 12px}
+      .hs-inner{gap:6px}
+      .hs-flame{font-size:14px!important}
+      .hs-inner>div:first-child>div>div:first-child{font-size:11px!important;letter-spacing:1px}
+      .hs-inner>div:first-child>div>div:last-child{font-size:9px!important}
+      .hs-num{font-size:13px!important}
+      .hs-lbl{font-size:7px!important}
+      .hs-sep{font-size:12px!important;margin-bottom:4px}
+      .hs-cta-pre{padding:4px 10px!important;font-size:10px!important}
+    }
+  </style>
+  <div class="hs-inner">
+    <div style="display:flex;align-items:center;gap:10px">
+      <span class="hs-flame" style="font-size:22px">🔥</span>
+      <div>
+        <div style="font-size:15px;font-weight:800;letter-spacing:2px;text-transform:uppercase">HOT SALE <span style="color:#e8341a">2026</span> se viene</div>
+        <div style="font-size:11px;color:#aaa;letter-spacing:1px;margin-top:2px">25 de mayo — 2 de junio &nbsp;·&nbsp; Descuentos de hasta 15%</div>
+      </div>
+    </div>
+    <div class="hs-div"></div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <div style="text-align:center;min-width:42px"><span class="hs-num" id="hs-d">00</span><span class="hs-lbl">días</span></div>
+      <div class="hs-sep">:</div>
+      <div style="text-align:center;min-width:42px"><span class="hs-num" id="hs-h">00</span><span class="hs-lbl">horas</span></div>
+      <div class="hs-sep">:</div>
+      <div style="text-align:center;min-width:42px"><span class="hs-num" id="hs-m">00</span><span class="hs-lbl">min</span></div>
+      <div class="hs-sep">:</div>
+      <div style="text-align:center;min-width:42px"><span class="hs-num" id="hs-s">00</span><span class="hs-lbl">seg</span></div>
+    </div>
+    <div class="hs-div"></div>
+    <a href="/collections/piel-automotriz" class="hs-cta-pre">Ver productos →</a>
+  </div>
+  <script>
+    (function(){var t=new Date('2026-05-25T00:00:00-06:00').getTime();function u(){var d=t-Date.now();if(d<=0){document.getElementById('hs-countdown-banner').style.display='none';return}document.getElementById('hs-d').textContent=String(Math.floor(d/86400000)).padStart(2,'0');document.getElementById('hs-h').textContent=String(Math.floor(d%86400000/3600000)).padStart(2,'0');document.getElementById('hs-m').textContent=String(Math.floor(d%3600000/60000)).padStart(2,'0');document.getElementById('hs-s').textContent=String(Math.floor(d%60000/1000)).padStart(2,'0')}u();setInterval(u,1000)})();
+  </script>
+</div>
+
+{% elsif now >= start and now < end %}
+<!-- BANNER HOT SALE ACTIVO -->
+<div class="hs-active" style="background:linear-gradient(135deg,#b01800,#e8341a,#ff6b00,#e8341a);background-size:300% 300%;color:#fff;padding:12px 20px;text-align:center;border-bottom:3px solid #ff6b00;position:relative;overflow:hidden;">
+  <style>
+    @keyframes hs-grad{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+    .hs-active{animation:hs-grad 6s ease infinite}
+    .hs-active::before{content:'';position:absolute;top:0;left:-100%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.12),transparent);animation:hs-shine 2.5s infinite}
+    @keyframes hs-shine{0%{left:-100%}100%{left:200%}}
+    @keyframes hs-flk{0%{transform:scale(1) rotate(-4deg)}100%{transform:scale(1.15) rotate(4deg)}}
+    .hs-f{animation:hs-flk 1s infinite alternate;font-size:22px}
+    .hs-ai{display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;max-width:1200px;margin:0 auto;position:relative;z-index:1}
+    .hs-bdg{background:rgba(0,0,0,0.25);border:1.5px solid rgba(255,255,255,0.35);border-radius:6px;padding:5px 12px;display:flex;align-items:center;gap:6px;white-space:nowrap}
+    .hs-pct{font-size:18px;font-weight:900;line-height:1}
+    .hs-bt{font-size:10px;line-height:1.3;opacity:.9;text-align:left}
+    .hs-dv{width:1px;height:30px;background:rgba(255,255,255,0.3)}
+    .hs-cta-a{background:#fff;color:#b01800;padding:7px 18px;border-radius:4px;font-size:12px;font-weight:800;text-decoration:none;letter-spacing:.5px;white-space:nowrap;text-transform:uppercase}
+    @media(max-width:700px){.hs-dv{display:none}.hs-pct{font-size:15px}}
+  </style>
+  <div class="hs-ai">
+    <div style="display:flex;align-items:center;gap:8px">
+      <span class="hs-f">🔥</span>
+      <span style="font-size:18px;font-weight:900;letter-spacing:3px;text-shadow:0 2px 8px rgba(0,0,0,0.4)">HOT SALE 2026</span>
+      <span class="hs-f">🔥</span>
+    </div>
+    <div class="hs-dv"></div>
+    <div class="hs-bdg"><span class="hs-pct">15%</span><span class="hs-bt">OFF<br>Hoja Entera</span></div>
+    <div class="hs-bdg"><span class="hs-pct">10%</span><span class="hs-bt">OFF<br>Media Hoja</span></div>
+    <div class="hs-bdg"><span class="hs-pct">10%</span><span class="hs-bt">OFF<br>Accesorios</span></div>
+    <div class="hs-dv"></div>
+    <div style="font-size:11px;opacity:.9;display:flex;align-items:center;gap:6px">⏳ Termina en: <span id="hs-et" style="font-weight:700;background:rgba(0,0,0,0.2);padding:2px 8px;border-radius:20px;font-variant-numeric:tabular-nums">--</span></div>
+    <a href="/collections/piel-automotriz" class="hs-cta-a">¡Comprar ahora!</a>
+  </div>
+  <script>
+    (function(){var e=new Date('2026-06-03T00:00:00-06:00').getTime();function u(){var d=e-Date.now();if(d<=0){document.querySelector('.hs-active').style.display='none';return}var dv=Math.floor(d/86400000),hv=Math.floor(d%86400000/3600000),mv=Math.floor(d%3600000/60000);document.getElementById('hs-et').textContent=dv+'d '+String(hv).padStart(2,'0')+'h '+String(mv).padStart(2,'0')+'m'}u();setInterval(u,30000)})();
+  </script>
+</div>
+
+{% endif %}

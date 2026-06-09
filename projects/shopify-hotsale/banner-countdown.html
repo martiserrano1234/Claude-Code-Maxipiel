@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background:#111; }
+
+  .hs-banner {
+    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 50%, #0f0f0f 100%);
+    color: #fff;
+    padding: 14px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 2px solid #e8341a;
+  }
+
+  .hs-banner::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(232,52,26,0.08), transparent);
+    animation: shimmer 3s infinite;
+  }
+
+  @keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 200%; }
+  }
+
+  .hs-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .hs-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hs-flame { font-size: 22px; animation: flicker 1.5s infinite alternate; }
+  @keyframes flicker {
+    0% { transform: scale(1) rotate(-3deg); }
+    100% { transform: scale(1.1) rotate(3deg); }
+  }
+
+  .hs-title {
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #fff;
+  }
+
+  .hs-title span {
+    color: #e8341a;
+  }
+
+  .hs-date {
+    font-size: 12px;
+    color: #aaa;
+    margin-top: 2px;
+    letter-spacing: 1px;
+  }
+
+  .hs-divider {
+    width: 1px;
+    height: 36px;
+    background: rgba(255,255,255,0.15);
+  }
+
+  .hs-countdown {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .hs-unit {
+    text-align: center;
+    min-width: 44px;
+  }
+
+  .hs-num {
+    display: block;
+    font-size: 22px;
+    font-weight: 900;
+    color: #e8341a;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .hs-lbl {
+    display: block;
+    font-size: 9px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 2px;
+  }
+
+  .hs-sep {
+    font-size: 20px;
+    font-weight: 900;
+    color: #e8341a;
+    margin-bottom: 8px;
+    opacity: 0.6;
+  }
+
+  .hs-cta {
+    background: #e8341a;
+    color: #fff;
+    padding: 7px 18px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    transition: background 0.2s;
+  }
+  .hs-cta:hover { background: #c42a14; }
+
+  @media (max-width: 600px) {
+    .hs-divider { display: none; }
+    .hs-banner { padding: 10px 14px; }
+    .hs-inner { gap: 12px; }
+    .hs-num { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hs-banner" id="hs-countdown-banner">
+  <div class="hs-inner">
+    <div class="hs-label">
+      <span class="hs-flame">🔥</span>
+      <div>
+        <div class="hs-title">HOT SALE <span>2026</span> se viene</div>
+        <div class="hs-date">25 de mayo — 2 de junio · Descuentos de hasta 15%</div>
+      </div>
+    </div>
+
+    <div class="hs-divider"></div>
+
+    <div class="hs-countdown">
+      <div class="hs-unit">
+        <span class="hs-num" id="hs-days">00</span>
+        <span class="hs-lbl">días</span>
+      </div>
+      <div class="hs-sep">:</div>
+      <div class="hs-unit">
+        <span class="hs-num" id="hs-hours">00</span>
+        <span class="hs-lbl">horas</span>
+      </div>
+      <div class="hs-sep">:</div>
+      <div class="hs-unit">
+        <span class="hs-num" id="hs-mins">00</span>
+        <span class="hs-lbl">min</span>
+      </div>
+      <div class="hs-sep">:</div>
+      <div class="hs-unit">
+        <span class="hs-num" id="hs-secs">00</span>
+        <span class="hs-lbl">seg</span>
+      </div>
+    </div>
+
+    <div class="hs-divider"></div>
+
+    <a href="/collections/piel-automotriz" class="hs-cta">Ver productos →</a>
+  </div>
+</div>
+
+<script>
+  (function() {
+    var target = new Date('2026-05-25T00:00:00-06:00').getTime();
+    function update() {
+      var now = Date.now();
+      var diff = target - now;
+      if (diff <= 0) {
+        document.getElementById('hs-countdown-banner').style.display = 'none';
+        return;
+      }
+      var d = Math.floor(diff / 86400000);
+      var h = Math.floor((diff % 86400000) / 3600000);
+      var m = Math.floor((diff % 3600000) / 60000);
+      var s = Math.floor((diff % 60000) / 1000);
+      document.getElementById('hs-days').textContent = String(d).padStart(2,'0');
+      document.getElementById('hs-hours').textContent = String(h).padStart(2,'0');
+      document.getElementById('hs-mins').textContent = String(m).padStart(2,'0');
+      document.getElementById('hs-secs').textContent = String(s).padStart(2,'0');
+    }
+    update();
+    setInterval(update, 1000);
+  })();
+</script>
+
+</body>
+</html>

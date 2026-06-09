@@ -1,0 +1,9 @@
+﻿Orden,Fecha,Hora,Destino,Producto,Cantidad,Precio Unitario,Descuento,Total Orden,Pago,Envio
+#1036,2026-05-14,10:21,Quintana Roo,"Pedacera De Piel Genuina - Elige Color, Peso y Tamano",1,464.00,0.00,813.00,Pagado,Entregado
+#1038,2026-05-21,02:50,Puebla,"Pedacera De Piel Genuina - Elige Color, Peso y Tamano",1,290.00,0.00,639.00,Pagado,Entregado
+#1039,2026-05-21,04:17,Sonora,Cuero Top Grain King Ranch,1,1392.00,,,,
+,,,,Cuero Top Grain Camel - Medio Cuero,1,1392.00,,,,
+,,,,Cuero Top Grain Camel - Cuero Entero,1,2784.00,,,,
+,,,,Alcantara Chedron - Hoja Entera,1,2399.99,1195.19,6772.80,Pagado,Entregado
+,,,,,,,,,,
+TOTAL,,,,,7 productos,,1195.19,8224.80,,3 pedidos

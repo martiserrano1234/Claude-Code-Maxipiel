@@ -1,0 +1,15 @@
+# URLs permanentes de Sofía en Higgsfield
+# Usar estas URLs como image_url en los prompts de generación
+
+https://d3snorpfx4xhv8.cloudfront.net/cdbb7a62-2f07-481f-a000-92b09f733613/ccd95366-cd71-48c4-885b-b0aa150e0644.png
+https://d3snorpfx4xhv8.cloudfront.net/cdbb7a62-2f07-481f-a000-92b09f733613/927b3729-2960-4976-9164-9494a4b5c7bd.png
+https://d3snorpfx4xhv8.cloudfront.net/cdbb7a62-2f07-481f-a000-92b09f733613/8f49f474-f7c8-490a-b4a8-781fd48c19b5.png
+https://d3snorpfx4xhv8.cloudfront.net/cdbb7a62-2f07-481f-a000-92b09f733613/ca668627-2183-4d1b-9a2c-72840d673af1.png
+https://d3snorpfx4xhv8.cloudfront.net/cdbb7a62-2f07-481f-a000-92b09f733613/9051669c-144d-4d87-8c5a-3c8b5e6788f0.png
+https://d3snorpfx4xhv8.cloudfront.net/cdbb7a62-2f07-481f-a000-92b09f733613/e5c0e89f-435d-4610-85dc-b1398f1d8547.png
+https://d3snorpfx4xhv8.cloudfront.net/cdbb7a62-2f07-481f-a000-92b09f733613/6886056a-1081-4cb2-9f2e-816db6dfb5cf.png
+https://d3snorpfx4xhv8.cloudfront.net/cdbb7a62-2f07-481f-a000-92b09f733613/745a2dfb-aade-408f-9343-32b63e3361df.png
+https://d3snorpfx4xhv8.cloudfront.net/cdbb7a62-2f07-481f-a000-92b09f733613/0a8fd8ea-1981-4162-a23f-b2c8845608dd.png
+https://d3snorpfx4xhv8.cloudfront.net/cdbb7a62-2f07-481f-a000-92b09f733613/f067b618-e9c0-4134-8c5c-0cab80b325e4.png
+https://d3snorpfx4xhv8.cloudfront.net/cdbb7a62-2f07-481f-a000-92b09f733613/427a9bcd-d926-431f-b8bc-d0c84e4416e7.png
+https://d3snorpfx4xhv8.cloudfront.net/cdbb7a62-2f07-481f-a000-92b09f733613/5d95c41a-52dd-4d2e-b8ef-fc11a9a164cc.png
