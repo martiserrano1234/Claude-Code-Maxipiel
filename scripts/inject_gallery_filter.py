@@ -1,7 +1,7 @@
 import sys, json, urllib.request
 sys.stdout.reconfigure(encoding='utf-8')
 
-HEADERS = {"X-Shopify-Access-Token": "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"}
+HEADERS = {"X-Shopify-Access-Token": "TU_SHOPIFY_TOKEN"}
 url = "https://maxipiel.myshopify.com/admin/api/2024-01/themes/144344481892/assets.json?asset[key]=layout/theme.liquid"
 req = urllib.request.Request(url, headers=HEADERS)
 with urllib.request.urlopen(req) as r:

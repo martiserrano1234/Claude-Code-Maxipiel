@@ -1,7 +1,7 @@
 import urllib.request, json, base64, time, sys
 from pathlib import Path
 
-TOKEN = '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'
+TOKEN = 'TU_SHOPIFY_TOKEN'
 SHOP = 'maxipiel.myshopify.com'
 IMG_DIR = Path('C:/Users/danie/Downloads')
 PRECIO = '800.00'

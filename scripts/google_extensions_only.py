@@ -3,10 +3,10 @@ sys.stdout.reconfigure(encoding='utf-8')
 from google.ads.googleads.client import GoogleAdsClient
 
 config = {
-    'developer_token': 'qRHTvVSGPemQVQoI9w6LcQ',
-    'client_id': '451512178532-ij2h08ngks7d2t5dag7138eeeefjjeon.apps.googleusercontent.com',
-    'client_secret': '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',
-    'refresh_token': '1//04UneP8IZhT1BCgYIARAAGAQSNwF-L9IrxC5NMccmt94Ji59DXvHb-ggvV8BtGo_eytfuAOlZqkqjzckOTl8k7mt7-pBEI0ON7Zc',
+    'developer_token': 'TU_DEVELOPER_TOKEN',
+    'client_id': 'TU_CLIENT_ID',
+    'client_secret': 'TU_CLIENT_SECRET',
+    'refresh_token': 'TU_REFRESH_TOKEN',
     'login_customer_id': '4020002227',
     'use_proto_plus': True
 }
