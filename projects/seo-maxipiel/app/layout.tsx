@@ -37,6 +37,9 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true },
   },
+  verification: {
+    other: { "msvalidate.01": "5709F4DBD7AABBF84DB9DB02FCE67EF6" },
+  },
   alternates: {
     canonical: SITE_URL,
   },
