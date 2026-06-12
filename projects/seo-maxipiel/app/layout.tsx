@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   },
   description:
     "Guías prácticas de piel y tapicería para profesionales. Aprende a elegir el cuero correcto para muebles, autos, calzado y marroquinería.",
-  keywords: ["piel para tapicería", "cuero para muebles", "tapicería automotriz", "piel genuina México"],
+  keywords: ["piel para tapicería", "cuero para muebles", "tapicería automotriz", "piel genuina México", "tapicería náutica", "piel para tapizar yates", "piel para tapizar jets"],
   authors: [{ name: "Maxipiel" }],
   creator: "Maxipiel",
   publisher: "Maxipiel",
@@ -68,8 +68,8 @@ export default function RootLayout({
           <div className="max-w-4xl mx-auto text-center text-sm text-gray-500">
             <p className="font-medium text-gray-700">Maxipiel — León, Guanajuato</p>
             <div className="mt-2 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6">
-              <a href="tel:4778429419" className="hover:text-red-800">
-                📞 477 842 9419
+              <a href="tel:4791424121" className="hover:text-red-800">
+                📞 479 142 4121
               </a>
               <a href="mailto:maxipielmercadotecnia@gmail.com" className="hover:text-red-800">
                 ✉️ maxipielmercadotecnia@gmail.com
