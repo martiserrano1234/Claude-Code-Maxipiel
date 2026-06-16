@@ -1,4 +1,7 @@
 .env
+secrets.local.json
+**/secrets.local.json
+*.secrets.json
 CLAUDE.local.md
 .claude/settings.local.json
 .claude/settings.json
@@ -6,3 +9,29 @@ CLAUDE.local.md
 node_modules/
 .venv/
 .gitignore
+
+# Datos sensibles de clientes
+projects/leads-sofia/*.csv
+projects/leads-sofia/wa_link_maxipiel.txt
+contratos/
+
+# Temporales y snapshots
+_ml_tmp/
+_shopify_tmp/
+_sky/
+temp_*.json
+response.json
+v22_snapshot.json
+v24_connections.json
+v24_nodes.json
+v24_snapshot.json
+
+# Binarios pesados / assets locales
+*.mov
+*.MOV
+banners_categorias/
+frames_mandil/
+frames_piel/
+gbp_fotos/
+previews_ads/
+referencias_imagenes/
