@@ -75,6 +75,7 @@ const html = `<!doctype html>
 <meta property="og:image" content="${foto(items[0].img, 1200)}">
 <meta property="og:locale" content="es_MX">
 <link rel="preconnect" href="https://cdn.shopify.com">
+<link rel="preload" href="fonts/rubik-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="icon" href="img/logo.png">
 
 <!-- Google tag (gtag.js) -->
@@ -87,6 +88,17 @@ const html = `<!doctype html>
 </script>
 
 <style>
+/* Rubik variable, servida desde el propio dominio: un solo archivo de 34 KB,
+   subset latin (cubre todos los acentos del español). Sin peticiones a Google.
+   font-display:swap para que el texto se lea desde el primer frame. */
+@font-face{
+  font-family:'Rubik';
+  src:url('fonts/rubik-latin.woff2') format('woff2-variations');
+  font-weight:300 900;
+  font-style:normal;
+  font-display:swap;
+}
+
 /* ============================================================
    Tokens. Un solo tema a la vez: oscuro por defecto (expresion
    de marca), claro si el sistema lo pide. Ninguna seccion invierte.
@@ -112,8 +124,8 @@ const html = `<!doctype html>
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--txt);
-  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  line-height:1.55;-webkit-font-smoothing:antialiased}
+  font-family:'Rubik',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 img{display:block;max-width:100%;height:auto}
 a{color:inherit}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
@@ -237,11 +249,39 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 22px;justify-content:space-betw
   .cita{padding:22px 22px}
   .cita p{font-size:17.5px}
 }
+/* ---------- estados iniciales de animacion ----------
+   Solo se aplican si la clase .anim esta en <html>, y esa clase la pone un
+   script que se quita solo si Motion no carga. Sin JS o con el CDN caido,
+   NADA queda oculto: la pagina se ve completa. */
+.anim [data-anim]{opacity:0}
+.anim [data-anim="up"]{transform:translateY(18px)}
+.anim [data-anim="pop"]{transform:scale(.96)}
+
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
-  *{transition:none !important}
+  *{transition:none !important;animation:none !important}
+  .anim [data-anim]{opacity:1 !important;transform:none !important}
 }
 </style>
+<script>
+  /* Marca que vamos a animar, salvo que el visitante pida menos movimiento.
+     El temporizador de seguridad revela todo si Motion nunca carga; el modulo
+     lo cancela en cuanto Motion responde, para no matar los efectos de scroll. */
+  (function(){
+    try{
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var h = document.documentElement;
+      h.classList.add('anim');
+      window.__revelarTodo = function(){
+        h.classList.remove('anim');
+        document.querySelectorAll('.sw').forEach(function(s){
+          s.style.opacity = ''; s.style.transform = '';
+        });
+      };
+      window.__animSeguro = setTimeout(window.__revelarTodo, 2500);
+    }catch(e){}
+  })();
+</script>
 </head>
 <body>
 ${spriteWA}
@@ -262,30 +302,30 @@ ${spriteWA}
 <header class="hero">
   <div class="wrap">
     <div>
-      <h1>Piel para tapizar,<br><b>${items.length} colores</b> en existencia</h1>
-      <p class="sub">Cuero top grain para salas, sillones, sillas y automotriz. Te vendemos una hoja o el material de todo un taller.</p>
-      <div class="hero-cta">
+      <h1 data-anim="up">Piel para tapizar,<br><b>${items.length} colores</b> en existencia</h1>
+      <p class="sub" data-anim="up">Cuero top grain para salas, sillones, sillas y automotriz. Te vendemos una hoja o el material de todo un taller.</p>
+      <div class="hero-cta" data-anim="up">
         ${btnWA('wa-hero', 'Cotizar por WhatsApp')}
         <a class="btn-sec" id="store-hero" href="${TIENDA}" target="_blank" rel="noopener">Ver catálogo completo</a>
       </div>
     </div>
-    <div class="mosaico">${mosaico}
+    <div class="mosaico" data-anim="pop">${mosaico}
     </div>
   </div>
 </header>
 
 <div class="cifras">
   <div class="wrap">
-    <div><b>+${stockRedondo}</b><span>cueros en almacén hoy</span></div>
-    <div><b>${items.length}</b><span>colores listos para salir</span></div>
-    <div><b>Mismo día</b><span>entrega en León, envíos a todo México</span></div>
+    <div data-anim="up"><b data-cuenta="${stockTotal}">+${stockRedondo}</b><span>cueros en almacén hoy</span></div>
+    <div data-anim="up"><b>${items.length}</b><span>colores listos para salir</span></div>
+    <div data-anim="up"><b>Mismo día</b><span>entrega en León, envíos a todo México</span></div>
   </div>
 </div>
 
 <section>
   <div class="wrap">
-    <h2>Los ${items.length} colores que tenemos hoy</h2>
-    <p class="lead">Fotos del material real, no renders. Ningún color baja de ${stockMinimo} piezas en almacén, así que no te quedas a media sala esperando resurtido. Toca cualquiera para ver medidas y disponibilidad.</p>
+    <h2 data-anim="up">Los ${items.length} colores que tenemos hoy</h2>
+    <p class="lead" data-anim="up">Fotos del material real, no renders. Ningún color baja de ${stockMinimo} piezas en almacén, así que no te quedas a media sala esperando resurtido. Toca cualquiera para ver medidas y disponibilidad.</p>
     <div class="muro">${swatches}
     </div>
   </div>
@@ -293,8 +333,8 @@ ${spriteWA}
 
 <section>
   <div class="wrap">
-    <h2>Cómo se vende</h2>
-    <p class="lead">La piel se vende por pieza, no por metro lineal como la tela. Estas son las medidas que manejamos.</p>
+    <h2 data-anim="up">Cómo se vende</h2>
+    <p class="lead" data-anim="up">La piel se vende por pieza, no por metro lineal como la tela. Estas son las medidas que manejamos.</p>
     <div class="precios">
       <div class="pz top">
         <h3>Cuero entero</h3>
@@ -320,8 +360,8 @@ ${spriteWA}
 
 <section>
   <div class="wrap">
-    <h2>Trabajos hechos con nuestra piel</h2>
-    <p class="lead">Tapicería automotriz de clientes que nos compran el material. Si quieres ver más, pídelas por WhatsApp y te mandamos el álbum completo.</p>
+    <h2 data-anim="up">Trabajos hechos con nuestra piel</h2>
+    <p class="lead" data-anim="up">Tapicería automotriz de clientes que nos compran el material. Si quieres ver más, pídelas por WhatsApp y te mandamos el álbum completo.</p>
     <div class="trabajos">
       <div class="grande"><img src="img/trabajo1.jpg" alt="Asiento de camioneta retapizado en piel color camel" loading="lazy" width="800" height="800"></div>
       <div class="lado">
@@ -334,7 +374,7 @@ ${spriteWA}
 
 <section>
   <div class="wrap">
-    <h2>Lo que dicen quienes ya compraron</h2>
+    <h2 data-anim="up">Lo que dicen quienes ya compraron</h2>
     <div class="cita">
       <p>“Encontré esta hermosa pieza de piel. La textura al tacto es sumamente tersa. Definitivamente volveré a comprar en este sitio.”</p>
       <cite><b>Jose Martinez</b>, sobre el Cuero Top Grain Oxblood. Reseña verificada, 5 estrellas.</cite>
@@ -344,8 +384,8 @@ ${spriteWA}
 
 <section>
   <div class="wrap">
-    <h2>Preguntas frecuentes</h2>
-    <p class="lead">Lo que más nos preguntan los tapiceros antes de su primer pedido.</p>
+    <h2 data-anim="up">Preguntas frecuentes</h2>
+    <p class="lead" data-anim="up">Lo que más nos preguntan los tapiceros antes de su primer pedido.</p>
 
     <details><summary>¿Cuánto material necesito para una sala?</summary>
       <p>Depende del modelo, pero una sala de 3 piezas normalmente lleva entre 3 y 5 cueros enteros. Mándanos foto por WhatsApp y te lo calculamos antes de que compres, así no te sobra ni te falta.</p></details>
@@ -369,8 +409,8 @@ ${spriteWA}
 
 <section class="cierre">
   <div class="wrap">
-    <h2>¿Qué vas a tapizar?</h2>
-    <p class="lead">Mándanos foto de tu proyecto y te decimos cuánto material necesitas y cuánto te sale. Lunes a Sábado de 10:00 a 18:00.</p>
+    <h2 data-anim="up">¿Qué vas a tapizar?</h2>
+    <p class="lead" data-anim="up">Mándanos foto de tu proyecto y te decimos cuánto material necesitas y cuánto te sale. Lunes a Sábado de 10:00 a 18:00.</p>
     <div class="hero-cta">
       ${btnWA('wa-final', 'Cotizar por WhatsApp')}
       <a class="btn-sec" id="store-final" href="${TIENDA}" target="_blank" rel="noopener">Ver catálogo completo</a>
@@ -413,6 +453,85 @@ ${spriteWA}
     }
   } catch(err){ /* si falla, los enlaces siguen funcionando normal */ }
 })();
+</script>
+
+<script type="module">
+/* ============================================================
+   Movimiento con Motion. Cada animacion tiene una razon:
+     hero      -> jerarquia: lleva la vista del titular al boton
+     mosaico   -> el producto entra en escena
+     cifra     -> subraya el dato de confianza (inventario real)
+     muro      -> 24 fotos de golpe abruman; entran escalonadas
+     secciones -> ritmo de lectura al bajar
+   Si el CDN falla o el visitante pide menos movimiento, la pagina
+   se muestra completa y estatica. Nunca queda contenido oculto.
+   ============================================================ */
+
+const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if (!quieto) {
+  try {
+    /* Motion 13 no exporta stagger desde el bundle del DOM, asi que el
+       escalonado se calcula a mano con delay por indice. Importar stagger
+       tiraria un error y dejaria la pagina sin animar. */
+    const { animate, inView } = await import('https://cdn.jsdelivr.net/npm/motion@13/+esm');
+
+    /* Motion cargo: cancelar la red de seguridad para que los efectos de
+       scroll sigan vivos. La clase .anim se queda; las animaciones ganan
+       porque escriben estilos en linea, que pesan mas que la regla CSS. */
+    clearTimeout(window.__animSeguro);
+
+    const suave = [0.16, 1, 0.3, 1];
+
+    /* Keyframes explicitos (de -> a) para no depender del estado calculado */
+    const subir = (el, i = 0, dur = .55) =>
+      animate(el, { opacity: [0, 1], y: [18, 0] },
+        { duration: dur, delay: i * 0.075, ease: suave });
+
+    /* Entrada del hero, en secuencia: titular, texto, botones */
+    document.querySelectorAll('.hero [data-anim="up"]').forEach((el, i) => subir(el, i, .6));
+    const mos = document.querySelector('.mosaico');
+    if (mos) animate(mos, { opacity: [0, 1], scale: [.96, 1] },
+      { duration: .7, delay: .12, ease: suave });
+
+    /* Cifra de inventario: cuenta hacia arriba para que el ojo se detenga ahi */
+    const cifra = document.querySelector('[data-cuenta]');
+    if (cifra) {
+      const meta = parseInt(cifra.dataset.cuenta, 10) || 0;
+      const fin = cifra.textContent;
+      inView(cifra.closest('.cifras'), () => {
+        animate(0, meta, {
+          duration: 1.1, ease: 'easeOut',
+          onUpdate: v => { cifra.textContent = '+' + (Math.floor(v / 100) * 100).toLocaleString('es-MX'); },
+          onComplete: () => { cifra.textContent = fin; }
+        });
+      }, { amount: 0.5 });
+    }
+
+    /* Secciones y franja de cifras: aparecen al entrar en pantalla */
+    document.querySelectorAll('section [data-anim], .cifras [data-anim]').forEach(el => {
+      inView(el, () => subir(el), { amount: 0.2 });
+    });
+
+    /* Muro de colores: 24 fotos de golpe abruman, entran escalonadas */
+    const muro = document.querySelector('.muro');
+    if (muro) {
+      const swatches = [...muro.querySelectorAll('.sw')];
+      swatches.forEach(s => { s.style.opacity = '0'; });
+      inView(muro, () => {
+        swatches.forEach((s, i) => {
+          animate(s, { opacity: [0, 1], y: [14, 0] },
+            { duration: .5, delay: Math.min(i * 0.028, .8), ease: suave });
+        });
+      }, { amount: 0.1 });
+    }
+
+  } catch (e) {
+    /* Motion no cargo o algo trono: revelar todo tal cual, sin animar */
+    clearTimeout(window.__animSeguro);
+    if (window.__revelarTodo) window.__revelarTodo();
+  }
+}
 </script>
 </body>
 </html>

@@ -49,6 +49,43 @@ La página se rehizo pasando su pre-flight completo. Lo que cambió y por qué:
 
 **Detalles técnicos:** el glifo de WhatsApp se define una vez como `<symbol>` y se reutiliza con `<use>` en los 3 botones (antes eran 3 copias del mismo path, 3.5 KB de más). Todas las imágenes llevan `width`/`height` para no provocar saltos de layout, y `alt` descriptivo.
 
+## Tipografía
+
+**Rubik variable**, autohospedada en `fonts/rubik-latin.woff2` (34 KB, un solo archivo, pesos 300 a 900).
+
+Se eligió consultando `typography.csv` de la skill `ui-ux-pro-max`: es el par "E-commerce Clean", recomendado explícitamente para páginas de producto, retail y conversión. Verificado que cubre todos los acentos del español.
+
+Se sirve **desde el propio dominio, no desde Google Fonts**: evita una petición a un tercero y el retraso de la cadena DNS + conexión. Va con `preload` y `font-display:swap`, así el texto se lee desde el primer frame aunque la fuente aún no llegue.
+
+## Movimiento
+
+Animaciones con **Motion 13**, cargado desde `cdn.jsdelivr.net` como módulo ES. No se usa el paquete de npm: la página no tiene bundler y meter uno mataría su simplicidad.
+
+Cada animación tiene una razón declarada en el código:
+
+| Elemento | Por qué se mueve |
+|---|---|
+| Hero (titular, texto, botones) | Jerarquía: lleva la vista del titular al botón |
+| Mosaico de fotos | El producto entra en escena |
+| Cifra de inventario | Cuenta hacia arriba para que el ojo se detenga en el dato de confianza |
+| Muro de 24 colores | 24 fotos de golpe abruman; entran escalonadas al hacer scroll |
+| Títulos de sección | Ritmo de lectura al bajar |
+
+### La red de seguridad (importante)
+
+El contenido **nunca puede quedar invisible**. El mecanismo:
+
+1. Un script síncrono pone la clase `.anim` en `<html>`, que es la única que oculta los elementos
+2. Ese mismo script programa un temporizador de 2.5 s que quita la clase
+3. Si Motion carga bien, el módulo **cancela** ese temporizador y anima
+4. Si Motion falla, el `catch` revela todo de inmediato
+
+Sin JavaScript, con el CDN caído o con `prefers-reduced-motion` activo, la página se ve completa y estática.
+
+> **Nota sobre `stagger`:** Motion 13 **no lo exporta** desde el bundle del DOM. Importarlo lanza un error que deja la página sin animar. El escalonado se calcula a mano con `delay: i * n`. No volver a introducir ese import.
+
+> **Nota sobre npm:** hay un `package.json` local con `motion` instalado, pero **no se commitea**: la página usa el CDN, y tener `package.json` en el directorio raíz de Vercel puede disparar un build innecesario.
+
 ### Lo que falta y necesita material de Maxipiel
 
 Ya integrados (2026-08-05): logo en el nav (recortado con fondo transparente desde `logo maxipiel.jpeg`), 3 fotos de trabajos de clientes, y 1 testimonio real.
