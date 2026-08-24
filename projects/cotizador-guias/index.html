@@ -185,6 +185,20 @@
 
         <hr class="border-amber-100 mb-6">
 
+        <!-- Referencia -->
+        <div class="mb-6">
+          <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">🏷️ Referencia</h3>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Referencia de la guía <span class="text-gray-400 font-normal">(sí aparece impresa en la guía)</span></label>
+            <input type="text" name="referencia" maxlength="30"
+              class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+              placeholder="Pedido Maxipiel">
+            <p id="hintRef" class="text-xs text-gray-400 mt-1">Si lo dejas vacío se usa "Pedido Maxipiel". Máximo 30 caracteres.</p>
+          </div>
+        </div>
+
+        <hr class="border-amber-100 mb-6">
+
         <!-- Contenido -->
         <div class="mb-6">
           <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">📝 Contenido del paquete</h3>
@@ -469,6 +483,7 @@
         <div class="flex justify-between"><span class="text-gray-400">Tracking:</span><span class="font-mono font-bold">${tracking}</span></div>
         <div class="flex justify-between"><span class="text-gray-400">Paquetería:</span><span>${shipment.carrier || '—'}</span></div>
         <div class="flex justify-between"><span class="text-gray-400">Destinatario:</span><span>${formData.nombre}</span></div>
+        <div class="flex justify-between"><span class="text-gray-400">Referencia:</span><span>${(formData.referencia || '').trim() || 'Pedido Maxipiel'}</span></div>
         <div class="flex justify-between"><span class="text-gray-400">Destino:</span><span>${formData.ciudad}, ${formData.estado} CP ${formData.cp_destino}</span></div>
       `;
 
