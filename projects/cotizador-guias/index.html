@@ -271,6 +271,7 @@
     const N8N = 'https://primary-production-dc7a.up.railway.app/webhook';
     let cotizacionData = null;
     let selectedRate = null;
+    let selectedFuente = 'skydropx';
     let formData = null;
 
     const $ = id => document.getElementById(id);
@@ -371,6 +372,10 @@
       return carrierEmoji[key] || ('📦 ' + (displayName || providerName));
     }
 
+    // De qué servicio viene la tarifa
+    const fuenteNombre = { skydropx: 'Skydropx', soloenvios: 'SoloEnvíos' };
+    const fuenteColor = { skydropx: 'bg-sky-100 text-sky-800', soloenvios: 'bg-purple-100 text-purple-800' };
+
     // Cotizar
     $('cotizadorForm').addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -381,7 +386,7 @@
       formData = Object.fromEntries(fd.entries());
 
       try {
-        const res = await fetch(`${N8N}/cotizar-envio`, {
+        const res = await fetch(`${N8N}/cotizar-multi`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(formData)
@@ -393,7 +398,7 @@
 
         const quotation = data.data || data;
 
-        if (!quotation || (!quotation.rates && !quotation.id)) {
+        if (!quotation || !quotation.rates) {
           throw new Error('No se recibieron cotizaciones. Verifica los datos e intenta de nuevo.');
         }
 
@@ -402,7 +407,7 @@
 
       } catch (err) {
         hide('loadingCotizar');
-        showError(err.message || 'No se pudo conectar con Skydropx.');
+        showError(err.message || 'No se pudo conectar con las paqueterías.');
       }
     });
 
@@ -419,28 +424,40 @@
 
       rates.sort((a, b) => parseFloat(a.total) - parseFloat(b.total));
 
-      $('listaPrecios').innerHTML = rates.map((rate, i) => `
-        <div class="carrier-card border-2 border-gray-200 rounded-xl p-4 cursor-pointer bg-white"
-             data-rate-id="${rate.id}" data-index="${i}" onclick="selectRate(this, '${rate.id}')">
+      const masBarata = rates[0];
+
+      $('listaPrecios').innerHTML = rates.map((rate, i) => {
+        const fuente = rate.fuente || 'skydropx';
+        const nombreFuente = fuenteNombre[fuente] || fuente;
+        const esMejor = rate === masBarata;
+        return `
+        <div class="carrier-card border-2 border-gray-200 rounded-xl p-4 cursor-pointer bg-white relative"
+             data-rate-id="${rate.id}" data-index="${i}" onclick="selectRate(this, '${rate.id}', '${fuente}')">
+          ${esMejor ? '<span class="absolute -top-2 -right-2 bg-green-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">MÁS BARATA</span>' : ''}
           <div class="flex items-center justify-between mb-2">
-            <span class="font-semibold text-gray-800">${getCarrierName(rate.provider_name, rate.provider_display_name)}</span>
+            <span class="font-semibold text-gray-800">${getCarrierName(rate.provider_name, rate.provider_display_name)} <span class="text-gray-400 font-normal">(${nombreFuente})</span></span>
             <span class="text-xl font-bold text-amber-800">$${parseFloat(rate.total).toFixed(2)}</span>
           </div>
           <div class="flex items-center justify-between text-sm text-gray-500">
             <span>${rate.provider_service_name || ''}</span>
             <span>${rate.days ? `${rate.days} día${rate.days > 1 ? 's' : ''}` : ''}</span>
           </div>
+          <div class="mt-2">
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded ${fuenteColor[fuente] || 'bg-gray-100 text-gray-700'}">${nombreFuente}</span>
+          </div>
         </div>
-      `).join('');
+      `;}).join('');
 
       show('resultados');
     }
 
-    function selectRate(el, rateId) {
+    function selectRate(el, rateId, fuente) {
       document.querySelectorAll('.carrier-card').forEach(c => c.classList.remove('selected'));
       el.classList.add('selected');
       selectedRate = rateId;
+      selectedFuente = fuente || 'skydropx';
       $('btnGenerarGuia').disabled = false;
+      $('btnGenerarGuia').textContent = `Generar guía con ${fuenteNombre[selectedFuente] || selectedFuente} →`;
     }
 
     // Generar guía
@@ -451,7 +468,8 @@
 
       const payload = {
         ...formData,
-        quotation_id: cotizacionData.id,
+        fuente: selectedFuente,
+        quotation_id: (cotizacionData.quotations || {})[selectedFuente] || cotizacionData.id,
         rate_id: selectedRate
       };
 
