@@ -20,6 +20,8 @@ Eso importa, porque las propiedades que la hacen útil vienen justamente de esa 
 
 Medidas típicas de una pieza grande: **entre 100 y 120 cm de largo por 65 a 75 cm de ancho**. Al ser producto de origen animal, cada pieza varía. Una zalea que mida exactamente lo mismo que otra probablemente no es natural.
 
+> Si buscas la información general del producto (medidas, precios, usos y cuidados), la tenemos en [Zalea de borrego: qué es, para qué sirve y cómo elegir una](/guias/zalea-de-borrego-que-es-para-que-sirve). Esta guía se enfoca en el uso para personas en cama.
+
 ## Cómo ayuda realmente contra las llagas y escaras
 
 Las úlceras por presión, conocidas como escaras o llagas, aparecen cuando el peso del cuerpo comprime la piel contra una superficie dura durante horas. El flujo de sangre se corta, el tejido se daña y la lesión empieza **desde adentro hacia afuera**, por eso cuando se ve ya está avanzada.
