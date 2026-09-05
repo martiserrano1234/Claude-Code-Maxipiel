@@ -33,14 +33,61 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+/**
+ * Saca las preguntas frecuentes del HTML del artículo.
+ * Toma cada <h3> que aparece después del encabezado "Preguntas frecuentes"
+ * y usa como respuesta el texto que le sigue hasta el próximo encabezado.
+ * Si el artículo no tiene esa sección, devuelve lista vacía y no se emite
+ * ningún FAQPage (marcar preguntas que no existen sería incorrecto).
+ */
+function extraerPreguntas(html: string): { pregunta: string; respuesta: string }[] {
+  const inicio = html.search(/<h2[^>]*>\s*Preguntas frecuentes\s*<\/h2>/i);
+  if (inicio === -1) return [];
+
+  const seccion = html.slice(inicio);
+  const limpiar = (s: string) =>
+    s.replace(/<[^>]+>/g, " ").replace(/&amp;/g, "&").replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'").replace(/\s+/g, " ").trim();
+
+  const resultado: { pregunta: string; respuesta: string }[] = [];
+  const bloques = [...seccion.matchAll(/<h3[^>]*>([\s\S]*?)<\/h3>([\s\S]*?)(?=<h3|<h2|$)/gi)];
+
+  for (const b of bloques) {
+    const pregunta = limpiar(b[1]);
+    const respuesta = limpiar(b[2]);
+    if (pregunta && respuesta.length > 20) {
+      resultado.push({ pregunta, respuesta });
+    }
+  }
+  return resultado;
+}
+
 export default async function ArticlePage({ params }: Props) {
   const { slug } = await params;
   const post = await getPost(slug);
   if (!post) notFound();
 
+  // Extrae las preguntas frecuentes del artículo (los <h3> que siguen a la
+  // sección "Preguntas frecuentes") para publicarlas como FAQPage. Los
+  // buscadores y los modelos de IA leen ese formato directamente, en vez de
+  // tener que inferir qué es pregunta y qué es respuesta dentro del texto.
+  const faq = extraerPreguntas(post.content);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
+      ...(faq.length
+        ? [
+            {
+              "@type": "FAQPage",
+              mainEntity: faq.map((f) => ({
+                "@type": "Question",
+                name: f.pregunta,
+                acceptedAnswer: { "@type": "Answer", text: f.respuesta },
+              })),
+            },
+          ]
+        : []),
       {
         "@type": "Article",
         headline: post.title,
