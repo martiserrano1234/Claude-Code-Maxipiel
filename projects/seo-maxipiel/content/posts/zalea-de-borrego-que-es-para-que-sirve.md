@@ -106,6 +106,9 @@ No es lo ideal. La humedad constante y el sol directo la resecan y quiebran el c
 
 ## Dónde comprar zalea de borrego natural
 
-En **Maxipiel** trabajamos piel desde León, Guanajuato, el centro de la industria del cuero en México. Manejamos zalea de borrego 100% natural, lavable, en pieza grande de aproximadamente 110 x 70 cm.
+En **Maxipiel** trabajamos piel desde León, Guanajuato, el centro de la industria del cuero en México. Manejamos zalea de borrego 100% natural y lavable, en dos versiones según el uso:
+
+- **[Zalea natural para sillón, cama o piso](https://www.maxipiel.com/products/zalea-piel-borrego-natural-sillon-cama-piso)** — la opción para hogar, decoración y confort diario.
+- **[Zalea terapéutica para personas mayores y pacientes](https://www.maxipiel.com/products/zalea-terapeutica-piel-borrego-pacientes)** — pensada para quien pasa muchas horas en cama o silla de ruedas.
 
 Entrega el mismo día en León y envíos por paquetería a todo el país. Si no sabes qué tamaño necesitas o para qué uso te conviene, escríbenos por WhatsApp y te orientamos sin compromiso.

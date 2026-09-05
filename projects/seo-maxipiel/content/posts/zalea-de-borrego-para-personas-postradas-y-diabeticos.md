@@ -123,6 +123,8 @@ Sí, se complementan. El colchón trabaja sobre la presión y la zalea sobre la 
 
 ## Dónde conseguir una zalea natural
 
-En Maxipiel trabajamos piel desde León, Guanajuato, el centro de la industria del cuero en México. Manejamos **zalea de borrego 100% natural**, lavable, en pieza grande de aproximadamente 110 x 70 cm, con envíos a todo el país y entrega el mismo día en León.
+En Maxipiel trabajamos piel desde León, Guanajuato, el centro de la industria del cuero en México. Para este uso manejamos la **[zalea terapéutica de piel de borrego](https://www.maxipiel.com/products/zalea-terapeutica-piel-borrego-pacientes)**: 100% natural, lavable, en pieza grande de aproximadamente 110 x 70 cm, con envíos a todo el país y entrega el mismo día en León.
+
+Si lo que buscas es una zalea para sillón, cama o decoración, tenemos la **[versión para hogar](https://www.maxipiel.com/products/zalea-piel-borrego-natural-sillon-cama-piso)**.
 
 Si estás cuidando a alguien y no sabes qué tamaño necesitas, escríbenos por WhatsApp y te orientamos según el caso: cama, silla de ruedas o sillón.
