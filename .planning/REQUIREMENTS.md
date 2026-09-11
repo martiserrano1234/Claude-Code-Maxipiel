@@ -22,9 +22,14 @@
 - [ ] **SHOP-02**: Subir el ticket promedio en Shopify (bundles, "lleva más piel / precio por volumen")
 - [ ] **SHOP-03**: Recompra dirigida a clientes existentes de Shopify
 
+### Google Ads
+
+- [ ] **GADS-01**: Escalar/optimizar campañas de Google Ads Search que mandan clic-a-WhatsApp para alimentar a Sofía (ventas directas = comisión); pausar términos que no cierran y subir los que sí
+- [ ] **GADS-02**: Campañas de Google (Shopping / Performance Max) que llevan tráfico calificado a la tienda Shopify
+
 ### Medición y atribución
 
-- [ ] **MEAS-01**: Dejar el clic-a-WhatsApp como conversión medible y confiable en Google Ads
+- [ ] **MEAS-01**: Dejar el clic-a-WhatsApp como conversión medible y confiable en Google Ads (fundamento para escalar GADS con datos)
 - [ ] **MEAS-02**: Tablero de atribución por canal que muestre qué campaña trae qué venta/comisión (Amazon, Sofía, Shopify)
 
 ## v2 Requirements
@@ -48,20 +53,22 @@
 |-------------|-------|--------|
 | SOFIA-01 | Phase 1 | Pending |
 | SOFIA-02 | Phase 1 | Pending |
-| SOFIA-03 | Phase 3 | Pending |
-| AMZN-01 | Phase 2 | Pending |
-| AMZN-02 | Phase 2 | Pending |
-| SHOP-01 | Phase 2 | Pending |
-| SHOP-02 | Phase 2 | Pending |
-| SHOP-03 | Phase 3 | Pending |
-| MEAS-01 | Phase 4 | Pending |
-| MEAS-02 | Phase 4 | Pending |
+| MEAS-01 | Phase 1 | Pending |
+| GADS-01 | Phase 2 | Pending |
+| GADS-02 | Phase 2 | Pending |
+| AMZN-01 | Phase 3 | Pending |
+| AMZN-02 | Phase 3 | Pending |
+| SHOP-01 | Phase 3 | Pending |
+| SHOP-02 | Phase 3 | Pending |
+| SOFIA-03 | Phase 4 | Pending |
+| SHOP-03 | Phase 4 | Pending |
+| MEAS-02 | Phase 5 | Pending |
 
 **Coverage:**
-- v1 requirements: 10 total
-- Mapped to phases: 10 ✓
+- v1 requirements: 12 total
+- Mapped to phases: 12 ✓
 - Unmapped: 0
 
 ---
 *Requirements defined: 2026-09-10*
-*Last updated: 2026-09-10 after roadmap creation (traceability mapped)*
+*Last updated: 2026-09-10 — añadidos GADS-01/GADS-02 y re-secuenciado (MEAS-01 antes de Google Ads); traceability remapeada 12/12*
