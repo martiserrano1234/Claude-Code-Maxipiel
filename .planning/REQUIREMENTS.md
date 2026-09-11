@@ -44,26 +44,24 @@
 
 ## Traceability
 
-Se llena al crear el roadmap.
-
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SOFIA-01 | — | Pending |
-| SOFIA-02 | — | Pending |
-| SOFIA-03 | — | Pending |
-| AMZN-01 | — | Pending |
-| AMZN-02 | — | Pending |
-| SHOP-01 | — | Pending |
-| SHOP-02 | — | Pending |
-| SHOP-03 | — | Pending |
-| MEAS-01 | — | Pending |
-| MEAS-02 | — | Pending |
+| SOFIA-01 | Phase 1 | Pending |
+| SOFIA-02 | Phase 1 | Pending |
+| SOFIA-03 | Phase 3 | Pending |
+| AMZN-01 | Phase 2 | Pending |
+| AMZN-02 | Phase 2 | Pending |
+| SHOP-01 | Phase 2 | Pending |
+| SHOP-02 | Phase 2 | Pending |
+| SHOP-03 | Phase 3 | Pending |
+| MEAS-01 | Phase 4 | Pending |
+| MEAS-02 | Phase 4 | Pending |
 
 **Coverage:**
 - v1 requirements: 10 total
-- Mapped to phases: 0 (pendiente roadmap)
-- Unmapped: 10 ⚠️
+- Mapped to phases: 10 ✓
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-09-10*
-*Last updated: 2026-09-10 after initial definition*
+*Last updated: 2026-09-10 after roadmap creation (traceability mapped)*
