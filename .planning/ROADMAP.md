@@ -29,7 +29,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Hay una campaña Meta de "proyecto/mayoreo" activa dirigida a Mensajes que auto-filtra al comprador chico y le manda conversaciones identificables a Sofía, sin cambios en su flujo interno de n8n
   3. El clic-a-WhatsApp queda como conversión medible y confiable en Google Ads (los 2 pasos pendientes del disparador instalado el 2026-08-05 quedan cerrados)
   4. Se puede leer en Google Ads cuántos clic-a-WhatsApp genera cada campaña, dejando lista la base para escalar la inversión con datos
-**Plans**: TBD
+**Plans**: 01-A (MEAS-01, wave 1), 01-B (SOFIA-01, wave 1), 01-C (SOFIA-02, wave 2)
 
 ### Phase 2: Google Ads, la mina de oro
 **Goal**: Exprimir Google Ads como fuente de demanda hacia los dos canales que pagan comisión: escalar Search que manda clic-a-WhatsApp a Sofía y llevar tráfico calificado a la tienda Shopify con Shopping/Performance Max — apoyándose en la conversión ya medible de la Phase 1.
