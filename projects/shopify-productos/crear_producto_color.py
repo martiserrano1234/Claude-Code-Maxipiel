@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 """
 Crea un producto "Cuero Top Grain" por color en Shopify (draft).
 Sube la imagen desde output_v5/<color>.jpg
@@ -9,7 +10,7 @@ from pathlib import Path
 if sys.platform == "win32":
     sys.stdout.reconfigure(encoding="utf-8")
 
-TOKEN  = "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"
+TOKEN  = os.environ.get("SHOPIFY_TOKEN", "")  # nunca escribir el token aqui: el repo es publico
 DOMAIN = "maxipiel.myshopify.com"
 
 # Mapeo filename -> nombre legible del color

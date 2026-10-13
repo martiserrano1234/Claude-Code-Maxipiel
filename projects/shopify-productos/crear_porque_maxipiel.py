@@ -1,6 +1,7 @@
+import os
 import urllib.request, json, sys
 
-TOKEN = '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'
+TOKEN = os.environ.get("SHOPIFY_TOKEN", "")  # nunca escribir el token aqui: el repo es publico
 SHOP = 'maxipiel.myshopify.com'
 
 CONTENT = """<div style="font-family: sans-serif; max-width: 860px; margin: 0 auto; color: #2d2d2d; padding: 20px;">

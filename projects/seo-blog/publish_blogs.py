@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
+import os
 import urllib.request
 import json
 
-TOKEN = "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"
+TOKEN = os.environ.get("SHOPIFY_TOKEN", "")  # nunca escribir el token aqui: el repo es publico
 DOMAIN = "maxipiel.myshopify.com"
 BLOG_ID = 92607283300
 

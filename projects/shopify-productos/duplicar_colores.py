@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 """
 Duplica Cuero Top Grain Oxblood para los 22 colores.
 Sube 3 imagenes por producto: output/, output_v2/, output_v4/
@@ -10,7 +11,7 @@ from pathlib import Path
 if sys.platform == "win32":
     sys.stdout.reconfigure(encoding="utf-8")
 
-TOKEN  = "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"
+TOKEN  = os.environ.get("SHOPIFY_TOKEN", "")  # nunca escribir el token aqui: el repo es publico
 DOMAIN = "maxipiel.myshopify.com"
 
 BODY_HTML = """<p>Nuestra piel de grado automotriz ofrece la combinación perfecta entre elegancia y durabilidad extrema. Desarrollada originalmente para cumplir con las rigurosas exigencias de los principales fabricantes de equipo original (OEM), esta piel destaca por su consistencia de grano y una resistencia superior al desgaste, los rayos UV y las manchas. Es un material de alta gama, con un tacto firme pero flexible, ideal para quienes buscan la calidad táctica y visual que solo se encuentra en los interiores de vehículos de prestigio.</p>"""
