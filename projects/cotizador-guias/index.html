@@ -8,37 +8,60 @@
   <style>
     .carrier-card { transition: all 0.2s ease; }
     .carrier-card:hover { transform: translateY(-2px); }
-    .carrier-card.selected { border-color: #92400e; background-color: #fef3c7; }
-    .spinner { border: 3px solid #f3f3f3; border-top: 3px solid #92400e; border-radius: 50%; width: 32px; height: 32px; animation: spin 0.8s linear infinite; }
+    .carrier-card.selected { border-color: #1d4ed8; background-color: #eff6ff; }
+    .spinner { border: 3px solid #e2e8f0; border-top: 3px solid #1d4ed8; border-radius: 50%; width: 32px; height: 32px; animation: spin 0.8s linear infinite; }
+    .spinner-sm { width: 16px; height: 16px; border-width: 2px; display: inline-block; vertical-align: middle; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    input:focus, select:focus, textarea:focus { outline: none; border-color: #92400e; box-shadow: 0 0 0 2px rgba(146,64,14,0.15); }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: #1d4ed8; box-shadow: 0 0 0 2px rgba(29,78,216,0.15); }
     .campo-llenado { border-color: #15803d !important; background-color: #f0fdf4; }
+    .tab-btn.activa { background: #fff; color: #1e3a8a; }
+    .filtro.activo { background: #1e40af; color: #fff; border-color: #1e40af; }
+    .guia-card { transition: box-shadow 0.15s ease; }
+    .guia-card:hover { box-shadow: 0 4px 14px rgba(30,58,138,0.08); }
   </style>
 </head>
-<body class="bg-amber-50 min-h-screen font-sans">
+<body class="bg-slate-50 min-h-screen font-sans overflow-x-hidden">
 
   <!-- Header -->
-  <header class="bg-amber-900 text-white py-4 px-6 shadow-md">
-    <div class="max-w-4xl mx-auto flex items-center gap-3">
-      <span class="text-2xl">🐄</span>
-      <div>
-        <h1 class="text-xl font-bold tracking-wide">Maxipiel</h1>
-        <p class="text-amber-200 text-sm">Cotizador de Guías de Envío</p>
+  <header class="bg-gradient-to-r from-blue-900 to-blue-700 text-white shadow-md">
+    <div class="max-w-4xl mx-auto px-4 pt-4">
+      <div class="flex items-center justify-between gap-3 flex-wrap">
+        <div class="flex items-center gap-3">
+          <span class="text-2xl">🐄</span>
+          <div>
+            <h1 class="text-xl font-bold tracking-wide">Maxipiel</h1>
+            <p class="text-blue-200 text-sm">Cotizador y control de guías</p>
+          </div>
+        </div>
+        <!-- Saldos -->
+        <div id="saldos" class="flex gap-2 text-xs">
+          <span class="bg-white/10 rounded-lg px-3 py-1.5 text-blue-100">Cargando saldos…</span>
+        </div>
       </div>
+      <!-- Pestañas -->
+      <nav class="flex gap-1 mt-4">
+        <button class="tab-btn activa px-4 py-2 rounded-t-xl text-sm font-semibold text-blue-100 hover:text-white transition-colors" data-tab="nueva">📦 Nueva guía</button>
+        <button class="tab-btn px-4 py-2 rounded-t-xl text-sm font-semibold text-blue-100 hover:text-white transition-colors" data-tab="historial">
+          📋 Historial <span id="contadorHistorial" class="hidden ml-1 bg-blue-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full"></span>
+        </button>
+      </nav>
     </div>
   </header>
 
-  <main class="max-w-4xl mx-auto px-4 py-8">
+  <!-- ==================================================== -->
+  <!-- PESTAÑA: NUEVA GUÍA                                  -->
+  <!-- ==================================================== -->
+  <main id="tabNueva" class="max-w-4xl mx-auto px-4 py-8">
 
     <!-- Recuadro IA -->
-    <div class="bg-white rounded-2xl shadow-sm border border-amber-200 p-6 mb-6">
-      <h2 class="text-lg font-semibold text-amber-900 mb-1">✨ Pega el mensaje del cliente</h2>
+    <div class="bg-white rounded-2xl shadow-sm border border-blue-200 p-6 mb-6">
+      <h2 class="text-lg font-semibold text-blue-900 mb-1">✨ Pega el mensaje del cliente</h2>
       <p class="text-sm text-gray-500 mb-4">La IA extrae los datos automáticamente y llena el formulario</p>
       <textarea id="textoCliente" rows="4"
         placeholder="Ej: Hola soy Juan Pérez, mi dirección es Calle 5 de Mayo 123, colonia Centro, CP 06600, Cuauhtémoc, CDMX. Tel 5551234567. El paquete es una caja de 30x40x20 cm y pesa 5 kg."
         class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm resize-none mb-3"></textarea>
       <button id="btnInterpretar"
-        class="w-full bg-amber-700 hover:bg-amber-800 text-white font-semibold py-3 px-6 rounded-xl transition-colors text-sm">
+        class="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-xl transition-colors text-sm">
         ✨ Interpretar datos
       </button>
       <div id="loadingIA" class="hidden text-center py-4">
@@ -48,8 +71,8 @@
     </div>
 
     <!-- Formulario -->
-    <div id="seccionFormulario" class="bg-white rounded-2xl shadow-sm border border-amber-100 p-6 mb-6">
-      <h2 class="text-lg font-semibold text-amber-900 mb-5">Datos del paquete y destino</h2>
+    <div id="seccionFormulario" class="bg-white rounded-2xl shadow-sm border border-blue-100 p-6 mb-6">
+      <h2 class="text-lg font-semibold text-blue-900 mb-5">Datos del paquete y destino</h2>
 
       <form id="cotizadorForm">
 
@@ -96,7 +119,7 @@
           </div>
         </div>
 
-        <hr class="border-amber-100 mb-6">
+        <hr class="border-blue-100 mb-6">
 
         <!-- Destinatario -->
         <div class="mb-6">
@@ -183,7 +206,7 @@
           </div>
         </div>
 
-        <hr class="border-amber-100 mb-6">
+        <hr class="border-blue-100 mb-6">
 
         <!-- Referencia -->
         <div class="mb-6">
@@ -197,7 +220,7 @@
           </div>
         </div>
 
-        <hr class="border-amber-100 mb-6">
+        <hr class="border-blue-100 mb-6">
 
         <!-- Contenido -->
         <div class="mb-6">
@@ -212,7 +235,7 @@
 
         <!-- Botón cotizar -->
         <button type="submit" id="btnCotizar"
-          class="w-full bg-amber-800 hover:bg-amber-900 text-white font-semibold py-3 px-6 rounded-xl transition-colors text-sm">
+          class="w-full bg-blue-800 hover:bg-blue-900 text-white font-semibold py-3 px-6 rounded-xl transition-colors text-sm">
           Cotizar envío →
         </button>
 
@@ -228,7 +251,7 @@
     <!-- Resultados de cotización -->
     <div id="resultados" class="hidden">
       <div class="flex items-center justify-between mb-4">
-        <h2 class="text-lg font-semibold text-amber-900">Elige la paquetería</h2>
+        <h2 class="text-lg font-semibold text-blue-900">Elige la paquetería</h2>
         <span class="text-xs text-gray-400">Da clic en la que quieras</span>
       </div>
       <div id="listaPrecios" class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6"></div>
@@ -244,6 +267,7 @@
     <div id="loadingGuia" class="hidden text-center py-10">
       <div class="spinner mx-auto mb-3"></div>
       <p class="text-gray-500 text-sm">Generando guía, un momento...</p>
+      <p class="text-gray-400 text-xs mt-1">Puede tardar hasta un minuto. No le vuelvas a picar: la guía se cobra aunque esta pantalla tarde.</p>
     </div>
 
     <!-- Resultado guía generada -->
@@ -256,16 +280,66 @@
         </div>
       </div>
       <div id="infoGuia" class="bg-gray-50 rounded-xl p-4 mb-4 text-sm text-gray-700 space-y-1"></div>
-      <a id="btnDescargar" href="#" target="_blank"
-        class="block text-center bg-amber-800 hover:bg-amber-900 text-white font-semibold py-3 px-6 rounded-xl transition-colors">
-        Descargar guía PDF 📄
-      </a>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <a id="btnDescargar" href="#" target="_blank"
+          class="block text-center bg-blue-800 hover:bg-blue-900 text-white font-semibold py-3 px-6 rounded-xl transition-colors">
+          Descargar guía PDF 📄
+        </a>
+        <button type="button" onclick="irAHistorial(true)"
+          class="block text-center bg-white border border-blue-200 hover:bg-blue-50 text-blue-800 font-semibold py-3 px-6 rounded-xl transition-colors">
+          Ver en historial 📋
+        </button>
+      </div>
     </div>
 
     <!-- Error -->
     <div id="errorBox" class="hidden bg-red-50 border border-red-200 rounded-2xl p-5 text-sm text-red-700"></div>
 
   </main>
+
+  <!-- ==================================================== -->
+  <!-- PESTAÑA: HISTORIAL                                   -->
+  <!-- ==================================================== -->
+  <main id="tabHistorial" class="hidden max-w-4xl mx-auto px-4 py-8">
+
+    <div class="bg-white rounded-2xl shadow-sm border border-blue-100 p-4 mb-4">
+      <div class="flex gap-2 mb-3">
+        <input id="buscador" type="search" placeholder="Buscar nombre, rastreo, ciudad…"
+          class="flex-1 min-w-0 border border-gray-300 rounded-lg px-3 py-2 text-sm">
+        <button id="btnRefrescar" type="button"
+          class="bg-blue-700 hover:bg-blue-800 text-white text-sm font-semibold px-4 rounded-lg transition-colors whitespace-nowrap">
+          ↻ Actualizar
+        </button>
+      </div>
+      <div id="filtros" class="flex flex-wrap gap-2"></div>
+      <p id="actualizadoHace" class="text-[11px] text-gray-400 mt-2"></p>
+    </div>
+
+    <div id="loadingHistorial" class="hidden text-center py-10">
+      <div class="spinner mx-auto mb-3"></div>
+      <p class="text-gray-500 text-sm">Consultando guías en SoloEnvíos y Skydropx...</p>
+    </div>
+
+    <div id="errorHistorial" class="hidden bg-red-50 border border-red-200 rounded-2xl p-5 text-sm text-red-700 mb-4"></div>
+
+    <div id="listaHistorial" class="space-y-3"></div>
+  </main>
+
+  <!-- Modal cancelar -->
+  <div id="modalCancelar" class="hidden fixed inset-0 bg-black/40 z-40 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6">
+      <h3 class="text-lg font-semibold text-gray-900 mb-2">¿Cancelar esta guía?</h3>
+      <div id="modalCancelarInfo" class="bg-gray-50 rounded-xl p-4 text-sm text-gray-700 space-y-1 mb-4"></div>
+      <p class="text-xs text-gray-500 mb-4">El monto se reembolsa al saldo de la plataforma. Solo se puede cancelar antes de que la paquetería recoja el paquete. Esto no se puede deshacer.</p>
+      <div class="flex gap-3">
+        <button id="btnCancelarNo" type="button" class="flex-1 border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold py-2.5 rounded-xl text-sm">No, regresar</button>
+        <button id="btnCancelarSi" type="button" class="flex-1 bg-red-600 hover:bg-red-700 text-white font-semibold py-2.5 rounded-xl text-sm">Sí, cancelar guía</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Aviso flotante -->
+  <div id="toast" class="hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-50 max-w-sm w-[calc(100%-2rem)] rounded-xl shadow-lg px-4 py-3 text-sm font-medium"></div>
 
   <script>
     const N8N = 'https://primary-production-dc7a.up.railway.app/webhook';
@@ -278,14 +352,52 @@
     const show = id => $(id).classList.remove('hidden');
     const hide = id => $(id).classList.add('hidden');
 
+    // Escapa texto que viene de la API antes de meterlo al HTML
+    const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+    const dinero = n => '$' + Number(n || 0).toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
     function showError(msg) {
-      $('errorBox').innerHTML = `<strong>Error:</strong> ${msg}`;
+      $('errorBox').innerHTML = msg;
       show('errorBox');
     }
 
     function hideAll() {
       ['loadingCotizar','resultados','loadingGuia','guiaGenerada','errorBox'].forEach(hide);
     }
+
+    let toastTimer = null;
+    function toast(msg, tipo = 'ok') {
+      const el = $('toast');
+      el.className = 'fixed bottom-4 left-1/2 -translate-x-1/2 z-50 max-w-sm w-[calc(100%-2rem)] rounded-xl shadow-lg px-4 py-3 text-sm font-medium ' +
+        (tipo === 'ok' ? 'bg-green-700 text-white' : 'bg-red-600 text-white');
+      el.textContent = msg;
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.classList.add('hidden'), 5000);
+    }
+
+    // ============================================================
+    // PESTAÑAS
+    // ============================================================
+    function cambiarTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('activa', b.dataset.tab === tab));
+      $('tabNueva').classList.toggle('hidden', tab !== 'nueva');
+      $('tabHistorial').classList.toggle('hidden', tab !== 'historial');
+      if (tab === 'historial') {
+        const viejo = !historialCargadoEn || (Date.now() - historialCargadoEn) > 60000;
+        if (viejo && !cargandoHistorial) cargarHistorial();
+      }
+    }
+    document.querySelectorAll('.tab-btn').forEach(b => b.addEventListener('click', () => cambiarTab(b.dataset.tab)));
+
+    function irAHistorial(forzar) {
+      if (forzar) historialCargadoEn = 0;
+      cambiarTab('historial');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ============================================================
+    // NUEVA GUÍA (igual que antes)
+    // ============================================================
 
     // Interpretar datos con IA
     $('btnInterpretar').addEventListener('click', async () => {
@@ -306,12 +418,11 @@
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const datos = await res.json();
 
-        // Llenar el formulario con los datos extraídos
         llenarFormulario(datos);
         $('seccionFormulario').scrollIntoView({ behavior: 'smooth', block: 'start' });
 
       } catch (err) {
-        showError('No se pudo interpretar el texto. Intenta de nuevo.');
+        showError('<strong>Error:</strong> No se pudo interpretar el texto. Intenta de nuevo.');
       } finally {
         $('btnInterpretar').disabled = false;
         hide('loadingIA');
@@ -365,11 +476,12 @@
       sendex: '⬛ Sendex',
       tresguerras: '🚚 Tresguerras',
       imile: '📮 iMile',
+      punto_post: '📮 PuntoPost',
     };
 
     function getCarrierName(providerName, displayName) {
       const key = (providerName || '').toLowerCase();
-      return carrierEmoji[key] || ('📦 ' + (displayName || providerName));
+      return carrierEmoji[key] || ('📦 ' + (displayName || providerName || '—'));
     }
 
     // De qué servicio viene la tarifa
@@ -407,7 +519,7 @@
 
       } catch (err) {
         hide('loadingCotizar');
-        showError(err.message || 'No se pudo conectar con las paqueterías.');
+        showError('<strong>Error:</strong> ' + esc(err.message || 'No se pudo conectar con las paqueterías.'));
       }
     });
 
@@ -418,7 +530,7 @@
       $('btnGenerarGuia').disabled = true;
 
       if (rates.length === 0) {
-        showError('No hay tarifas disponibles para ese destino y dimensiones.');
+        showError('<strong>Error:</strong> No hay tarifas disponibles para ese destino y dimensiones.');
         return;
       }
 
@@ -432,18 +544,18 @@
         const esMejor = rate === masBarata;
         return `
         <div class="carrier-card border-2 border-gray-200 rounded-xl p-4 cursor-pointer bg-white relative"
-             data-rate-id="${rate.id}" data-index="${i}" onclick="selectRate(this, '${rate.id}', '${fuente}')">
+             data-rate-id="${esc(rate.id)}" data-index="${i}" onclick="selectRate(this, '${esc(rate.id)}', '${esc(fuente)}')">
           ${esMejor ? '<span class="absolute -top-2 -right-2 bg-green-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">MÁS BARATA</span>' : ''}
           <div class="flex items-center justify-between mb-2">
-            <span class="font-semibold text-gray-800">${getCarrierName(rate.provider_name, rate.provider_display_name)} <span class="text-gray-400 font-normal">(${nombreFuente})</span></span>
-            <span class="text-xl font-bold text-amber-800">$${parseFloat(rate.total).toFixed(2)}</span>
+            <span class="font-semibold text-gray-800">${esc(getCarrierName(rate.provider_name, rate.provider_display_name))} <span class="text-gray-400 font-normal">(${esc(nombreFuente)})</span></span>
+            <span class="text-xl font-bold text-blue-800">$${parseFloat(rate.total).toFixed(2)}</span>
           </div>
           <div class="flex items-center justify-between text-sm text-gray-500">
-            <span>${rate.provider_service_name || ''}</span>
+            <span>${esc(rate.provider_service_name || '')}</span>
             <span>${rate.days ? `${rate.days} día${rate.days > 1 ? 's' : ''}` : ''}</span>
           </div>
           <div class="mt-2">
-            <span class="text-[10px] font-semibold px-2 py-0.5 rounded ${fuenteColor[fuente] || 'bg-gray-100 text-gray-700'}">${nombreFuente}</span>
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded ${fuenteColor[fuente] || 'bg-gray-100 text-gray-700'}">${esc(nombreFuente)}</span>
           </div>
         </div>
       `;}).join('');
@@ -463,6 +575,7 @@
     // Generar guía
     $('btnGenerarGuia').addEventListener('click', async () => {
       if (!selectedRate || !cotizacionData || !formData) return;
+      $('btnGenerarGuia').disabled = true; // evita doble clic = guía duplicada
       hideAll();
       show('loadingGuia');
 
@@ -486,10 +599,18 @@
 
         const shipment = data.data || data;
         mostrarGuia(shipment);
+        historialCargadoEn = 0; // el historial se recarga la próxima vez que lo abran
 
       } catch (err) {
         hide('loadingGuia');
-        showError(err.message || 'No se pudo generar la guía.');
+        // La guía pudo haberse creado y cobrado aunque la respuesta falle.
+        showError(`
+          <strong>No llegó la confirmación de la guía.</strong><br>
+          Ojo: <strong>la guía pudo haberse creado y cobrado de todos modos.</strong>
+          Antes de volver a intentarlo revisa el historial, para no generar una guía duplicada.
+          <div class="mt-3"><button type="button" onclick="irAHistorial(true)" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-lg text-sm">Revisar historial 📋</button></div>
+          <div class="text-xs text-red-500 mt-2">Detalle: ${esc(err.message || 'sin respuesta')}</div>
+        `);
       }
     });
 
@@ -498,16 +619,304 @@
       const tracking = shipment.tracking_number || shipment.tracking || '—';
 
       $('infoGuia').innerHTML = `
-        <div class="flex justify-between"><span class="text-gray-400">Tracking:</span><span class="font-mono font-bold">${tracking}</span></div>
-        <div class="flex justify-between"><span class="text-gray-400">Paquetería:</span><span>${shipment.carrier || '—'}</span></div>
-        <div class="flex justify-between"><span class="text-gray-400">Destinatario:</span><span>${formData.nombre}</span></div>
-        <div class="flex justify-between"><span class="text-gray-400">Referencia:</span><span>${(formData.referencia || '').trim() || 'Pedido Maxipiel'}</span></div>
-        <div class="flex justify-between"><span class="text-gray-400">Destino:</span><span>${formData.ciudad}, ${formData.estado} CP ${formData.cp_destino}</span></div>
+        <div class="flex justify-between"><span class="text-gray-400">Tracking:</span><span class="font-mono font-bold">${esc(tracking)}</span></div>
+        <div class="flex justify-between"><span class="text-gray-400">Paquetería:</span><span>${esc(shipment.carrier || '—')}</span></div>
+        <div class="flex justify-between"><span class="text-gray-400">Destinatario:</span><span>${esc(formData.nombre)}</span></div>
+        <div class="flex justify-between"><span class="text-gray-400">Referencia:</span><span>${esc((formData.referencia || '').trim() || 'Pedido Maxipiel')}</span></div>
+        <div class="flex justify-between"><span class="text-gray-400">Destino:</span><span>${esc(formData.ciudad)}, ${esc(formData.estado)} CP ${esc(formData.cp_destino)}</span></div>
       `;
 
       $('btnDescargar').href = labelUrl;
       show('guiaGenerada');
     }
+
+    // ============================================================
+    // HISTORIAL
+    // ============================================================
+    let historial = [];
+    let historialCargadoEn = 0;
+    let cargandoHistorial = false;
+    let filtroActivo = 'todas';
+
+    // Estado de rastreo -> texto y color
+    const ESTADOS = {
+      created:    { texto: 'Guía creada',   color: 'bg-amber-100 text-amber-800',     icono: '🏷️' },
+      picked_up:  { texto: 'En paquetería', color: 'bg-indigo-100 text-indigo-800',   icono: '🏢' },
+      in_transit: { texto: 'En camino',     color: 'bg-blue-100 text-blue-800',       icono: '🚚' },
+      last_mile:  { texto: 'Por llegar',    color: 'bg-cyan-100 text-cyan-800',       icono: '📍' },
+      delivered:  { texto: 'Entregado',     color: 'bg-green-100 text-green-800',     icono: '✅' },
+      canceled:   { texto: 'Cancelado',     color: 'bg-gray-200 text-gray-600',       icono: '✖️' },
+    };
+
+    function estadoDe(g) {
+      if (g.estado_envio === 'cancelled') return 'canceled';
+      return g.estado_rastreo || 'created';
+    }
+
+    function infoEstado(g) {
+      const k = estadoDe(g);
+      return ESTADOS[k] || { texto: g.estado_rastreo_texto || k, color: 'bg-orange-100 text-orange-800', icono: '⚠️' };
+    }
+
+    // Solo se puede cancelar antes de que la paquetería recoja el paquete
+    const sePuedeCancelar = g => g.estado_envio !== 'cancelled' && estadoDe(g) === 'created';
+
+    const FILTROS = [
+      { id: 'todas',       texto: 'Todas',            prueba: () => true },
+      { id: 'creadas',     texto: '🏷️ Sin recoger',    prueba: g => estadoDe(g) === 'created' },
+      { id: 'camino',      texto: '🚚 En camino',      prueba: g => ['picked_up', 'in_transit', 'last_mile'].includes(estadoDe(g)) },
+      { id: 'entregadas',  texto: '✅ Entregadas',     prueba: g => estadoDe(g) === 'delivered' },
+      { id: 'canceladas',  texto: '✖️ Canceladas',     prueba: g => estadoDe(g) === 'canceled' },
+      { id: 'cargo',       texto: '⚠️ Cargo extra',    prueba: g => g.cargos_extra_total > 0 },
+      { id: 'duplicadas',  texto: '👯 Posibles duplicadas', prueba: g => g._duplicada },
+    ];
+
+    const norm = s => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\s+/g, ' ').trim();
+
+    // Marca guías activas del mismo cliente creadas con menos de 24 h de diferencia
+    function marcarDuplicadas(lista) {
+      const activas = lista.filter(g => estadoDe(g) !== 'canceled' && g.destinatario);
+      const porNombre = {};
+      activas.forEach(g => (porNombre[norm(g.destinatario)] = porNombre[norm(g.destinatario)] || []).push(g));
+      lista.forEach(g => { g._duplicada = false; });
+      Object.values(porNombre).forEach(grupo => {
+        if (grupo.length < 2) return;
+        for (let i = 0; i < grupo.length; i++) for (let j = i + 1; j < grupo.length; j++) {
+          if (Math.abs(new Date(grupo[i].creada) - new Date(grupo[j].creada)) < 24 * 3600 * 1000) {
+            grupo[i]._duplicada = true; grupo[j]._duplicada = true;
+          }
+        }
+      });
+    }
+
+    function fechaCorta(iso) {
+      if (!iso) return '—';
+      return new Date(iso).toLocaleString('es-MX', { timeZone: 'America/Mexico_City', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+    }
+
+    async function cargarHistorial() {
+      cargandoHistorial = true;
+      $('btnRefrescar').disabled = true;
+      $('btnRefrescar').innerHTML = '<span class="spinner spinner-sm"></span>';
+      hide('errorHistorial');
+      if (!historial.length) show('loadingHistorial');
+
+      try {
+        const res = await fetch(`${N8N}/historial-guias`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: '{}'
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+
+        historial = data.guias || [];
+        marcarDuplicadas(historial);
+        historialCargadoEn = Date.now();
+        pintarSaldos(data.saldos || {});
+        pintarHistorial();
+
+        const errores = Object.entries(data.errores || {});
+        if (errores.length) {
+          $('errorHistorial').innerHTML = '<strong>Aviso:</strong> no se pudo leer ' + errores.map(([f, e]) => `${esc(fuenteNombre[f] || f)} (${esc(e)})`).join(', ') + '. Lo demás sí está actualizado.';
+          show('errorHistorial');
+        }
+      } catch (err) {
+        $('errorHistorial').innerHTML = '<strong>No se pudo cargar el historial.</strong> ' + esc(err.message || '') + ' — Intenta con ↻ Actualizar.';
+        show('errorHistorial');
+      } finally {
+        cargandoHistorial = false;
+        hide('loadingHistorial');
+        $('btnRefrescar').disabled = false;
+        $('btnRefrescar').textContent = '↻ Actualizar';
+      }
+    }
+
+    function pintarSaldos(saldos) {
+      const html = Object.entries(saldos)
+        .filter(([, v]) => v !== null && v !== undefined)
+        .sort(([a], [b]) => (a === 'soloenvios' ? -1 : b === 'soloenvios' ? 1 : 0))
+        .map(([f, v]) => {
+          const bajo = Number(v) < 500;
+          return `<span class="rounded-lg px-3 py-1.5 ${bajo ? 'bg-red-500 text-white' : 'bg-white/10 text-blue-50'}" title="${bajo ? 'Saldo bajo: recarga para que no falle una guía' : 'Saldo disponible'}">
+            ${esc(fuenteNombre[f] || f)}: <strong>${dinero(v)}</strong>${bajo ? ' ⚠️' : ''}
+          </span>`;
+        }).join('');
+      $('saldos').innerHTML = html || '';
+    }
+
+    function pintarFiltros() {
+      $('filtros').innerHTML = FILTROS.map(f => {
+        const n = historial.filter(f.prueba).length;
+        if (f.id === 'duplicadas' && n === 0) return '';
+        return `<button type="button" class="filtro ${f.id === filtroActivo ? 'activo' : ''} border border-gray-200 text-gray-600 text-xs font-semibold px-3 py-1.5 rounded-full transition-colors hover:border-blue-400" data-filtro="${f.id}">
+          ${f.texto} <span class="opacity-70">${n}</span>
+        </button>`;
+      }).join('');
+      $('filtros').querySelectorAll('.filtro').forEach(b => b.addEventListener('click', () => {
+        filtroActivo = b.dataset.filtro;
+        pintarHistorial();
+      }));
+    }
+
+    function pintarHistorial() {
+      pintarFiltros();
+
+      const enCurso = historial.filter(g => ['created', 'picked_up', 'in_transit', 'last_mile'].includes(estadoDe(g))).length;
+      const contador = $('contadorHistorial');
+      contador.textContent = enCurso;
+      contador.classList.toggle('hidden', !enCurso);
+      contador.title = `${enCurso} guías activas (sin entregar)`;
+
+      const q = norm($('buscador').value);
+      const filtro = FILTROS.find(f => f.id === filtroActivo) || FILTROS[0];
+      const lista = historial.filter(filtro.prueba).filter(g => {
+        if (!q) return true;
+        const r = g.registro || {};
+        return [g.destinatario, g.rastreo, g.ciudad, g.estado, g.cp, g.paqueteria, r.contenido_paquete, r.telefono].some(v => norm(v).includes(q));
+      });
+
+      $('actualizadoHace').textContent = historialCargadoEn
+        ? `Mostrando ${lista.length} de ${historial.length} guías recientes · actualizado ${new Date(historialCargadoEn).toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' })}`
+        : '';
+
+      if (!lista.length) {
+        $('listaHistorial').innerHTML = `<div class="text-center text-gray-400 text-sm py-10">${historial.length ? 'Ninguna guía coincide con la búsqueda.' : 'Todavía no hay guías.'}</div>`;
+        return;
+      }
+
+      $('listaHistorial').innerHTML = lista.map(tarjetaGuia).join('');
+    }
+
+    function tarjetaGuia(g) {
+      const est = infoEstado(g);
+      const reg = g.registro || {};
+      const fuente = g.fuente || 'skydropx';
+      const cancelada = estadoDe(g) === 'canceled';
+
+      // Correo: solo se sabe para guías generadas desde que existe el registro
+      let correo = '';
+      if (reg.correo_enviado === true) correo = '<span class="text-[11px] font-semibold px-2 py-0.5 rounded bg-green-50 text-green-700">✉️ Correo enviado</span>';
+      else if (reg.correo_enviado === false) correo = `<span class="text-[11px] font-semibold px-2 py-0.5 rounded bg-red-50 text-red-700" title="${esc(reg.correo_error || '')}">✉️ Correo NO enviado</span>`;
+
+      let cargo = '';
+      if (g.cargos_extra_total > 0) {
+        const detalle = g.cargos_extra.map(c => {
+          const peso = c.peso_declarado && c.peso_real ? ` (declarado ${c.peso_declarado} kg → real ${c.peso_real} kg)` : '';
+          return `${c.tipo}: ${dinero(c.monto)}${peso}`;
+        }).join('\n');
+        cargo = `<span class="text-[11px] font-semibold px-2 py-0.5 rounded bg-orange-100 text-orange-800 cursor-help" title="${esc(detalle)}">⚠️ Cargo extra ${dinero(g.cargos_extra_total)}</span>`;
+      }
+
+      const duplicada = g._duplicada && !cancelada
+        ? '<span class="text-[11px] font-semibold px-2 py-0.5 rounded bg-pink-100 text-pink-800" title="Hay otra guía activa para el mismo cliente creada con menos de 24 h de diferencia. Si es un reintento, cancela una.">👯 Posible duplicada</span>'
+        : '';
+
+      const rastreo = g.rastreo
+        ? `<span class="font-mono text-xs text-gray-700 select-all break-all">${esc(g.rastreo)}</span>
+           <button type="button" class="text-[11px] text-blue-700 hover:underline" onclick="copiar('${esc(g.rastreo)}')">copiar</button>
+           ${g.url_rastreo ? `<a href="${esc(g.url_rastreo)}" target="_blank" rel="noopener" class="text-[11px] text-blue-700 hover:underline">rastrear ↗</a>` : ''}`
+        : '<span class="text-xs text-gray-400">Sin número de rastreo todavía</span>';
+
+      const acciones = [];
+      if (g.pdf && !cancelada) acciones.push(`<a href="${esc(g.pdf)}" target="_blank" rel="noopener" class="text-xs font-semibold bg-blue-700 hover:bg-blue-800 text-white px-3 py-1.5 rounded-lg">📄 Ver PDF</a>`);
+      if (sePuedeCancelar(g)) acciones.push(`<button type="button" onclick="pedirCancelar('${esc(g.id)}')" class="text-xs font-semibold border border-red-200 text-red-600 hover:bg-red-50 px-3 py-1.5 rounded-lg">Cancelar guía</button>`);
+
+      return `
+      <div class="guia-card bg-white rounded-2xl border ${g._duplicada && !cancelada ? 'border-pink-300' : 'border-gray-200'} p-4 ${cancelada ? 'opacity-60' : ''}">
+        <div class="flex items-start justify-between gap-3 mb-1">
+          <div class="min-w-0">
+            <div class="font-semibold text-gray-900 truncate">${esc(g.destinatario || 'Sin nombre')}</div>
+            <div class="text-xs text-gray-500">${esc(g.ciudad || '')}${g.estado ? ', ' + esc(g.estado) : ''}${g.cp ? ' · CP ' + esc(g.cp) : ''} · ${fechaCorta(g.creada)}</div>
+          </div>
+          <span class="shrink-0 text-xs font-semibold px-2.5 py-1 rounded-full ${est.color}">${est.icono} ${esc(est.texto)}</span>
+        </div>
+
+        <div class="flex items-center justify-between gap-3 text-sm mt-2">
+          <div class="text-gray-700 min-w-0">
+            ${esc(getCarrierName(g.paqueteria))}
+            <span class="text-gray-400 text-xs">${esc(g.servicio || '')}</span>
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded ml-1 ${fuenteColor[fuente] || 'bg-gray-100 text-gray-700'}">${esc(fuenteNombre[fuente] || fuente)}</span>
+          </div>
+          <div class="font-bold text-blue-800 whitespace-nowrap">${dinero(g.total)}</div>
+        </div>
+
+        <div class="flex items-center gap-2 flex-wrap mt-2">${rastreo}</div>
+
+        ${reg.contenido_paquete ? `<div class="text-xs text-gray-500 mt-1">📝 ${esc(reg.contenido_paquete)}</div>` : ''}
+
+        ${(correo || cargo || duplicada) ? `<div class="flex flex-wrap gap-1.5 mt-2">${correo}${cargo}${duplicada}</div>` : ''}
+
+        ${acciones.length ? `<div class="flex flex-wrap gap-2 mt-3">${acciones.join('')}</div>` : ''}
+      </div>`;
+    }
+
+    function copiar(texto) {
+      navigator.clipboard.writeText(texto).then(() => toast('Número de rastreo copiado')).catch(() => {});
+    }
+
+    $('btnRefrescar').addEventListener('click', () => { if (!cargandoHistorial) cargarHistorial(); });
+    $('buscador').addEventListener('input', pintarHistorial);
+
+    // ============================================================
+    // CANCELAR
+    // ============================================================
+    let guiaACancelar = null;
+
+    function pedirCancelar(id) {
+      guiaACancelar = historial.find(g => g.id === id);
+      if (!guiaACancelar) return;
+      const g = guiaACancelar;
+      $('modalCancelarInfo').innerHTML = `
+        <div class="flex justify-between"><span class="text-gray-400">Destinatario:</span><span class="font-semibold">${esc(g.destinatario || '—')}</span></div>
+        <div class="flex justify-between"><span class="text-gray-400">Paquetería:</span><span>${esc(getCarrierName(g.paqueteria))} (${esc(fuenteNombre[g.fuente] || g.fuente)})</span></div>
+        <div class="flex justify-between"><span class="text-gray-400">Rastreo:</span><span class="font-mono">${esc(g.rastreo || '—')}</span></div>
+        <div class="flex justify-between"><span class="text-gray-400">Se reembolsa:</span><span class="font-bold text-blue-800">${dinero(g.total)}</span></div>
+      `;
+      $('btnCancelarSi').disabled = false;
+      $('btnCancelarSi').textContent = 'Sí, cancelar guía';
+      show('modalCancelar');
+    }
+
+    $('btnCancelarNo').addEventListener('click', () => { hide('modalCancelar'); guiaACancelar = null; });
+    $('modalCancelar').addEventListener('click', e => { if (e.target.id === 'modalCancelar') { hide('modalCancelar'); guiaACancelar = null; } });
+
+    $('btnCancelarSi').addEventListener('click', async () => {
+      const g = guiaACancelar;
+      if (!g) return;
+      $('btnCancelarSi').disabled = true;
+      $('btnCancelarSi').innerHTML = '<span class="spinner spinner-sm" style="border-top-color:#fff"></span> Cancelando…';
+
+      try {
+        const res = await fetch(`${N8N}/cancelar-guia`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ shipment_id: g.id, fuente: g.fuente, motivo: 'Cancelada desde el cotizador Maxipiel' })
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const r = await res.json();
+        hide('modalCancelar');
+        guiaACancelar = null;
+
+        if (r.ok) {
+          toast(`Guía de ${g.destinatario || 'cliente'} cancelada. Se reembolsan ${dinero(g.total)}.`);
+          // Se marca al momento y luego se confirma con la plataforma
+          g.estado_envio = 'cancelled';
+          marcarDuplicadas(historial);
+          pintarHistorial();
+          setTimeout(cargarHistorial, 4000);
+        } else {
+          toast('No se pudo cancelar: ' + (r.error || 'error desconocido'), 'error');
+        }
+      } catch (err) {
+        hide('modalCancelar');
+        guiaACancelar = null;
+        toast('No se pudo cancelar: ' + (err.message || 'sin respuesta'), 'error');
+      }
+    });
+
+    // Al abrir la página se cargan saldos e historial en segundo plano
+    cargarHistorial();
   </script>
 
 </body>
