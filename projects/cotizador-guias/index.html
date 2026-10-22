@@ -250,7 +250,7 @@
             <label class="block text-sm font-medium text-gray-700 mb-1">¿Por cuánto lo quieres asegurar? <span class="text-gray-400 font-normal">(MXN)</span></label>
             <input type="number" id="valorSeguro" name="valor_asegurado" min="1" step="1" placeholder="Ej: 2500"
               class="w-full md:w-1/2 border border-gray-300 rounded-lg px-3 py-2 text-sm">
-            <p class="text-xs text-gray-400 mt-1">Pon lo que vale la mercancía. El costo del seguro lo cobra la plataforma aparte y te lo mostramos en cuanto se aplica.</p>
+            <p class="text-xs text-gray-400 mt-1">Pon lo que vale la mercancía. El seguro cuesta 1% de ese monto, lo cobra la plataforma aparte, y lo ves sumado en cada tarifa.</p>
           </div>
         </div>
 
@@ -367,7 +367,8 @@
       <label class="block text-sm font-medium text-gray-700 mb-1">¿Por cuánto la quieres asegurar? <span class="text-gray-400 font-normal">(MXN)</span></label>
       <input type="number" id="modalAsegurarValor" min="1" step="1" placeholder="Ej: 2500"
         class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-2">
-      <p class="text-xs text-gray-500 mb-4">El costo del seguro lo cobra la plataforma de tu saldo y te lo mostramos al aplicarlo.</p>
+      <p id="modalAsegurarCosto" class="text-sm font-semibold text-emerald-700 mb-1 min-h-[1.25rem]"></p>
+      <p class="text-xs text-gray-500 mb-4">El seguro cuesta 1% de lo que asegures y lo cobra la plataforma de tu saldo. Solo se puede asegurar antes de que la paquetería recoja el paquete.</p>
       <div class="flex gap-3">
         <button id="btnAsegurarNo" type="button" class="flex-1 border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold py-2.5 rounded-xl text-sm">Regresar</button>
         <button id="btnAsegurarSi" type="button" class="flex-1 bg-blue-700 hover:bg-blue-800 text-white font-semibold py-2.5 rounded-xl text-sm">Asegurar</button>
@@ -498,13 +499,34 @@
       }
     }
 
+    // Costo del seguro. SoloEnvíos cobra 1% del valor asegurado sin cargo fijo
+    // (confirmado con una guía real el 22 oct 2026: $2,000 -> $20).
+    // Skydropx en su cotización marca $20; usamos la misma fórmula como aproximado.
+    const SEGURO = {
+      soloenvios: { porcentaje: 1, fijo: 0 },
+      skydropx:   { porcentaje: 1, fijo: 0 },
+    };
+    function seguroAprox(fuente, valor) {
+      const s = SEGURO[fuente] || SEGURO.soloenvios;
+      return Math.round((s.fijo + valor * s.porcentaje / 100) * 100) / 100;
+    }
+    // Lo que dice el formulario en este momento (0 = sin seguro)
+    const valorSeguroActual = () => $('switchSeguro').checked ? (Number($('valorSeguro').value) || 0) : 0;
+
+    // Si ya hay tarifas en pantalla, se vuelven a pintar con el seguro sin perder la elegida
+    function refrescarTarifas() {
+      if (cotizacionData && !$('resultados').classList.contains('hidden')) renderPrecios(cotizacionData, true);
+    }
+
     // Switch de seguro: si está prendido, el monto es obligatorio para poder cotizar
     $('switchSeguro').addEventListener('change', e => {
       const on = e.target.checked;
       $('campoSeguro').classList.toggle('hidden', !on);
       $('valorSeguro').required = on;
       if (on) $('valorSeguro').focus();
+      refrescarTarifas();
     });
+    $('valorSeguro').addEventListener('input', refrescarTarifas);
 
     // Carriers con emojis bonitos
     const carrierEmoji = {
@@ -568,11 +590,13 @@
       }
     });
 
-    function renderPrecios(quotation) {
+    function renderPrecios(quotation, mantenerSeleccion) {
       const allRates = quotation.rates || [];
       const rates = allRates.filter(r => r.success === true && r.total);
+      const elegida = mantenerSeleccion ? selectedRate : null;
       selectedRate = null;
       $('btnGenerarGuia').disabled = true;
+      const valorSeguro = valorSeguroActual();
 
       if (rates.length === 0) {
         showError('<strong>Error:</strong> No hay tarifas disponibles para ese destino y dimensiones.');
@@ -602,10 +626,22 @@
           <div class="mt-2">
             <span class="text-[10px] font-semibold px-2 py-0.5 rounded ${fuenteColor[fuente] || 'bg-gray-100 text-gray-700'}">${esc(nombreFuente)}</span>
           </div>
+          ${valorSeguro > 0 ? (() => {
+            const seg = seguroAprox(fuente, valorSeguro);
+            return `<div class="mt-3 pt-2 border-t border-dashed border-gray-200 text-xs space-y-0.5">
+              <div class="flex justify-between text-emerald-700"><span>🛡️ + seguro aprox. (${dinero(valorSeguro)})</span><span>${dinero(seg)}</span></div>
+              <div class="flex justify-between font-bold text-gray-800"><span>Total con seguro</span><span>${dinero(parseFloat(rate.total) + seg)}</span></div>
+            </div>`;
+          })() : ''}
         </div>
       `;}).join('');
 
       show('resultados');
+
+      if (elegida) {
+        const card = document.querySelector(`.carrier-card[data-rate-id="${CSS.escape(elegida)}"]`);
+        if (card) card.click();
+      }
     }
 
     function selectRate(el, rateId, fuente) {
@@ -620,6 +656,16 @@
     // Generar guía
     $('btnGenerarGuia').addEventListener('click', async () => {
       if (!selectedRate || !cotizacionData || !formData) return;
+
+      // El seguro se toma de lo que está en pantalla ahorita (lo que se ve en las tarifas)
+      const asegurar = $('switchSeguro').checked;
+      const valorSeguro = Number($('valorSeguro').value);
+      if (asegurar && !(valorSeguro > 0)) {
+        toast('Escribe por cuánto lo quieres asegurar, o apaga el switch de seguro', 'error');
+        $('valorSeguro').focus();
+        return;
+      }
+
       $('btnGenerarGuia').disabled = true; // evita doble clic = guía duplicada
       hideAll();
       show('loadingGuia');
@@ -630,9 +676,6 @@
         quotation_id: (cotizacionData.quotations || {})[selectedFuente] || cotizacionData.id,
         rate_id: selectedRate
       };
-
-      const asegurar = formData.asegurar === 'on';
-      const valorSeguro = Number(formData.valor_asegurado);
 
       let res = null, data = null;
       try {
@@ -705,7 +748,7 @@
         fila('Destino:', `${esc(formData.ciudad)}, ${esc(formData.estado)} CP ${esc(formData.cp_destino)}`) +
         fila('Correo:', '<span class="text-gray-500">⏳ Pendiente</span>', 'filaCorreo') +
         (guiaActual && guiaActual.seguroPendiente
-          ? fila('Seguro:', `<span class="text-gray-500">⏳ Se asegura por ${dinero(guiaActual.seguroPendiente)} en cuanto la guía esté lista</span>`, 'filaSeguro')
+          ? fila('Seguro:', `<span class="text-gray-500">⏳ Se asegura por ${dinero(guiaActual.seguroPendiente)} (aprox. ${dinero(seguroAprox(guiaActual.fuente, guiaActual.seguroPendiente))}) en cuanto la guía esté lista</span>`, 'filaSeguro')
           : '');
       show('guiaGenerada');
     }
@@ -831,8 +874,9 @@
     // Solo se puede cancelar antes de que la paquetería recoja el paquete
     const sePuedeCancelar = g => g.estado_envio !== 'cancelled' && estadoDe(g) === 'created';
 
-    // Se puede asegurar mientras no esté cancelada ni entregada (la plataforma lo permite sin límite de tiempo)
-    const sePuedeAsegurar = g => !(g.registro || {}).asegurado && !['canceled', 'delivered'].includes(estadoDe(g));
+    // Solo se puede asegurar antes de que la paquetería recoja el paquete:
+    // una guía "En paquetería" regresó "Este envío no califica para protección" (22 oct 2026).
+    const sePuedeAsegurar = g => !(g.registro || {}).asegurado && g.estado_envio !== 'cancelled' && estadoDe(g) === 'created';
 
     const FILTROS = [
       { id: 'todas',       texto: 'Todas',            prueba: () => true },
@@ -1128,6 +1172,7 @@
         <div class="flex justify-between"><span class="text-gray-400">Rastreo:</span><span class="font-mono">${esc(g.rastreo || '—')}</span></div>
       `;
       $('modalAsegurarValor').value = '';
+      $('modalAsegurarCosto').textContent = '';
       $('btnAsegurarSi').disabled = false;
       $('btnAsegurarSi').textContent = 'Asegurar';
       show('modalAsegurar');
@@ -1138,6 +1183,12 @@
     $('btnAsegurarNo').addEventListener('click', cerrarAsegurar);
     $('modalAsegurar').addEventListener('click', e => { if (e.target.id === 'modalAsegurar') cerrarAsegurar(); });
     $('modalAsegurarValor').addEventListener('keydown', e => { if (e.key === 'Enter') $('btnAsegurarSi').click(); });
+    $('modalAsegurarValor').addEventListener('input', () => {
+      const v = Number($('modalAsegurarValor').value);
+      $('modalAsegurarCosto').textContent = guiaAAsegurar && v > 0
+        ? `🛡️ Costo aprox. del seguro: ${dinero(seguroAprox(guiaAAsegurar.fuente, v))}`
+        : '';
+    });
 
     $('btnAsegurarSi').addEventListener('click', async () => {
       const g = guiaAAsegurar;
