@@ -233,6 +233,27 @@
           </div>
         </div>
 
+        <hr class="border-blue-100 mb-6">
+
+        <!-- Seguro -->
+        <div class="mb-6">
+          <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">🛡️ Seguro</h3>
+          <label class="flex items-center justify-between gap-4 cursor-pointer select-none">
+            <span>
+              <span class="block text-sm font-medium text-gray-700">Asegurar este envío</span>
+              <span class="block text-xs text-gray-400">Si se pierde o se daña, la plataforma responde hasta el monto que asegures.</span>
+            </span>
+            <input type="checkbox" id="switchSeguro" name="asegurar" class="sr-only peer">
+            <span class="relative shrink-0 w-11 h-6 bg-gray-300 rounded-full transition-colors peer-checked:bg-blue-700 peer-focus-visible:ring-2 peer-focus-visible:ring-blue-300 after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:w-5 after:h-5 after:bg-white after:rounded-full after:shadow after:transition-transform peer-checked:after:translate-x-5"></span>
+          </label>
+          <div id="campoSeguro" class="hidden mt-4">
+            <label class="block text-sm font-medium text-gray-700 mb-1">¿Por cuánto lo quieres asegurar? <span class="text-gray-400 font-normal">(MXN)</span></label>
+            <input type="number" id="valorSeguro" name="valor_asegurado" min="1" step="1" placeholder="Ej: 2500"
+              class="w-full md:w-1/2 border border-gray-300 rounded-lg px-3 py-2 text-sm">
+            <p class="text-xs text-gray-400 mt-1">Pon lo que vale la mercancía. El costo del seguro lo cobra la plataforma aparte y te lo mostramos en cuanto se aplica.</p>
+          </div>
+        </div>
+
         <!-- Botón cotizar -->
         <button type="submit" id="btnCotizar"
           class="w-full bg-blue-800 hover:bg-blue-900 text-white font-semibold py-3 px-6 rounded-xl transition-colors text-sm">
@@ -276,12 +297,12 @@
         <span class="text-3xl">✅</span>
         <div>
           <h2 class="text-lg font-semibold text-green-800">¡Guía generada!</h2>
-          <p class="text-sm text-gray-500">Lista para imprimir y pegar al paquete</p>
+          <p id="subGuia" class="text-sm text-gray-500">Lista para imprimir y pegar al paquete</p>
         </div>
       </div>
       <div id="infoGuia" class="bg-gray-50 rounded-xl p-4 mb-4 text-sm text-gray-700 space-y-1"></div>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <a id="btnDescargar" href="#" target="_blank"
+        <a id="btnDescargar" href="#" target="_blank" rel="noopener"
           class="block text-center bg-blue-800 hover:bg-blue-900 text-white font-semibold py-3 px-6 rounded-xl transition-colors">
           Descargar guía PDF 📄
         </a>
@@ -334,6 +355,22 @@
       <div class="flex gap-3">
         <button id="btnCancelarNo" type="button" class="flex-1 border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold py-2.5 rounded-xl text-sm">No, regresar</button>
         <button id="btnCancelarSi" type="button" class="flex-1 bg-red-600 hover:bg-red-700 text-white font-semibold py-2.5 rounded-xl text-sm">Sí, cancelar guía</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal asegurar -->
+  <div id="modalAsegurar" class="hidden fixed inset-0 bg-black/40 z-40 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6">
+      <h3 class="text-lg font-semibold text-gray-900 mb-2">🛡️ Asegurar esta guía</h3>
+      <div id="modalAsegurarInfo" class="bg-gray-50 rounded-xl p-4 text-sm text-gray-700 space-y-1 mb-4"></div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">¿Por cuánto la quieres asegurar? <span class="text-gray-400 font-normal">(MXN)</span></label>
+      <input type="number" id="modalAsegurarValor" min="1" step="1" placeholder="Ej: 2500"
+        class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-2">
+      <p class="text-xs text-gray-500 mb-4">El costo del seguro lo cobra la plataforma de tu saldo y te lo mostramos al aplicarlo.</p>
+      <div class="flex gap-3">
+        <button id="btnAsegurarNo" type="button" class="flex-1 border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold py-2.5 rounded-xl text-sm">Regresar</button>
+        <button id="btnAsegurarSi" type="button" class="flex-1 bg-blue-700 hover:bg-blue-800 text-white font-semibold py-2.5 rounded-xl text-sm">Asegurar</button>
       </div>
     </div>
   </div>
@@ -461,6 +498,14 @@
       }
     }
 
+    // Switch de seguro: si está prendido, el monto es obligatorio para poder cotizar
+    $('switchSeguro').addEventListener('change', e => {
+      const on = e.target.checked;
+      $('campoSeguro').classList.toggle('hidden', !on);
+      $('valorSeguro').required = on;
+      if (on) $('valorSeguro').focus();
+    });
+
     // Carriers con emojis bonitos
     const carrierEmoji = {
       fedex: '🟣 FedEx',
@@ -586,48 +631,173 @@
         rate_id: selectedRate
       };
 
+      const asegurar = formData.asegurar === 'on';
+      const valorSeguro = Number(formData.valor_asegurado);
+
+      let res = null, data = null;
       try {
-        const res = await fetch(`${N8N}/generar-guia`, {
+        res = await fetch(`${N8N}/generar-guia`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
-
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
-        hide('loadingGuia');
-
-        const shipment = data.data || data;
-        mostrarGuia(shipment);
-        historialCargadoEn = 0; // el historial se recarga la próxima vez que lo abran
-
+        try { data = await res.json(); } catch (e) { data = null; }
       } catch (err) {
         hide('loadingGuia');
-        // La guía pudo haberse creado y cobrado aunque la respuesta falle.
-        showError(`
-          <strong>No llegó la confirmación de la guía.</strong><br>
-          Ojo: <strong>la guía pudo haberse creado y cobrado de todos modos.</strong>
-          Antes de volver a intentarlo revisa el historial, para no generar una guía duplicada.
-          <div class="mt-3"><button type="button" onclick="irAHistorial(true)" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-lg text-sm">Revisar historial 📋</button></div>
-          <div class="text-xs text-red-500 mt-2">Detalle: ${esc(err.message || 'sin respuesta')}</div>
-        `);
+        errorIncierto(err.message || 'sin respuesta');
+        return;
       }
+      hide('loadingGuia');
+
+      if (!res.ok || !data || data.ok === false) {
+        // 4xx de la plataforma = la guía NO se creó y NO se cobró: se puede corregir y reintentar.
+        if (data && data.no_se_creo) {
+          showError(`
+            <strong>La plataforma rechazó la guía: no se creó ni se cobró.</strong><br>
+            Motivo: ${esc(data.error || 'sin detalle')}<br>
+            <span class="text-xs">Corrige ese dato en el formulario y vuelve a cotizar.</span>
+          `);
+          $('seccionFormulario').scrollIntoView({ behavior: 'smooth', block: 'start' });
+          return;
+        }
+        errorIncierto((data && data.error) || `HTTP ${res.status}`);
+        return;
+      }
+
+      const shipment = data.data || data;
+      guiaActual = {
+        id: shipment.shipment_id || null,
+        fuente: shipment.fuente || selectedFuente,
+        seguroPendiente: asegurar && valorSeguro > 0 ? valorSeguro : null
+      };
+      historialCargadoEn = 0; // el historial se recarga la próxima vez que lo abran
+      mostrarGuia(shipment);
+
+      const guia = { pdf: shipment.label_url || null, rastreo: shipment.tracking_number || null, registro: null };
+      actualizarGuiaGenerada(guia);
+      // El flujo ahora responde en cuanto se crea la guía: el PDF y el correo llegan después.
+      if (guiaActual.id && (!guia.pdf || guiaActual.seguroPendiente)) esperarGuiaLista(guiaActual);
     });
 
+    function errorIncierto(detalle) {
+      // La guía pudo haberse creado y cobrado aunque la respuesta falle.
+      showError(`
+        <strong>No llegó la confirmación de la guía.</strong><br>
+        Ojo: <strong>la guía pudo haberse creado y cobrado de todos modos.</strong>
+        Antes de volver a intentarlo revisa el historial, para no generar una guía duplicada.
+        <div class="mt-3"><button type="button" onclick="irAHistorial(true)" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-lg text-sm">Revisar historial 📋</button></div>
+        <div class="text-xs text-red-500 mt-2">Detalle: ${esc(detalle)}</div>
+      `);
+    }
+
+    // Guía que se acaba de generar en esta pantalla
+    let guiaActual = null;
+
+    const fila = (etiqueta, valorHtml, id) =>
+      `<div class="flex justify-between gap-3"${id ? ` id="${id}"` : ''}><span class="text-gray-400 shrink-0">${etiqueta}</span><span class="text-right">${valorHtml}</span></div>`;
+
     function mostrarGuia(shipment) {
-      const labelUrl = shipment.label_url || shipment.label || shipment.label_pdf || '#';
-      const tracking = shipment.tracking_number || shipment.tracking || '—';
-
-      $('infoGuia').innerHTML = `
-        <div class="flex justify-between"><span class="text-gray-400">Tracking:</span><span class="font-mono font-bold">${esc(tracking)}</span></div>
-        <div class="flex justify-between"><span class="text-gray-400">Paquetería:</span><span>${esc(shipment.carrier || '—')}</span></div>
-        <div class="flex justify-between"><span class="text-gray-400">Destinatario:</span><span>${esc(formData.nombre)}</span></div>
-        <div class="flex justify-between"><span class="text-gray-400">Referencia:</span><span>${esc((formData.referencia || '').trim() || 'Pedido Maxipiel')}</span></div>
-        <div class="flex justify-between"><span class="text-gray-400">Destino:</span><span>${esc(formData.ciudad)}, ${esc(formData.estado)} CP ${esc(formData.cp_destino)}</span></div>
-      `;
-
-      $('btnDescargar').href = labelUrl;
+      $('infoGuia').innerHTML =
+        fila('Tracking:', '<span class="font-mono font-bold">—</span>', 'filaTracking') +
+        fila('Paquetería:', esc(getCarrierName(shipment.carrier)) + (shipment.total ? ` · <strong>${dinero(shipment.total)}</strong>` : '')) +
+        fila('Destinatario:', esc(formData.nombre)) +
+        fila('Referencia:', esc((formData.referencia || '').trim() || 'Pedido Maxipiel')) +
+        fila('Destino:', `${esc(formData.ciudad)}, ${esc(formData.estado)} CP ${esc(formData.cp_destino)}`) +
+        fila('Correo:', '<span class="text-gray-500">⏳ Pendiente</span>', 'filaCorreo') +
+        (guiaActual && guiaActual.seguroPendiente
+          ? fila('Seguro:', `<span class="text-gray-500">⏳ Se asegura por ${dinero(guiaActual.seguroPendiente)} en cuanto la guía esté lista</span>`, 'filaSeguro')
+          : '');
       show('guiaGenerada');
+    }
+
+    // Pinta tracking, PDF y correo de la guía recién generada
+    function actualizarGuiaGenerada(g) {
+      const filaT = document.querySelector('#filaTracking span:last-child');
+      if (filaT) filaT.innerHTML = g.rastreo ? `<span class="font-mono font-bold">${esc(g.rastreo)}</span>` : '<span class="text-gray-500">⏳ Generándose…</span>';
+
+      const btn = $('btnDescargar');
+      if (g.pdf) {
+        btn.href = g.pdf;
+        btn.classList.remove('pointer-events-none', 'opacity-60');
+        btn.innerHTML = 'Descargar guía PDF 📄';
+        $('subGuia').textContent = 'Lista para imprimir y pegar al paquete';
+      } else {
+        btn.removeAttribute('href');
+        btn.classList.add('pointer-events-none', 'opacity-60');
+        btn.innerHTML = '<span class="spinner spinner-sm" style="border-top-color:#fff"></span> Generando PDF…';
+        $('subGuia').textContent = 'Ya quedó creada. El PDF y el correo tardan como un minuto: no la vuelvas a generar.';
+      }
+
+      const filaC = document.querySelector('#filaCorreo span:last-child');
+      if (filaC) {
+        const reg = g.registro || {};
+        if (reg.correo === 'enviado') filaC.innerHTML = '<span class="text-green-700 font-semibold">✅ Enviado</span>';
+        else if (reg.correo === 'fallo') filaC.innerHTML = `<span class="text-red-600 font-semibold" title="${esc(reg.correo_error || '')}">❌ No se envió — descarga el PDF de aquí</span>`;
+        else if (g.pdf && !reg.correo) filaC.innerHTML = '<span class="text-gray-500">Revisa la bandeja de maxipielguias@gmail.com</span>';
+        else filaC.innerHTML = '<span class="text-gray-500">⏳ Enviando…</span>';
+      }
+    }
+
+    function pintarSeguroGuiaActual(html) {
+      const filaS = document.querySelector('#filaSeguro span:last-child');
+      if (filaS) filaS.innerHTML = html;
+    }
+
+    // Revisa cada pocos segundos hasta que la guía tenga PDF y el correo se resuelva.
+    // Cuando hay PDF aplica el seguro, si lo pidieron.
+    async function esperarGuiaLista(g) {
+      const espera = ms => new Promise(r => setTimeout(r, ms));
+      for (let i = 0; i < 25; i++) {
+        await espera(i === 0 ? 5000 : 8000);
+        if (guiaActual !== g) return; // ya generaron otra
+        let guia = null;
+        try {
+          const r = await fetch(`${N8N}/historial-guias`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ shipment_id: g.id, fuente: g.fuente })
+          });
+          const d = await r.json();
+          if (d.ok && d.guia) guia = d.guia;
+        } catch (e) {}
+        if (!guia) continue;
+
+        actualizarGuiaGenerada(guia);
+        if (guia.pdf && g.seguroPendiente) {
+          const valor = g.seguroPendiente;
+          g.seguroPendiente = null;
+          aplicarSeguroGuiaActual(g, valor);
+        }
+        const correo = (guia.registro || {}).correo;
+        if (guia.pdf && correo && correo !== 'pendiente') return;
+      }
+      if (guiaActual === g) {
+        $('subGuia').textContent = 'La guía está creada, pero la plataforma está tardando. Revisa el historial en unos minutos.';
+        if (g.seguroPendiente) pintarSeguroGuiaActual('<span class="text-orange-600">No se pudo asegurar todavía — hazlo desde el historial</span>');
+      }
+    }
+
+    async function aplicarSeguroGuiaActual(g, valor) {
+      pintarSeguroGuiaActual(`<span class="text-gray-500"><span class="spinner spinner-sm"></span> Asegurando por ${dinero(valor)}…</span>`);
+      const r = await llamarAsegurar(g.id, g.fuente, valor);
+      if (r.ok) {
+        pintarSeguroGuiaActual(`<span class="text-green-700 font-semibold">✅ Asegurada por ${dinero(valor)}</span>${r.costo != null ? `<br><span class="text-xs text-gray-500">Costo del seguro: ${dinero(r.costo)}</span>` : ''}`);
+      } else {
+        pintarSeguroGuiaActual(`<span class="text-red-600 font-semibold">❌ No se pudo asegurar</span><br><span class="text-xs text-gray-500">${esc(r.error || '')} — reintenta desde el historial</span>`);
+      }
+    }
+
+    async function llamarAsegurar(id, fuente, valor) {
+      try {
+        const res = await fetch(`${N8N}/asegurar-guia`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ shipment_id: id, fuente, valor })
+        });
+        return await res.json();
+      } catch (e) {
+        return { ok: false, error: e.message || 'sin respuesta' };
+      }
     }
 
     // ============================================================
@@ -661,6 +831,9 @@
     // Solo se puede cancelar antes de que la paquetería recoja el paquete
     const sePuedeCancelar = g => g.estado_envio !== 'cancelled' && estadoDe(g) === 'created';
 
+    // Se puede asegurar mientras no esté cancelada ni entregada (la plataforma lo permite sin límite de tiempo)
+    const sePuedeAsegurar = g => !(g.registro || {}).asegurado && !['canceled', 'delivered'].includes(estadoDe(g));
+
     const FILTROS = [
       { id: 'todas',       texto: 'Todas',            prueba: () => true },
       { id: 'creadas',     texto: '🏷️ Sin recoger',    prueba: g => estadoDe(g) === 'created' },
@@ -668,7 +841,8 @@
       { id: 'entregadas',  texto: '✅ Entregadas',     prueba: g => estadoDe(g) === 'delivered' },
       { id: 'canceladas',  texto: '✖️ Canceladas',     prueba: g => estadoDe(g) === 'canceled' },
       { id: 'cargo',       texto: '⚠️ Cargo extra',    prueba: g => g.cargos_extra_total > 0 },
-      { id: 'duplicadas',  texto: '👯 Posibles duplicadas', prueba: g => g._duplicada },
+      { id: 'aseguradas',  texto: '🛡️ Aseguradas',     prueba: g => !!(g.registro || {}).asegurado, ocultarSiCero: true },
+      { id: 'duplicadas',  texto: '👯 Posibles duplicadas', prueba: g => g._duplicada, ocultarSiCero: true },
     ];
 
     const norm = s => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\s+/g, ' ').trim();
@@ -748,7 +922,7 @@
     function pintarFiltros() {
       $('filtros').innerHTML = FILTROS.map(f => {
         const n = historial.filter(f.prueba).length;
-        if (f.id === 'duplicadas' && n === 0) return '';
+        if (f.ocultarSiCero && n === 0 && f.id !== filtroActivo) return '';
         return `<button type="button" class="filtro ${f.id === filtroActivo ? 'activo' : ''} border border-gray-200 text-gray-600 text-xs font-semibold px-3 py-1.5 rounded-full transition-colors hover:border-blue-400" data-filtro="${f.id}">
           ${f.texto} <span class="opacity-70">${n}</span>
         </button>`;
@@ -788,16 +962,39 @@
       $('listaHistorial').innerHTML = lista.map(tarjetaGuia).join('');
     }
 
+    // Correo: solo se sabe para guías generadas desde que existe el registro (oct 2026)
+    function badgeCorreo(reg) {
+      const c = reg.correo || (reg.correo_enviado === true ? 'enviado' : reg.correo_enviado === false ? 'fallo' : null);
+      const base = 'text-[11px] font-semibold px-2 py-0.5 rounded';
+      if (c === 'enviado') return `<span class="${base} bg-green-50 text-green-700">✉️ Correo enviado</span>`;
+      if (c === 'fallo') return `<span class="${base} bg-red-50 text-red-700 cursor-help" title="${esc(reg.correo_error || 'No se pudo enviar')}">✉️ Correo NO enviado</span>`;
+      if (c === 'pendiente') {
+        const minutos = (Date.now() - new Date(reg.registrado || reg.actualizado)) / 60000;
+        return minutos < 5
+          ? `<span class="${base} bg-gray-100 text-gray-600">✉️ Enviando correo…</span>`
+          : `<span class="${base} bg-red-50 text-red-700 cursor-help" title="El proceso no terminó de mandar el correo. Descarga el PDF desde aquí.">✉️ Correo NO enviado</span>`;
+      }
+      return '';
+    }
+
+    function badgeSeguro(reg) {
+      const base = 'text-[11px] font-semibold px-2 py-0.5 rounded';
+      if (reg.asegurado) {
+        const costo = reg.costo_seguro != null ? `Costo del seguro: ${dinero(reg.costo_seguro)}` : '';
+        return `<span class="${base} bg-emerald-50 text-emerald-700 cursor-help" title="${esc(costo)}">🛡️ Asegurada ${dinero(reg.valor_asegurado)}</span>`;
+      }
+      if (reg.seguro_error) return `<span class="${base} bg-orange-50 text-orange-700 cursor-help" title="${esc(reg.seguro_error)}">🛡️ Seguro no aplicado</span>`;
+      return '';
+    }
+
     function tarjetaGuia(g) {
       const est = infoEstado(g);
       const reg = g.registro || {};
       const fuente = g.fuente || 'skydropx';
       const cancelada = estadoDe(g) === 'canceled';
 
-      // Correo: solo se sabe para guías generadas desde que existe el registro
-      let correo = '';
-      if (reg.correo_enviado === true) correo = '<span class="text-[11px] font-semibold px-2 py-0.5 rounded bg-green-50 text-green-700">✉️ Correo enviado</span>';
-      else if (reg.correo_enviado === false) correo = `<span class="text-[11px] font-semibold px-2 py-0.5 rounded bg-red-50 text-red-700" title="${esc(reg.correo_error || '')}">✉️ Correo NO enviado</span>`;
+      const correo = badgeCorreo(reg);
+      const seguro = badgeSeguro(reg);
 
       let cargo = '';
       if (g.cargos_extra_total > 0) {
@@ -820,6 +1017,7 @@
 
       const acciones = [];
       if (g.pdf && !cancelada) acciones.push(`<a href="${esc(g.pdf)}" target="_blank" rel="noopener" class="text-xs font-semibold bg-blue-700 hover:bg-blue-800 text-white px-3 py-1.5 rounded-lg">📄 Ver PDF</a>`);
+      if (sePuedeAsegurar(g)) acciones.push(`<button type="button" onclick="pedirAsegurar('${esc(g.id)}')" class="text-xs font-semibold border border-blue-200 text-blue-700 hover:bg-blue-50 px-3 py-1.5 rounded-lg">🛡️ Asegurar</button>`);
       if (sePuedeCancelar(g)) acciones.push(`<button type="button" onclick="pedirCancelar('${esc(g.id)}')" class="text-xs font-semibold border border-red-200 text-red-600 hover:bg-red-50 px-3 py-1.5 rounded-lg">Cancelar guía</button>`);
 
       return `
@@ -845,7 +1043,7 @@
 
         ${reg.contenido_paquete ? `<div class="text-xs text-gray-500 mt-1">📝 ${esc(reg.contenido_paquete)}</div>` : ''}
 
-        ${(correo || cargo || duplicada) ? `<div class="flex flex-wrap gap-1.5 mt-2">${correo}${cargo}${duplicada}</div>` : ''}
+        ${(correo || seguro || cargo || duplicada) ? `<div class="flex flex-wrap gap-1.5 mt-2">${correo}${seguro}${cargo}${duplicada}</div>` : ''}
 
         ${acciones.length ? `<div class="flex flex-wrap gap-2 mt-3">${acciones.join('')}</div>` : ''}
       </div>`;
@@ -912,6 +1110,52 @@
         hide('modalCancelar');
         guiaACancelar = null;
         toast('No se pudo cancelar: ' + (err.message || 'sin respuesta'), 'error');
+      }
+    });
+
+    // ============================================================
+    // ASEGURAR (desde el historial)
+    // ============================================================
+    let guiaAAsegurar = null;
+
+    function pedirAsegurar(id) {
+      guiaAAsegurar = historial.find(g => g.id === id);
+      if (!guiaAAsegurar) return;
+      const g = guiaAAsegurar;
+      $('modalAsegurarInfo').innerHTML = `
+        <div class="flex justify-between"><span class="text-gray-400">Destinatario:</span><span class="font-semibold">${esc(g.destinatario || '—')}</span></div>
+        <div class="flex justify-between"><span class="text-gray-400">Paquetería:</span><span>${esc(getCarrierName(g.paqueteria))} (${esc(fuenteNombre[g.fuente] || g.fuente)})</span></div>
+        <div class="flex justify-between"><span class="text-gray-400">Rastreo:</span><span class="font-mono">${esc(g.rastreo || '—')}</span></div>
+      `;
+      $('modalAsegurarValor').value = '';
+      $('btnAsegurarSi').disabled = false;
+      $('btnAsegurarSi').textContent = 'Asegurar';
+      show('modalAsegurar');
+      setTimeout(() => $('modalAsegurarValor').focus(), 50);
+    }
+
+    function cerrarAsegurar() { hide('modalAsegurar'); guiaAAsegurar = null; }
+    $('btnAsegurarNo').addEventListener('click', cerrarAsegurar);
+    $('modalAsegurar').addEventListener('click', e => { if (e.target.id === 'modalAsegurar') cerrarAsegurar(); });
+    $('modalAsegurarValor').addEventListener('keydown', e => { if (e.key === 'Enter') $('btnAsegurarSi').click(); });
+
+    $('btnAsegurarSi').addEventListener('click', async () => {
+      const g = guiaAAsegurar;
+      const valor = Number($('modalAsegurarValor').value);
+      if (!g) return;
+      if (!(valor > 0)) { $('modalAsegurarValor').focus(); toast('Escribe por cuánto la quieres asegurar', 'error'); return; }
+
+      $('btnAsegurarSi').disabled = true;
+      $('btnAsegurarSi').innerHTML = '<span class="spinner spinner-sm" style="border-top-color:#fff"></span> Asegurando…';
+      const r = await llamarAsegurar(g.id, g.fuente, valor);
+      cerrarAsegurar();
+
+      if (r.ok) {
+        toast(`Guía de ${g.destinatario || 'cliente'} asegurada por ${dinero(valor)}` + (r.costo != null ? ` · costo del seguro ${dinero(r.costo)}` : ''));
+        g.registro = { ...(g.registro || {}), asegurado: true, valor_asegurado: valor, costo_seguro: r.costo ?? null, seguro_error: null };
+        pintarHistorial();
+      } else {
+        toast('No se pudo asegurar: ' + (r.error || 'error desconocido'), 'error');
       }
     });
 
