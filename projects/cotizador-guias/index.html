@@ -41,6 +41,7 @@
       <!-- Pestañas -->
       <nav class="flex gap-1 mt-4">
         <button class="tab-btn activa px-4 py-2 rounded-t-xl text-sm font-semibold text-blue-100 hover:text-white transition-colors" data-tab="nueva">📦 Nueva guía</button>
+        <button class="tab-btn px-4 py-2 rounded-t-xl text-sm font-semibold text-blue-100 hover:text-white transition-colors" data-tab="regreso">↩️ Guía de regreso</button>
         <button class="tab-btn px-4 py-2 rounded-t-xl text-sm font-semibold text-blue-100 hover:text-white transition-colors" data-tab="historial">
           📋 Historial <span id="contadorHistorial" class="hidden ml-1 bg-blue-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full"></span>
         </button>
@@ -56,7 +57,7 @@
     <!-- Recuadro IA -->
     <div class="bg-white rounded-2xl shadow-sm border border-blue-200 p-6 mb-6">
       <h2 class="text-lg font-semibold text-blue-900 mb-1">✨ Pega el mensaje del cliente</h2>
-      <p class="text-sm text-gray-500 mb-4">La IA extrae los datos automáticamente y llena el formulario</p>
+      <p id="textoIA" class="text-sm text-gray-500 mb-4">La IA extrae los datos automáticamente y llena el formulario</p>
       <textarea id="textoCliente" rows="4"
         placeholder="Ej: Hola soy Juan Pérez, mi dirección es Calle 5 de Mayo 123, colonia Centro, CP 06600, Cuauhtémoc, CDMX. Tel 5551234567. El paquete es una caja de 30x40x20 cm y pesa 5 kg."
         class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm resize-none mb-3"></textarea>
@@ -72,7 +73,10 @@
 
     <!-- Formulario -->
     <div id="seccionFormulario" class="bg-white rounded-2xl shadow-sm border border-blue-100 p-6 mb-6">
-      <h2 class="text-lg font-semibold text-blue-900 mb-5">Datos del paquete y destino</h2>
+      <h2 id="tituloFormulario" class="text-lg font-semibold text-blue-900 mb-5">Datos del paquete y destino</h2>
+      <div id="avisoRegreso" class="hidden bg-sky-50 border border-sky-200 rounded-xl px-4 py-3 text-sm text-sky-900 mb-5">
+        ↩️ <strong>Guía de regreso:</strong> la paga Maxipiel. Captura abajo a <strong>quien manda el paquete</strong>; el destino ya es nuestra bodega (o el que pongas en "Destino").
+      </div>
 
       <form id="cotizadorForm">
 
@@ -123,7 +127,7 @@
 
         <!-- Destinatario -->
         <div class="mb-6">
-          <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">📍 Destinatario</h3>
+          <h3 id="tituloPersona" class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">📍 Destinatario</h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-1">Nombre completo</label>
@@ -156,7 +160,7 @@
                 class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">CP destino</label>
+              <label id="labelCP" class="block text-sm font-medium text-gray-700 mb-1">CP destino</label>
               <input type="text" name="cp_destino" maxlength="5" required
                 class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
             </div>
@@ -207,6 +211,68 @@
         </div>
 
         <hr class="border-blue-100 mb-6">
+
+        <!-- Destino (solo en guía de regreso) -->
+        <div id="bloqueDestino" class="hidden">
+          <div class="mb-6">
+            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">📥 Destino</h3>
+            <div id="destinoMaxipiel" class="bg-blue-50 border border-blue-100 rounded-xl p-4 text-sm text-blue-900 mb-4">
+              <div class="font-semibold">🐄 Maxipiel — bodega</div>
+              <div class="text-blue-800/80">Av. Salida de los Gómez 932-A, Casa Blanca · CP 37170 · León, Guanajuato</div>
+            </div>
+            <label class="flex items-center justify-between gap-4 cursor-pointer select-none">
+              <span>
+                <span class="block text-sm font-medium text-gray-700">Mandar a otra dirección</span>
+                <span class="block text-xs text-gray-400">Por ejemplo, un cliente que le lleva a otro cliente un paquete que le llegó por error.</span>
+              </span>
+              <input type="checkbox" id="switchOtroDestino" class="sr-only peer">
+              <span class="relative shrink-0 w-11 h-6 bg-gray-300 rounded-full transition-colors peer-checked:bg-blue-700 peer-focus-visible:ring-2 peer-focus-visible:ring-blue-300 after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:w-5 after:h-5 after:bg-white after:rounded-full after:shadow after:transition-transform peer-checked:after:translate-x-5"></span>
+            </label>
+            <div id="camposOtroDestino" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Nombre de quien recibe</label>
+                <input type="text" name="destino_nombre" data-destino-obligatorio class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
+                <input type="tel" name="destino_telefono" data-destino-obligatorio class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+              </div>
+              <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Calle y número</label>
+                <input type="text" name="destino_direccion" data-destino-obligatorio class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">N° interior <span class="text-gray-400 font-normal">(opcional)</span></label>
+                <input type="text" name="destino_numero_interior" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Entre calles <span class="text-gray-400 font-normal">(opcional)</span></label>
+                <input type="text" name="destino_entre_calles" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Colonia</label>
+                <input type="text" name="destino_colonia" data-destino-obligatorio class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">CP</label>
+                <input type="text" name="destino_cp" maxlength="5" data-destino-obligatorio class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Ciudad</label>
+                <input type="text" name="destino_ciudad" data-destino-obligatorio class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Estado</label>
+                <select id="destinoEstado" name="destino_estado" data-destino-obligatorio class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white"></select>
+              </div>
+              <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Referencia del domicilio <span class="text-gray-400 font-normal">(opcional, la ve el repartidor)</span></label>
+                <input type="text" name="destino_referencia" maxlength="40" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+              </div>
+            </div>
+          </div>
+          <hr class="border-blue-100 mb-6">
+        </div>
 
         <!-- Referencia -->
         <div class="mb-6">
@@ -296,11 +362,15 @@
       <div class="flex items-center gap-3 mb-4">
         <span class="text-3xl">✅</span>
         <div>
-          <h2 class="text-lg font-semibold text-green-800">¡Guía generada!</h2>
+          <h2 id="tituloGuia" class="text-lg font-semibold text-green-800">¡Guía generada!</h2>
           <p id="subGuia" class="text-sm text-gray-500">Lista para imprimir y pegar al paquete</p>
         </div>
       </div>
       <div id="infoGuia" class="bg-gray-50 rounded-xl p-4 mb-4 text-sm text-gray-700 space-y-1"></div>
+      <a id="btnWhatsGuia" href="#" target="_blank" rel="noopener"
+        class="hidden mb-3 text-center bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-xl transition-colors">
+        📲 Mandarle la guía por WhatsApp
+      </a>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <a id="btnDescargar" href="#" target="_blank" rel="noopener"
           class="block text-center bg-blue-800 hover:bg-blue-900 text-white font-semibold py-3 px-6 rounded-xl transition-colors">
@@ -418,14 +488,76 @@
     // ============================================================
     function cambiarTab(tab) {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('activa', b.dataset.tab === tab));
-      $('tabNueva').classList.toggle('hidden', tab !== 'nueva');
+      // "Nueva guía" y "Guía de regreso" son el mismo formulario en dos modos
+      const esFormulario = tab === 'nueva' || tab === 'regreso';
+      $('tabNueva').classList.toggle('hidden', !esFormulario);
       $('tabHistorial').classList.toggle('hidden', tab !== 'historial');
+      if (esFormulario) ponerModo(tab === 'regreso' ? 'regreso' : 'envio');
       if (tab === 'historial') {
         const viejo = !historialCargadoEn || (Date.now() - historialCargadoEn) > 60000;
         if (viejo && !cargandoHistorial) cargarHistorial();
       }
     }
     document.querySelectorAll('.tab-btn').forEach(b => b.addEventListener('click', () => cambiarTab(b.dataset.tab)));
+
+    // ============================================================
+    // GUÍA DE REGRESO
+    // Los campos de siempre (nombre, dirección, CP...) son del REMITENTE: el cliente que nos manda el
+    // paquete. El destino es la bodega, o la dirección "destino_*" si se prende "Mandar a otra dirección"
+    // (un cliente que le lleva a otro cliente un paquete que le llegó por error). n8n voltea origen y
+    // destino cuando le llega "regreso": true, y esas guías NO van al correo de bodega.
+    // ============================================================
+    let modo = 'envio';
+
+    function ponerModo(m) {
+      if (m === modo) return;
+      modo = m;
+      const reg = m === 'regreso';
+      $('tituloFormulario').textContent = reg ? 'Guía de regreso: paquete y remitente' : 'Datos del paquete y destino';
+      $('avisoRegreso').classList.toggle('hidden', !reg);
+      $('tituloPersona').textContent = reg ? '📤 Remitente — quien nos manda el paquete' : '📍 Destinatario';
+      $('labelCP').textContent = reg ? 'CP' : 'CP destino';
+      $('textoIA').textContent = reg
+        ? 'Pega los datos de quien manda el paquete y la IA llena el remitente'
+        : 'La IA extrae los datos automáticamente y llena el formulario';
+      $('hintRef').textContent = reg
+        ? 'Para que el repartidor ubique el domicilio del remitente.'
+        : 'Negocio, fachada o punto de referencia. Si lo dejas vacío se usa "Pedido Maxipiel".';
+      $('bloqueDestino').classList.toggle('hidden', !reg);
+      if (!reg) { $('switchOtroDestino').checked = false; actualizarOtroDestino(); }
+      $('btnCotizar').textContent = reg ? 'Cotizar guía de regreso →' : 'Cotizar envío →';
+      // Las tarifas que hubiera eran del otro tipo de guía: ya no sirven
+      hideAll();
+      cotizacionData = null;
+      selectedRate = null;
+      $('btnGenerarGuia').disabled = true;
+    }
+
+    // Los campos del otro destino solo son obligatorios cuando el switch está prendido
+    function actualizarOtroDestino() {
+      const on = $('switchOtroDestino').checked;
+      $('camposOtroDestino').classList.toggle('hidden', !on);
+      $('destinoMaxipiel').classList.toggle('opacity-40', on);
+      document.querySelectorAll('[data-destino-obligatorio]').forEach(el => { el.required = on; });
+      if (cotizacionData) { hideAll(); cotizacionData = null; selectedRate = null; $('btnGenerarGuia').disabled = true; }
+    }
+    $('switchOtroDestino').addEventListener('change', actualizarOtroDestino);
+
+    // El estado del otro destino usa la misma lista que el de siempre
+    $('destinoEstado').innerHTML = $('cotizadorForm').elements['estado'].innerHTML;
+
+    // Link de WhatsApp para mandarle la guía a quien la va a pegar en la caja
+    function linkWhatsGuia(o) {
+      const tel = String(o.telefono || '').replace(/\D/g, '').slice(-10);
+      if (tel.length !== 10 || !o.pdf) return null;
+      const nombre = String(o.nombre || '').trim().split(/\s+/)[0] || '';
+      const paq = o.carrier ? getCarrierName(o.carrier).replace(/^\S+\s/, '') : '';
+      const para = o.destinoNombre ? 'para mandarle el paquete a ' + o.destinoNombre : 'para regresarnos el paquete a Maxipiel';
+      const msg = 'Hola' + (nombre ? ' ' + nombre : '') + ' 👋 Te paso la guía ' + para + ':\n' + o.pdf +
+        '\n\nImprímela, pégala bien visible en la caja' + (paq ? ' y llévala a una sucursal de ' + paq : '') +
+        (o.rastreo ? ' (rastreo ' + o.rastreo + ')' : '') + '.\n¡Gracias!';
+      return 'https://wa.me/52' + tel + '?text=' + encodeURIComponent(msg);
+    }
 
     function irAHistorial(forzar) {
       if (forzar) historialCargadoEn = 0;
@@ -563,6 +695,10 @@
 
       const fd = new FormData(e.target);
       formData = Object.fromEntries(fd.entries());
+      // Solo viajan los datos del tipo de guía que se está haciendo
+      const conOtroDestino = modo === 'regreso' && $('switchOtroDestino').checked;
+      if (!conOtroDestino) for (const k of Object.keys(formData)) if (k.startsWith('destino_')) delete formData[k];
+      if (modo === 'regreso') formData.regreso = true;
 
       try {
         const res = await fetch(`${N8N}/cotizar-multi`, {
@@ -711,7 +847,9 @@
       guiaActual = {
         id: shipment.shipment_id || null,
         fuente: shipment.fuente || selectedFuente,
-        seguroPendiente: asegurar && valorSeguro > 0 ? valorSeguro : null
+        seguroPendiente: asegurar && valorSeguro > 0 ? valorSeguro : null,
+        carrier: shipment.carrier || null,
+        regreso: !!formData.regreso,
       };
       historialCargadoEn = 0; // el historial se recarga la próxima vez que lo abran
       mostrarGuia(shipment);
@@ -740,13 +878,25 @@
       `<div class="flex justify-between gap-3"${id ? ` id="${id}"` : ''}><span class="text-gray-400 shrink-0">${etiqueta}</span><span class="text-right">${valorHtml}</span></div>`;
 
     function mostrarGuia(shipment) {
+      const reg = !!formData.regreso;
+      const otro = reg && formData.destino_cp;
+      $('tituloGuia').textContent = !reg ? '¡Guía generada!' : otro ? '🔁 ¡Guía de reenvío generada!' : '↩️ ¡Guía de regreso generada!';
+      $('btnWhatsGuia').classList.toggle('hidden', !reg);
+      $('btnWhatsGuia').classList.toggle('block', reg);
+      const personas = !reg
+        ? fila('Destinatario:', esc(formData.nombre)) +
+          fila('Referencia:', esc((formData.referencia || '').trim() || 'Pedido Maxipiel')) +
+          fila('Destino:', `${esc(formData.ciudad)}, ${esc(formData.estado)} CP ${esc(formData.cp_destino)}`) +
+          fila('Correo:', '<span class="text-gray-500">⏳ Pendiente</span>', 'filaCorreo')
+        : fila('Remitente:', `${esc(formData.nombre)} · ${esc(formData.ciudad)}, ${esc(formData.estado)} CP ${esc(formData.cp_destino)}`) +
+          fila('Destino:', otro
+            ? `${esc(formData.destino_nombre)} · ${esc(formData.destino_ciudad)}, ${esc(formData.destino_estado)} CP ${esc(formData.destino_cp)}`
+            : 'Maxipiel · León, Gto. CP 37170') +
+          fila('Correo:', '<span class="text-gray-500">No va al correo: la imprime el cliente</span>');
       $('infoGuia').innerHTML =
         fila('Tracking:', '<span class="font-mono font-bold">—</span>', 'filaTracking') +
         fila('Paquetería:', esc(getCarrierName(shipment.carrier)) + (shipment.total ? ` · <strong>${dinero(shipment.total)}</strong>` : '')) +
-        fila('Destinatario:', esc(formData.nombre)) +
-        fila('Referencia:', esc((formData.referencia || '').trim() || 'Pedido Maxipiel')) +
-        fila('Destino:', `${esc(formData.ciudad)}, ${esc(formData.estado)} CP ${esc(formData.cp_destino)}`) +
-        fila('Correo:', '<span class="text-gray-500">⏳ Pendiente</span>', 'filaCorreo') +
+        personas +
         (guiaActual && guiaActual.seguroPendiente
           ? fila('Seguro:', `<span class="text-gray-500">⏳ Se asegura por ${dinero(guiaActual.seguroPendiente)} (aprox. ${dinero(seguroAprox(guiaActual.fuente, guiaActual.seguroPendiente))}) en cuanto la guía esté lista</span>`, 'filaSeguro')
           : '');
@@ -759,16 +909,31 @@
       if (filaT) filaT.innerHTML = g.rastreo ? `<span class="font-mono font-bold">${esc(g.rastreo)}</span>` : '<span class="text-gray-500">⏳ Generándose…</span>';
 
       const btn = $('btnDescargar');
+      const reg = !!(guiaActual && guiaActual.regreso);
+      const wa = $('btnWhatsGuia');
       if (g.pdf) {
         btn.href = g.pdf;
         btn.classList.remove('pointer-events-none', 'opacity-60');
         btn.innerHTML = 'Descargar guía PDF 📄';
-        $('subGuia').textContent = 'Lista para imprimir y pegar al paquete';
+        $('subGuia').textContent = reg
+          ? 'Mándasela al cliente para que la imprima, la pegue en la caja y la lleve a la paquetería'
+          : 'Lista para imprimir y pegar al paquete';
+        if (reg) {
+          const link = linkWhatsGuia({
+            telefono: formData.telefono, nombre: formData.nombre, pdf: g.pdf,
+            carrier: guiaActual.carrier, rastreo: g.rastreo, destinoNombre: formData.destino_cp ? formData.destino_nombre : null,
+          });
+          if (link) { wa.href = link; wa.classList.remove('pointer-events-none', 'opacity-60'); wa.innerHTML = '📲 Mandarle la guía por WhatsApp'; }
+          else { wa.removeAttribute('href'); wa.classList.add('pointer-events-none', 'opacity-60'); wa.innerHTML = '📲 El teléfono del remitente no tiene 10 dígitos: manda el PDF a mano'; }
+        }
       } else {
         btn.removeAttribute('href');
         btn.classList.add('pointer-events-none', 'opacity-60');
         btn.innerHTML = '<span class="spinner spinner-sm" style="border-top-color:#fff"></span> Generando PDF…';
-        $('subGuia').textContent = 'Ya quedó creada. El PDF y el correo tardan como un minuto: no la vuelvas a generar.';
+        $('subGuia').textContent = reg
+          ? 'Ya quedó creada. El PDF tarda como un minuto: no la vuelvas a generar.'
+          : 'Ya quedó creada. El PDF y el correo tardan como un minuto: no la vuelvas a generar.';
+        if (reg) { wa.removeAttribute('href'); wa.classList.add('pointer-events-none', 'opacity-60'); wa.innerHTML = '<span class="spinner spinner-sm" style="border-top-color:#fff"></span> Esperando el PDF para mandarlo…'; }
       }
 
       const filaC = document.querySelector('#filaCorreo span:last-child');
@@ -885,17 +1050,31 @@
       { id: 'entregadas',  texto: '✅ Entregadas',     prueba: g => estadoDe(g) === 'delivered' },
       { id: 'canceladas',  texto: '✖️ Canceladas',     prueba: g => estadoDe(g) === 'canceled' },
       { id: 'cargo',       texto: '⚠️ Cargo extra',    prueba: g => g.cargos_extra_total > 0 },
+      { id: 'regresos',    texto: '↩️ Regresos',       prueba: g => tipoGuia(g) !== 'envio', ocultarSiCero: true },
       { id: 'aseguradas',  texto: '🛡️ Aseguradas',     prueba: g => !!(g.registro || {}).asegurado, ocultarSiCero: true },
       { id: 'duplicadas',  texto: '👯 Posibles duplicadas', prueba: g => g._duplicada, ocultarSiCero: true },
     ];
 
     const norm = s => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\s+/g, ' ').trim();
 
-    // Marca guías activas del mismo cliente creadas con menos de 24 h de diferencia
+    // envio | regreso | reenvio. El registro lo dice desde que existen los regresos (nov 2026); para las
+    // guías anteriores se reconoce el regreso porque el destinatario es Maxipiel en la bodega.
+    function tipoGuia(g) {
+      const o = (g.registro || {}).origen;
+      if (o === 'regreso' || o === 'reenvio') return o;
+      if (/maxipiel/i.test(g.destinatario || '') && String(g.cp || '') === '37170') return 'regreso';
+      return 'envio';
+    }
+    // En un regreso el destinatario es Maxipiel: el cliente es el que la manda (queda en el registro)
+    const remitenteDe = g => (g.registro || {}).nombre || null;
+
+    // Marca guías activas del mismo cliente creadas con menos de 24 h de diferencia.
+    // En los regresos se compara por quien la manda: si no, todos "van a Maxipiel" y saldrían duplicados.
     function marcarDuplicadas(lista) {
-      const activas = lista.filter(g => estadoDe(g) !== 'canceled' && g.destinatario);
+      const clave = g => tipoGuia(g) === 'regreso' ? (remitenteDe(g) ? 'r:' + norm(remitenteDe(g)) : '') : norm(g.destinatario);
+      const activas = lista.filter(g => estadoDe(g) !== 'canceled' && clave(g));
       const porNombre = {};
-      activas.forEach(g => (porNombre[norm(g.destinatario)] = porNombre[norm(g.destinatario)] || []).push(g));
+      activas.forEach(g => (porNombre[clave(g)] = porNombre[clave(g)] || []).push(g));
       lista.forEach(g => { g._duplicada = false; });
       Object.values(porNombre).forEach(grupo => {
         if (grupo.length < 2) return;
@@ -991,7 +1170,7 @@
       const lista = historial.filter(filtro.prueba).filter(g => {
         if (!q) return true;
         const r = g.registro || {};
-        return [g.destinatario, g.rastreo, g.ciudad, g.estado, g.cp, g.paqueteria, r.contenido_paquete, r.telefono].some(v => norm(v).includes(q));
+        return [g.destinatario, g.rastreo, g.ciudad, g.estado, g.cp, g.paqueteria, r.contenido_paquete, r.telefono, r.nombre].some(v => norm(v).includes(q));
       });
 
       $('actualizadoHace').textContent = historialCargadoEn
@@ -1010,6 +1189,7 @@
     function badgeCorreo(reg) {
       const c = reg.correo || (reg.correo_enviado === true ? 'enviado' : reg.correo_enviado === false ? 'fallo' : null);
       const base = 'text-[11px] font-semibold px-2 py-0.5 rounded';
+      if (c === 'no_aplica') return '';   // regresos y reenvíos: no van al correo de bodega, a propósito
       if (c === 'enviado') return `<span class="${base} bg-green-50 text-green-700">✉️ Correo enviado</span>`;
       if (c === 'fallo') return `<span class="${base} bg-red-50 text-red-700 cursor-help" title="${esc(reg.correo_error || 'No se pudo enviar')}">✉️ Correo NO enviado</span>`;
       if (c === 'pendiente') {
@@ -1059,8 +1239,26 @@
            ${g.url_rastreo ? `<a href="${esc(g.url_rastreo)}" target="_blank" rel="noopener" class="text-[11px] text-blue-700 hover:underline">rastrear ↗</a>` : ''}`
         : '<span class="text-xs text-gray-400">Sin número de rastreo todavía</span>';
 
+      const tipo = tipoGuia(g);
+      const remitente = remitenteDe(g);
+      const etiquetaTipo = tipo === 'regreso'
+        ? '<span class="text-[11px] font-semibold px-2 py-0.5 rounded bg-sky-100 text-sky-800">↩️ Regreso</span>'
+        : tipo === 'reenvio'
+          ? `<span class="text-[11px] font-semibold px-2 py-0.5 rounded bg-sky-100 text-sky-800">🔁 Reenvío${remitente ? ' · lo manda ' + esc(remitente) : ''}</span>`
+          : '';
+      // En un regreso, lo que importa es quién lo manda; el destino siempre es la bodega
+      const titulo = tipo === 'regreso' ? '↩️ ' + (remitente || 'Cliente') : (g.destinatario || 'Sin nombre');
+      const subtitulo = tipo === 'regreso'
+        ? 'Regreso a Maxipiel · ' + fechaCorta(g.creada)
+        : `${esc(g.ciudad || '')}${g.estado ? ', ' + esc(g.estado) : ''}${g.cp ? ' · CP ' + esc(g.cp) : ''} · ${fechaCorta(g.creada)}`;
+
       const acciones = [];
       if (g.pdf && !cancelada) acciones.push(`<a href="${esc(g.pdf)}" target="_blank" rel="noopener" class="text-xs font-semibold bg-blue-700 hover:bg-blue-800 text-white px-3 py-1.5 rounded-lg">📄 Ver PDF</a>`);
+      if (tipo !== 'envio' && g.pdf && !cancelada && estadoDe(g) === 'created') {
+        const link = linkWhatsGuia({ telefono: (g.registro || {}).telefono, nombre: remitente, pdf: g.pdf, carrier: g.paqueteria, rastreo: g.rastreo,
+          destinoNombre: tipo === 'reenvio' ? g.destinatario : null });
+        if (link) acciones.push(`<a href="${esc(link)}" target="_blank" rel="noopener" class="text-xs font-semibold bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-lg">📲 Mandar al cliente</a>`);
+      }
       if (sePuedeAsegurar(g)) acciones.push(`<button type="button" onclick="pedirAsegurar('${esc(g.id)}')" class="text-xs font-semibold border border-blue-200 text-blue-700 hover:bg-blue-50 px-3 py-1.5 rounded-lg">🛡️ Asegurar</button>`);
       if (sePuedeCancelar(g)) acciones.push(`<button type="button" onclick="pedirCancelar('${esc(g.id)}')" class="text-xs font-semibold border border-red-200 text-red-600 hover:bg-red-50 px-3 py-1.5 rounded-lg">Cancelar guía</button>`);
 
@@ -1068,8 +1266,8 @@
       <div class="guia-card bg-white rounded-2xl border ${g._duplicada && !cancelada ? 'border-pink-300' : 'border-gray-200'} p-4 ${cancelada ? 'opacity-60' : ''}">
         <div class="flex items-start justify-between gap-3 mb-1">
           <div class="min-w-0">
-            <div class="font-semibold text-gray-900 truncate">${esc(g.destinatario || 'Sin nombre')}</div>
-            <div class="text-xs text-gray-500">${esc(g.ciudad || '')}${g.estado ? ', ' + esc(g.estado) : ''}${g.cp ? ' · CP ' + esc(g.cp) : ''} · ${fechaCorta(g.creada)}</div>
+            <div class="font-semibold text-gray-900 truncate">${esc(titulo)}</div>
+            <div class="text-xs text-gray-500">${subtitulo}</div>
           </div>
           <span class="shrink-0 text-xs font-semibold px-2.5 py-1 rounded-full ${est.color}">${est.icono} ${esc(est.texto)}</span>
         </div>
@@ -1087,7 +1285,7 @@
 
         ${reg.contenido_paquete ? `<div class="text-xs text-gray-500 mt-1">📝 ${esc(reg.contenido_paquete)}</div>` : ''}
 
-        ${(correo || seguro || cargo || duplicada) ? `<div class="flex flex-wrap gap-1.5 mt-2">${correo}${seguro}${cargo}${duplicada}</div>` : ''}
+        ${(etiquetaTipo || correo || seguro || cargo || duplicada) ? `<div class="flex flex-wrap gap-1.5 mt-2">${etiquetaTipo}${correo}${seguro}${cargo}${duplicada}</div>` : ''}
 
         ${acciones.length ? `<div class="flex flex-wrap gap-2 mt-3">${acciones.join('')}</div>` : ''}
       </div>`;
