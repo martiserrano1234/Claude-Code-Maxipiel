@@ -41,10 +41,10 @@
       <!-- Pestañas -->
       <nav class="flex gap-1 mt-4">
         <button class="tab-btn activa px-4 py-2 rounded-t-xl text-sm font-semibold text-blue-100 hover:text-white transition-colors" data-tab="nueva">📦 Nueva guía</button>
-        <button class="tab-btn px-4 py-2 rounded-t-xl text-sm font-semibold text-blue-100 hover:text-white transition-colors" data-tab="regreso">↩️ Guía de regreso</button>
         <button class="tab-btn px-4 py-2 rounded-t-xl text-sm font-semibold text-blue-100 hover:text-white transition-colors" data-tab="historial">
           📋 Historial <span id="contadorHistorial" class="hidden ml-1 bg-blue-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full"></span>
         </button>
+        <button class="tab-btn px-4 py-2 rounded-t-xl text-sm font-semibold text-blue-100 hover:text-white transition-colors" data-tab="regreso">↩️ Guía de regreso</button>
       </nav>
     </div>
   </header>
@@ -292,7 +292,7 @@
         <div class="mb-6">
           <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">📝 Contenido del paquete</h3>
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">¿Qué va dentro? <span class="text-gray-400 font-normal">(solo aparece en el correo, no en la guía)</span></label>
+            <label class="block text-sm font-medium text-gray-700 mb-1">¿Qué va dentro? <span id="notaContenido" class="text-gray-400 font-normal">(solo aparece en el correo, no en la guía)</span></label>
             <input type="text" name="contenido_paquete"
               class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
               placeholder="Ej: 3 metros de piel negra, código A-12">
@@ -526,6 +526,18 @@
       $('bloqueDestino').classList.toggle('hidden', !reg);
       if (!reg) { $('switchOtroDestino').checked = false; actualizarOtroDestino(); }
       $('btnCotizar').textContent = reg ? 'Cotizar guía de regreso →' : 'Cotizar envío →';
+      $('notaContenido').textContent = reg ? '(queda en el historial, no va en la guía)' : '(solo aparece en el correo, no en la guía)';
+      // Otro color en regreso, para que nadie haga una guía normal creyendo que es de regreso (o al revés)
+      $('seccionFormulario').classList.toggle('border-blue-100', !reg);
+      $('seccionFormulario').classList.toggle('border-sky-400', reg);
+      $('seccionFormulario').classList.toggle('ring-2', reg);
+      $('seccionFormulario').classList.toggle('ring-sky-100', reg);
+      $('tituloFormulario').classList.toggle('text-blue-900', !reg);
+      $('tituloFormulario').classList.toggle('text-sky-800', reg);
+      for (const [a, b] of [['bg-blue-800', 'bg-sky-600'], ['hover:bg-blue-900', 'hover:bg-sky-700']]) {
+        $('btnCotizar').classList.toggle(a, !reg);
+        $('btnCotizar').classList.toggle(b, reg);
+      }
       // Las tarifas que hubiera eran del otro tipo de guía: ya no sirven
       hideAll();
       cotizacionData = null;
